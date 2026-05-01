@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Королевская дорога | Велотур по Сочи 3 дня | Шоссе, горы, море</title>
+    <!-- Шрифты и стили -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fefcf8;
+            color: #1a2a2e;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* Типографика */
+        h1, h2, h3, .logo, .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero секция с имитацией фонового фото */
+        .hero {
+            background: linear-gradient(107deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 100%), url('https://images.pexels.com/photos/1832544/pexels-photo-1832544.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat;
+            background-size: cover;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            padding: 48px 0;
+        }
+
+        .hero-title {
+            font-size: 3.8rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .hero-sub {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .badge-road {
+            display: inline-block;
+            background: #c17b2e;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* кнопки */
+        .btn {
+            display: inline-block;
+            background: #e6a157;
+            color: #1e2b2f;
+            padding: 12px 32px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+            margin-right: 12px;
+            margin-top: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: #1e2b2f;
+        }
+
+        .btn:hover {
+            background: #cf853e;
+            transform: translateY(-3px);
+        }
+
+        /* секции */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid #e9e2d4;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 3px;
+            background: #e6a157;
+            margin-top: 8px;
+        }
+
+        .grid-cols {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 32px;
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        .day-img {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+        }
+        .day-content {
+            padding: 24px;
+        }
+        .day-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #e6a157;
+        }
+        .stats {
+            display: flex;
+            gap: 16px;
+            margin: 12px 0;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #4e6b5e;
+        }
+
+        .komoot-points {
+            background: #f2efe8;
+            border-radius: 24px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+        .komoot-points h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .point-list {
+            list-style: none;
+        }
+        .point-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd6ca;
+            display: flex;
+            gap: 12px;
+            align-items: baseline;
+        }
+        .point-icon {
+            font-weight: 700;
+            color: #e6a157;
+            min-width: 28px;
+        }
+
+        .fact-highlight {
+            background: #1e2b2f;
+            color: #f2efe8;
+            border-radius: 28px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        footer {
+            background: #1a2a2e;
+            color: #b9c2ba;
+            padding: 48px 0;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 760px) {
+            .hero-title { font-size: 2.4rem; }
+            .container { padding: 0 20px; }
+            section { padding: 48px 0; }
+        }
+
+        .print-only { display: none; }
+        @media print {
+            .no-print, .btn, .hero .btn, footer .btn { display: none !important; }
+            body { background: white; color: black; }
+            .hero { background: #2c3e2f; color: black; min-height: auto; }
+            .fact-highlight { background: #efebe3; color: black; border: 1px solid #ccc; }
+            .day-card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+            .komoot-points { background: #f9f7f3; }
+            .print-only { display: block; }
+            a { text-decoration: none; color: black; }
+            .container { max-width: 100%; padding: 0 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="badge-road">ШОССЕ • ГОРЫ • МОРЕ</div>
+            <h1 class="hero-title">Королевская дорога Сочи</h1>
+            <p class="hero-sub">3 дня идеального асфальта, серпантины без машин, подъём к Прометею и спуск в бесконечность. Новые виды и энергия локаций через велосипед.</p>
+            <div>
+                <a href="#program" class="btn">Смотреть маршрут</a>
+                <a href="#komoot" class="btn btn-outline">Построить в Komoot</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- О туре -->
+<section>
+    <div class="container">
+        <h2 class="section-title">Дышать полной грудью</h2>
+        <div class="grid-cols" style="grid-template-columns: 1fr 1fr;">
+            <div>
+                <p style="font-size: 1.2rem; margin-bottom: 1rem;">Это не гонка. Это путешествие, где каждый километр дарит новые ракурсы на Главный Кавказский хребет и Чёрное море. Мы выбрали лучшие асфальтовые артерии Сочи — от древних тоннелей царской дороги до подъёма к статуе Прометея.</p>
+                <p>Никакого гравия. Никаких пеших участков. Только вы, велосипед и ветер, который пахнет самшитом и солью. Маршрут создан для тех, кто ценит динамику, но хочет прожить горы, а не проехать их на скорости.</p>
+                <div style="margin-top: 30px; display: flex; gap: 28px; flex-wrap: wrap;">
+                    <div><strong>≈170 км</strong><br>общая дистанция</div>
+                    <div><strong>~2150 м</strong><br>набор высоты</div>
+                    <div><strong>98%</strong><br>асфальт</div>
+                    <div><strong>3 дня</strong><br>оптимальный ритм</div>
+                </div>
+            </div>
+            <div style="background: url('https://images.pexels.com/photos/1365421/pexels-photo-1365421.jpeg?auto=compress&cs=tinysrgb&w=800') center/cover; border-radius: 32px; min-height: 260px;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ПРОГРАММА МАРШРУТА -->
+<section id="program" style="background: #f8f6f0;">
+    <div class="container">
+        <h2 class="section-title">3 дня • три характера</h2>
+        <div class="grid-cols">
+            <!-- день 1 -->
+            <div class="day-card">
+                <div class="day-img" style="background-image: url('https://images.pexels.com/photos/1797163/pexels-photo-1797163.jpeg?auto=compress&cs=tinysrgb&w=600');"></div>
+                <div class="day-content">
+                    <div class="day-number">День 1 · Вкат в горы</div>
+                    <div class="stats">🚴 35 км | ⛰️ +450 м | 🛣️ Асфальт A-148</div>
+                    <p><strong>Адлер → Красная Поляна</strong><br>Старт у Олимпийского парка, плавный подъём вдоль реки Мзымта. Виадуки, горные пейзажи и финиш в сердце Красной Поляны. Идеальное привыкание к рельефу.</p>
+                    <p><em>Что смотреть:</em> Олимпийские объекты, каньон Мзымты, панорамы на пики Кавказа.</p>
+                </div>
+            </div>
+            <!-- день 2 -->
+            <div class="day-card">
+                <div class="day-img" style="background-image: url('https://images.pexels.com/photos/173570/pexels-photo-173570.jpeg?auto=compress&cs=tinysrgb&w=600');"></div>
+                <div class="day-content">
+                    <div class="day-number">День 2 · Царская дорога</div>
+                    <div class="stats">🚴 58 км | ⬇️ спуск 850 м | 🚫 без машин</div>
+                    <p><strong>Красная Поляна → Адлер (старое шоссе)</strong><br>Главный этап. Закрытая для авто дорога Николая II. Петли над ущельем Ахцу, рукотворные тоннели в скалах, бирюзовая Мзымта внизу. Чистый велорай.</p>
+                    <p><em>Фишка:</em> Тоннели требуют фонарик, атмосфера полного погружения.</p>
+                </div>
+            </div>
+            <!-- день 3 -->
+            <div class="day-card">
+                <div class="day-img" style="background-image: url('https://images.pexels.com/photos/189349/pexels-photo-189349.jpeg?auto=compress&cs=tinysrgb&w=600');"></div>
+                <div class="day-content">
+                    <div class="day-number">День 3 · Прометей и море</div>
+                    <div class="stats">🚴 45 км | ⛰️ +680 м | 🌊 финиш у моря</div>
+                    <p><strong>Адлер → Орлиные скалы → Хоста</strong><br>Культовый подъём к статуе Прометея (125 м над обрывом). Серпантин, энергия древних скал и финальный каприз — спуск к набережной Адлера.</p>
+                    <p><em>Вид:</em> Долина Агура, отвесы и ощущение полёта.</p>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 36px; text-align: center;">
+            <a href="#komoot" class="btn">📍 Скачать точки для Komoot</a>
+        </div>
+    </div>
+</section>
+
+<!-- ДЛЯ KOMOOT: ПУНКТЫ ПОСТРОЕНИЯ -->
+<section id="komoot">
+    <div class="container">
+        <h2 class="section-title">Построй маршрут в Komoot за 5 минут</h2>
+        <p>Ниже — список ключевых точек, по которым легко восстановить трек в Komoot (или любом навигаторе). Просто скопируй названия или координаты.</p>
+        <div class="komoot-points">
+            <h3>📍 Точки для маршрута «Королевская дорога»</h3>
+            <ul class="point-list">
+                <li><span class="point-icon">1</span> <strong>Старт:</strong> Олимпийский парк, Адлер (43.4093, 39.9561)</li>
+                <li><span class="point-icon">2</span> <strong>Подъём к Красной Поляне:</strong> трасса А-148, поворот на Эстосадок (43.5954, 40.2502)</li>
+                <li><span class="point-icon">3</span> <strong>Финиш дня 1:</strong> Красная Поляна, центр (43.6796, 40.2063)</li>
+                <li><span class="point-icon">4</span> <strong>Старт Царской дороги (день 2):</strong> Старое Краснополянское шоссе, въезд (43.6881, 40.2284)</li>
+                <li><span class="point-icon">5</span> <strong>Тоннели Ахцу:</strong> эффектная точка (43.5714, 40.1067)</li>
+                <li><span class="point-icon">6</span> <strong>Водопад «Девичьи слёзы»:</strong> прямо у дороги (43.5344, 40.0245)</li>
+                <li><span class="point-icon">7</span> <strong>Выезд к Адлеру:</strong> завершение царского этапа (43.4668, 39.9567)</li>
+                <li><span class="point-icon">8</span> <strong>Подъём на Орлиные скалы:</strong> старт от Мацесты (43.4949, 39.8123)</li>
+                <li><span class="point-icon">9</span> <strong>Статуя Прометея:</strong> вершина, энергетическая точка (43.5212, 39.8245)</li>
+                <li><span class="point-icon">10</span> <strong>Финал турa:</strong> набережная Адлера, аэропорт в 15 минутах езды (43.4471, 39.8997)</li>
+            </ul>
+            <p style="margin-top: 20px;">✨ <strong>Совет:</strong> В Komoot выбери профиль «шоссейный велосипед» — маршрутизатор проведёт именно по асфальту. Для дня 2 вручную проложи через старое шоссе (иногда карты могут предлагать объезд).</p>
+        </div>
+        <div style="background: #fff0e0; padding: 24px; border-radius: 28px; margin-top: 24px;">
+            <h3>📥 Готовые GPS-координаты (импорт)</h3>
+            <p>Скопируй список локаций и вставь в «Создать маршрут» → «Добавить точки». Либо используй ключевые слова: <strong>Олимпийский парк, Эстосадок, Красная Поляна, Старое Краснополянское шоссе, тоннели Ахцу, Мацеста, Орлиные скалы.</strong></p>
+            <p style="font-family: monospace; background: #e9e2d4; padding: 8px; border-radius: 12px;">43.4093,39.9561; 43.5954,40.2502; 43.6796,40.2063; 43.6881,40.2284; 43.5714,40.1067; 43.5344,40.0245; 43.4668,39.9567; 43.4949,39.8123; 43.5212,39.8245; 43.4471,39.8997</p>
+        </div>
+    </div>
+</section>
+
+<!-- ЭНЕРГЕТИКА ЛОКАЦИЙ -->
+<section>
+    <div class="container">
+        <h2 class="section-title">Не просто скорость, а новые виды</h2>
+        <div class="grid-cols" style="grid-template-columns: repeat(3,1fr);">
+            <div style="text-align: center;">
+                <div style="font-size: 3rem;">⛰️</div>
+                <h3 style="margin: 12px 0;">Дыхание Кавказа</h3>
+                <p>За каждым поворотом царской дороги — новый вид на покрытые снегом вершины, которые не менялись тысячелетия.</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3rem;">🌊</div>
+                <h3 style="margin: 12px 0;">Солёный бриз</h3>
+                <p>Финальный спуск к морю, где воздух становится влажным, а дорога ведёт прямо к волнам.</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3rem;">✨</div>
+                <h3 style="margin: 12px 0;">Вело-медитация</h3>
+                <p>Только гул покрышек, шелест самшита и ни одной машины на отрезках старого шоссе. Это и есть тишина в движении.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ПРАКТИЧЕСКАЯ ИНФОРМАЦИЯ + ПЕЧАТЬ -->
+<div class="fact-highlight">
+    <div class="container">
+        <h2 style="color: #f2bf88; margin-bottom: 16px;">📌 Когда ехать и что взять</h2>
+        <p style="max-width: 800px; margin: 0 auto;">Оптимальные окна: <strong>14–28 мая</strong> (зелень, полноводные реки) или <strong>22 сентября – 6 октября</strong> (бархатный сезон, +22°C у моря). Велосипед — любой шоссейный или гравийный на 28". Обязательно: фонарь для тоннелей Ахцу, запасная камера, бандана и купальник.</p>
+        <p style="margin-top: 24px;"><strong>Проживание:</strong> хостелы/отели в Адлере и Красной Поляне от 1500 ₽/ночь. “Ласточка” с велосипедом поможет вернуться в случае форс-мажора.</p>
+        <div class="print-only" style="margin-top: 32px;">——— Распечатано с велосайта “Королевская дорога” — трёхдневный маршрут по шоссе Сочи. Для построения трека используйте точки из раздела Komoot. ———</div>
+    </div>
+</div>
+
+<!-- ПРИЗЫВ К ПУТЕШЕСТВИЮ -->
+<section style="text-align: center; padding: 40px 0;">
+    <div class="container">
+        <h2 style="font-size: 2rem;">Готов почувствовать горы?</h2>
+        <p style="margin-bottom: 24px; max-width: 600px; margin-left: auto; margin-right: auto;">3 дня, которые перезагрузят тебя сильнее месячного отдыха на пляже. Собери велосипед и выезжай на рассвете.</p>
+        <div>
+            <a href="#komoot" class="btn" style="background: #1e2b2f; color: white;">🗺️ Создать маршрут в Komoot</a>
+            <button onclick="window.print();" class="btn btn-outline" style="border-color: #1e2b2f; color: #1e2b2f; margin-left: 8px;">🖨️ Сохранить в PDF</button>
+        </div>
+        <p style="margin-top: 32px; font-size: 0.85rem; color: #6f6a5f;">*Никаких скрытых платежей. Твой велосипед — твой гид. Трек полностью самостоятельный.</p>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>© 2026 · Велоэкспедиция «Королевская дорога» · Сочи – Красная Поляна – Адлер · Все маршруты проверены на шоссейном велосипеде</p>
+        <p style="margin-top: 12px;">Создано для тех, кто ищет новые виды через педали. Фотографии сгенерированы как вдохновение, реальные пейзажи ещё круче.</p>
+    </div>
+</footer>
+
+</body>
+</html>
