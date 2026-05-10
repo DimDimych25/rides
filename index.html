@@ -3,228 +3,631 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#07110d" />
-  <title>Велоатлас маршрутов</title>
+  <meta name="theme-color" content="#08130e" />
+  <title>Велоатлас · маршруты одного дня</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;650;750;850;900&family=Unbounded:wght@600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#07110d;
-      --bg2:#0d1a14;
-      --card:#14251d;
-      --card2:#192e24;
-      --paper:#fff8ea;
-      --muted:#c8bca8;
-      --soft:#8f9d8d;
-      --lime:#c8f26a;
-      --mint:#65d6a8;
-      --sea:#53b8d0;
-      --clay:#f0a15e;
-      --line:rgba(255,248,234,.14);
-      --shadow:0 24px 70px rgba(0,0,0,.38);
+    :root {
+      --bg:      #08130e;
+      --bg2:     #0e1d16;
+      --card:    #111e18;
+      --card2:   #162619;
+      --ink:     #f0e8d6;
+      --ink2:    #a09585;
+      --ink3:    #607060;
+      --lime:    #c6e85c;
+      --amber:   #d4a853;
+      --amber2:  #e8c47a;
+      --done:    #5ab87a;
+      --line:    rgba(240,232,214,.1);
+      --line2:   rgba(240,232,214,.06);
     }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      min-height:100vh;
-      font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
-      color:var(--paper);
-      background:
-        radial-gradient(circle at 18% -6%, rgba(200,242,106,.25), transparent 34%),
-        radial-gradient(circle at 92% 12%, rgba(83,184,208,.18), transparent 32%),
-        linear-gradient(180deg,#07110d 0%,#0a1611 42%,#07110d 100%);
-      overflow-x:hidden;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Figtree', system-ui, sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
     }
-    a{color:inherit;text-decoration:none}
-    .page{width:min(100%,520px);margin:0 auto;padding:18px 14px 34px}
-    .hero{
-      position:relative;
-      min-height:72vh;
-      padding:22px 18px 20px;
-      border:1px solid var(--line);
-      border-radius:34px;
-      overflow:hidden;
-      box-shadow:var(--shadow);
-      background:
-        linear-gradient(180deg,rgba(7,17,13,.15) 0%,rgba(7,17,13,.6) 45%,rgba(7,17,13,.98) 100%),
-        url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=78') center/cover;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
+    a { color: inherit; text-decoration: none; }
+
+    /* ── GRID OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(240,232,214,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,232,214,.028) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
     }
-    .hero:before{
-      content:"";
-      position:absolute;
-      inset:-40% -30% auto auto;
-      width:260px;
-      height:260px;
-      border-radius:50%;
-      background:rgba(200,242,106,.18);
-      filter:blur(8px);
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 16px 56px;
     }
-    .topline{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .logo{
-      display:inline-flex;
-      align-items:center;
-      gap:9px;
-      padding:8px 11px;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:999px;
-      background:rgba(7,17,13,.45);
-      backdrop-filter:blur(14px);
-      font-size:12px;
-      font-weight:850;
-      letter-spacing:.08em;
-      text-transform:uppercase;
+
+    /* ── COVER ── */
+    .cover {
+      padding: 48px 0 40px;
+      border-bottom: 1px solid var(--line);
     }
-    .logo i{width:10px;height:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 22px var(--lime)}
-    .count{font-size:12px;color:#e7dcc8;background:rgba(7,17,13,.5);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 11px;backdrop-filter:blur(14px)}
-    .hero-main{position:relative;padding-top:120px}
-    h1{
-      margin:0;
-      font-family:Unbounded,Inter,sans-serif;
-      font-size:clamp(42px,13vw,70px);
-      line-height:.88;
-      letter-spacing:-.075em;
-      text-wrap:balance;
+
+    .atlas-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 36px;
     }
-    .lead{
-      margin:18px 0 0;
-      max-width:410px;
-      font-size:18px;
-      line-height:1.38;
-      color:#f2eadb;
-      font-weight:500;
+    .atlas-series {
+      font-family: 'Figtree', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--ink3);
     }
-    .hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
-    .tag{font-size:12px;font-weight:750;color:#112018;background:var(--lime);border-radius:999px;padding:8px 10px}
-    .tag.alt{background:rgba(255,248,234,.12);color:#fff4dd;border:1px solid rgba(255,248,234,.2)}
-    .regions{position:sticky;top:0;z-index:30;margin:12px -14px 0;padding:10px 14px;background:rgba(7,17,13,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,248,234,.08)}
-    .region-scroll{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.region-scroll::-webkit-scrollbar{display:none}
-    .region-scroll a{white-space:nowrap;border:1px solid rgba(255,248,234,.16);background:rgba(255,248,234,.07);border-radius:999px;padding:10px 13px;font-size:13px;font-weight:800;color:#f4ead6}
-    .section{padding-top:30px}
-    .section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:0 2px 12px}
-    h2{margin:0;font-family:Unbounded,Inter,sans-serif;font-size:30px;line-height:.98;letter-spacing:-.055em}
-    .region-note{font-size:12px;color:var(--soft);font-weight:750;text-transform:uppercase;letter-spacing:.12em}
-    .routes{display:grid;gap:14px}
-    .card{
-      position:relative;
-      min-height:330px;
-      border-radius:30px;
-      overflow:hidden;
-      border:1px solid rgba(255,248,234,.14);
-      background:#13231b;
-      box-shadow:0 18px 45px rgba(0,0,0,.26);
-      transform:translateZ(0);
+    .atlas-num {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 11px;
+      font-style: italic;
+      color: var(--ink3);
+      border: 1px solid var(--line);
+      padding: 4px 10px;
+      border-radius: 20px;
     }
-    .card:active{transform:scale(.992)}
-    .photo{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(.95) contrast(1.03)}
-    .photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,17,13,.02) 0%,rgba(7,17,13,.42) 42%,rgba(7,17,13,.96) 100%)}
-    .content{position:relative;z-index:2;min-height:330px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}
-    .chips{display:flex;gap:7px;flex-wrap:wrap}.chip{font-size:11px;font-weight:850;letter-spacing:.04em;text-transform:uppercase;color:#112018;background:rgba(200,242,106,.92);border-radius:999px;padding:7px 9px}.chip.ghost{background:rgba(7,17,13,.56);color:#f7eedc;border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(12px)}
-    .card h3{margin:0 0 8px;font-family:Unbounded,Inter,sans-serif;font-size:30px;line-height:.94;letter-spacing:-.055em;max-width:360px}
-    .desc{margin:0;color:#efe5d3;font-size:15px;line-height:1.42;font-weight:500;max-width:390px}
-    .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}.m{padding:10px;border:1px solid rgba(255,248,234,.14);border-radius:18px;background:rgba(255,248,234,.075);backdrop-filter:blur(12px)}.m b{display:block;font-size:18px;line-height:1;color:#fff}.m span{display:block;margin-top:5px;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#c7baa6}
-    .open{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:13px 14px;border-radius:999px;background:var(--paper);color:#0a1711;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.open span:last-child{font-size:18px}
-    .empty-region{border:1px dashed rgba(255,248,234,.22);background:rgba(255,248,234,.045);border-radius:26px;padding:18px;color:#c9bdab;font-size:14px;line-height:1.45}
-    .footer{padding:34px 6px 8px;text-align:center;color:#948a7a;font-size:12px;line-height:1.45}
-    @media (min-width:760px){
-      .page{width:min(100%,1040px);padding:22px 22px 48px}.hero{min-height:620px;padding:28px}.hero-main{padding-top:210px}.routes{grid-template-columns:repeat(3,1fr)}.card,.content{min-height:430px}.card h3{font-size:32px}.section{padding-top:44px}.section.sochi .routes{grid-template-columns:repeat(3,1fr)}
+
+    /* Decorative compass */
+    .compass-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
     }
+    .compass {
+      width: 54px;
+      height: 54px;
+      opacity: .55;
+    }
+
+    h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(52px, 16vw, 74px);
+      font-weight: 900;
+      line-height: .88;
+      letter-spacing: -.04em;
+      color: var(--ink);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--lime);
+    }
+
+    .cover-sub {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 28px;
+    }
+
+    .cover-rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .cover-rule::before,
+    .cover-rule::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line) 50%, transparent);
+    }
+    .cover-rule-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 14px var(--lime);
+    }
+
+    .cover-tags {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .cover-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--ink2);
+    }
+
+    /* ── SECTION HEADER ── */
+    .section { padding-top: 40px; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .section-badge.done {
+      background: rgba(90,184,122,.15);
+      color: var(--done);
+      border: 1px solid rgba(90,184,122,.3);
+    }
+    .section-badge.dream {
+      background: rgba(212,168,83,.1);
+      color: var(--amber);
+      border: 1px solid rgba(212,168,83,.25);
+    }
+    .section-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    .done .section-badge-dot { background: var(--done); }
+    .dream .section-badge-dot { background: var(--amber); }
+
+    .section-count {
+      font-size: 11px;
+      color: var(--ink3);
+      font-weight: 500;
+      letter-spacing: .06em;
+      margin-left: auto;
+    }
+
+    h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      margin-bottom: 6px;
+    }
+    .section-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink2);
+      margin-bottom: 20px;
+    }
+
+    /* ── ROUTE CARDS ── */
+    .routes { display: flex; flex-direction: column; gap: 14px; }
+
+    /* DONE card — full width, richer */
+    .card-done {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(90,184,122,.25);
+      background: var(--card);
+      box-shadow: 0 2px 0 rgba(90,184,122,.2), 0 20px 50px rgba(0,0,0,.35);
+    }
+    .card-done:active { transform: scale(.988); }
+
+    .card-done .photo {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .card-done .photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8,19,14,.1) 0%, rgba(8,19,14,.7) 100%);
+    }
+    .card-done .photo-stamp {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--done);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 3px rgba(90,184,122,.3), 0 4px 20px rgba(90,184,122,.4);
+    }
+    .card-done .photo-stamp svg {
+      width: 22px;
+      height: 22px;
+      stroke: #08130e;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .card-done .body {
+      padding: 18px 18px 20px;
+    }
+    .card-done .eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--done);
+      margin-bottom: 6px;
+    }
+    .card-done h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      margin-bottom: 8px;
+    }
+    .card-done h3 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ink2);
+    }
+    .card-done .blurb {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink2);
+      margin-bottom: 16px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .stat {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px 10px 8px;
+    }
+    .stat-val {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .stat-unit {
+      font-family: 'Figtree', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--ink3);
+      margin-left: 1px;
+    }
+    .stat-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-top: 4px;
+    }
+
+    .open-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-radius: 14px;
+      background: var(--done);
+      color: #08130e;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+    .open-btn .arr {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* DREAM cards — compact */
+    .cards-dream { display: flex; flex-direction: column; gap: 12px; }
+
+    .card-dream {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-style: dashed;
+      transition: border-color .2s;
+    }
+    .card-dream:active { transform: scale(.988); }
+
+    .card-dream-thumb {
+      width: 68px;
+      height: 68px;
+      border-radius: 14px;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-dream-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(8,19,14,.35);
+    }
+
+    .card-dream-body { flex: 1; min-width: 0; }
+    .card-dream-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 3px;
+    }
+    .card-dream h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      margin-bottom: 4px;
+    }
+    .card-dream .blurb {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--ink2);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-dream-meta {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .pill {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .pill.amber {
+      background: rgba(212,168,83,.13);
+      color: var(--amber2);
+      border: 1px solid rgba(212,168,83,.2);
+    }
+    .pill.ghost {
+      background: rgba(240,232,214,.06);
+      color: var(--ink2);
+      border: 1px solid var(--line);
+    }
+
+    .card-dream-arr {
+      color: var(--ink3);
+      font-size: 18px;
+      flex-shrink: 0;
+      align-self: center;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 56px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .footer-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--line2);
+    }
+    .footer-text {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink3);
+    }
+
+    /* ── LOAD ANIMATION ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cover         { animation: fadeUp .6s ease both; }
+    .section:nth-of-type(1) { animation: fadeUp .6s .12s ease both; }
+    .section:nth-of-type(2) { animation: fadeUp .6s .22s ease both; }
   </style>
 </head>
 <body>
-  <main class="page">
-    <header class="hero">
-      <div class="topline">
-        <div class="logo"><i></i>Велоатлас</div>
-        <div class="count">3 маршрута</div>
+<main class="page">
+
+  <!-- ── COVER ── -->
+  <div class="cover">
+    <div class="atlas-meta">
+      <span class="atlas-series">Личный атлас</span>
+      <span class="atlas-num">Т. I · 2025–2026</span>
+    </div>
+
+    <div class="compass-wrap">
+      <svg class="compass" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="27" cy="27" r="25.5" stroke="#c6e85c" stroke-width="1" stroke-dasharray="3 4"/>
+        <circle cx="27" cy="27" r="18" stroke="rgba(240,232,214,.2)" stroke-width="1"/>
+        <polygon points="27,6 30,27 27,24 24,27" fill="#c6e85c" opacity=".9"/>
+        <polygon points="27,48 30,27 27,30 24,27" fill="rgba(240,232,214,.35)"/>
+        <polygon points="6,27 27,24 24,27 27,30" fill="rgba(240,232,214,.3)"/>
+        <polygon points="48,27 27,24 30,27 27,30" fill="rgba(240,232,214,.15)"/>
+        <circle cx="27" cy="27" r="3" fill="rgba(240,232,214,.5)"/>
+        <text x="27" y="4.5" font-family="serif" font-size="6" fill="#c6e85c" text-anchor="middle" font-weight="bold">С</text>
+        <text x="27" y="52" font-family="serif" font-size="6" fill="rgba(240,232,214,.4)" text-anchor="middle">Ю</text>
+        <text x="3.5" y="29" font-family="serif" font-size="6" fill="rgba(240,232,214,.4)" text-anchor="middle">З</text>
+        <text x="50.5" y="29" font-family="serif" font-size="6" fill="rgba(240,232,214,.4)" text-anchor="middle">В</text>
+      </svg>
+    </div>
+
+    <h1>Вело<em>атлас</em></h1>
+    <p class="cover-sub">Маршруты одного дня · личная коллекция</p>
+
+    <div class="cover-rule"><div class="cover-rule-dot"></div></div>
+
+    <div class="cover-tags">
+      <span class="cover-tag">Москва</span>
+      <span class="cover-tag">Подмосковье</span>
+      <span class="cover-tag">Сочи</span>
+      <span class="cover-tag">Абхазия</span>
+    </div>
+  </div>
+
+  <!-- ── SECTION 1: ПРОЕХАНО ── -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-badge done">
+        <span class="section-badge-dot"></span>
+        Проехано
       </div>
-      <div class="hero-main">
-        <h1>Маршруты, которые хочется проехать</h1>
-        <p class="lead">Короткие велопутешествия с характером: море, горы, ущелья, старые дороги и готовые страницы с подробностями.</p>
-        <div class="hero-tags">
-          <span class="tag">Сочи</span>
-          <span class="tag alt">Абхазия</span>
-          <span class="tag alt">велопутешествия</span>
+      <span class="section-count">1 маршрут</span>
+    </div>
+    <h2>Рекомендую сам</h2>
+    <p class="section-desc">Лично проверенные маршруты — с заметками, треком и честной оценкой дороги.</p>
+
+    <div class="routes">
+      <a class="card-done" href="barvikha-lokhin.html" aria-label="Открыть маршрут Барвиха · Лохин остров">
+        <div class="photo" style="background-image:url('barvikha-photo.jpg');background-position:center 60%">
+          <div class="photo-stamp">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
         </div>
-      </div>
-    </header>
-
-    <nav class="regions" aria-label="Разделы маршрутов">
-      <div class="region-scroll">
-        <a href="#moscow">Москва</a>
-        <a href="#podmoskovye">Подмосковье</a>
-        <a href="#sochi">Сочи</a>
-      </div>
-    </nav>
-
-    <section class="section" id="moscow">
-      <div class="section-head">
-        <h2>Москва</h2>
-        <div class="region-note">город</div>
-      </div>
-      <div class="empty-region">Маршруты по Москве появятся здесь после добавления отдельных страниц.</div>
-    </section>
-
-    <section class="section" id="podmoskovye">
-      <div class="section-head">
-        <h2>Подмосковье</h2>
-        <div class="region-note">область</div>
-      </div>
-      <div class="empty-region">Маршруты по Подмосковью появятся здесь после добавления отдельных страниц.</div>
-    </section>
-
-    <section class="section sochi" id="sochi">
-      <div class="section-head">
-        <h2>Сочи</h2>
-        <div class="region-note">море · горы</div>
-      </div>
-      <div class="routes">
-        <a class="card" href="preview%20(2).html" aria-label="Открыть маршрут Сочи рядом">
-          <div class="photo" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/%D0%9A%D0%B0%D0%BD%D1%8C%D0%BE%D0%BD%20%D1%80%D0%B5%D0%BA%D0%B8%20%D0%9F%D1%81%D0%B0%D1%85%D0%BE.%20%D0%9C%D0%BE%D0%BA%D1%80%D1%8B%D0%B9%20%D0%BA%D0%B0%D0%BD%D1%8C%D0%BE%D0%BD.jpg?width=1200')"></div>
-          <div class="content">
-            <div class="chips"><span class="chip">4 дня</span><span class="chip ghost">одна база</span></div>
-            <div>
-              <h3>Сочи рядом</h3>
-              <p class="desc">Адлер как база и четыре насыщенных выезда: Хоста, старая Краснополянская дорога, Ахштырская пещера и каньоны Псахо.</p>
-              <div class="meta"><div class="m"><b>217</b><span>км</span></div><div class="m"><b>≈1790</b><span>м набора</span></div><div class="m"><b>4/5</b><span>макс. сложн.</span></div></div>
-              <div class="open"><span>Открыть маршрут</span><span>→</span></div>
+        <div class="body">
+          <div class="eyebrow">Gravel · Москва и Подмосковье</div>
+          <h3>Барвиха <em>или на Лохин остров</em></h3>
+          <p class="blurb">Тихий асфальт, грунтовки вдоль Москвы-реки, дворцы Рублёвки и необитаемый остров-заповедник. Почти сотня без пробок и суеты.</p>
+          <div class="stats-row">
+            <div class="stat">
+              <div class="stat-val">92<span class="stat-unit">км</span></div>
+              <div class="stat-label">дистанция</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">630<span class="stat-unit">м</span></div>
+              <div class="stat-label">набор</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">5:40<span class="stat-unit">ч</span></div>
+              <div class="stat-label">в движении</div>
             </div>
           </div>
-        </a>
-
-        <a class="card" href="deepseek_html_20260501_7190b3.html" aria-label="Открыть маршрут Королевская дорога Сочи">
-          <div class="photo" style="background-image:url('https://images.pexels.com/photos/1365421/pexels-photo-1365421.jpeg?auto=compress&cs=tinysrgb&w=1200')"></div>
-          <div class="content">
-            <div class="chips"><span class="chip">3 дня</span><span class="chip ghost">шоссе</span></div>
-            <div>
-              <h3>Королевская дорога</h3>
-              <p class="desc">Шоссейная версия Сочи: Красная Поляна, тоннели Ахцу, серпантины, подъём к Прометею и финиш у моря.</p>
-              <div class="meta"><div class="m"><b>≈170</b><span>км</span></div><div class="m"><b>~2150</b><span>м набора</span></div><div class="m"><b>98%</b><span>асфальт</span></div></div>
-              <div class="open"><span>Открыть маршрут</span><span>→</span></div>
-            </div>
+          <div class="open-btn">
+            <span>Открыть маршрут</span>
+            <span class="arr">→</span>
           </div>
-        </a>
+        </div>
+      </a>
+    </div>
+  </section>
 
-        <a class="card" href="preview%20(3).html" aria-label="Открыть маршрут Абхазия через сосны">
-          <div class="photo" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%90%D1%84%D0%BE%D0%BD.%20%D0%9C%D0%BE%D0%BD%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%8C.jpg?width=1200')"></div>
-          <div class="content">
-            <div class="chips"><span class="chip">4 дня</span><span class="chip ghost">Адлер ↔ Адлер</span></div>
-            <div>
-              <h3>Абхазия через сосны</h3>
-              <p class="desc">Замкнутое путешествие из Адлера: Гагра, Новый Афон, пещера, Анакопия, Пицунда и спокойное возвращение через Псоу.</p>
-              <div class="meta"><div class="m"><b>250+</b><span>км</span></div><div class="m"><b>3</b><span>ночёвки</span></div><div class="m"><b>2</b><span>страны</span></div></div>
-              <div class="open"><span>Открыть маршрут</span><span>→</span></div>
-            </div>
-          </div>
-        </a>
+  <!-- ── SECTION 2: МЕЧТА ── -->
+  <section class="section">
+    <div class="section-label">
+      <div class="section-badge dream">
+        <span class="section-badge-dot"></span>
+        Планы · мечта
       </div>
-    </section>
+      <span class="section-count">3 маршрута</span>
+    </div>
+    <h2>Хочу проехать</h2>
+    <p class="section-desc">Маршруты, которые уже спроектированы и ждут своего времени.</p>
 
-    <footer class="footer">Велоатлас коротких путешествий</footer>
-  </main>
+    <div class="cards-dream">
+
+      <a class="card-dream" href="preview%20(2).html" aria-label="Сочи рядом">
+        <div class="card-dream-thumb" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/%D0%9A%D0%B0%D0%BD%D1%8C%D0%BE%D0%BD%20%D1%80%D0%B5%D0%BA%D0%B8%20%D0%9F%D1%81%D0%B0%D1%85%D0%BE.%20%D0%9C%D0%BE%D0%BA%D1%80%D1%8B%D0%B9%20%D0%BA%D0%B0%D0%BD%D1%8C%D0%BE%D0%BD.jpg?width=600')"></div>
+        <div class="card-dream-body">
+          <div class="card-dream-eyebrow">Сочи · 4 дня</div>
+          <h3>Сочи рядом</h3>
+          <p class="blurb">Адлер как база: Хоста, Краснополянская дорога, Ахштырская пещера, каньоны Псахо.</p>
+          <div class="card-dream-meta">
+            <span class="pill amber">217 км</span>
+            <span class="pill ghost">одна база</span>
+          </div>
+        </div>
+        <span class="card-dream-arr">›</span>
+      </a>
+
+      <a class="card-dream" href="deepseek_html_20260501_7190b3.html" aria-label="Королевская дорога">
+        <div class="card-dream-thumb" style="background-image:url('https://images.pexels.com/photos/1365421/pexels-photo-1365421.jpeg?auto=compress&cs=tinysrgb&w=400')"></div>
+        <div class="card-dream-body">
+          <div class="card-dream-eyebrow">Сочи · 3 дня</div>
+          <h3>Королевская дорога</h3>
+          <p class="blurb">Красная Поляна, тоннели Ахцу, серпантины, Прометей, финиш у моря.</p>
+          <div class="card-dream-meta">
+            <span class="pill amber">≈170 км</span>
+            <span class="pill ghost">шоссе</span>
+          </div>
+        </div>
+        <span class="card-dream-arr">›</span>
+      </a>
+
+      <a class="card-dream" href="preview%20(3).html" aria-label="Абхазия через сосны">
+        <div class="card-dream-thumb" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%90%D1%84%D0%BE%D0%BD.%20%D0%9C%D0%BE%D0%BD%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%8C.jpg?width=600')"></div>
+        <div class="card-dream-body">
+          <div class="card-dream-eyebrow">Абхазия · 4 дня</div>
+          <h3>Абхазия через сосны</h3>
+          <p class="blurb">Гагра, Новый Афон, Анакопия, Пицунда — замкнутое кольцо из Адлера.</p>
+          <div class="card-dream-meta">
+            <span class="pill amber">250+ км</span>
+            <span class="pill ghost">2 страны</span>
+          </div>
+        </div>
+        <span class="card-dream-arr">›</span>
+      </a>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-rule"></div>
+    <span class="footer-text">Велоатлас · личная коллекция</span>
+    <div class="footer-rule"></div>
+  </footer>
+
+</main>
 </body>
 </html>
