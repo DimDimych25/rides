@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#08130e" />
+  <title>По набережным на юг Москвы · Велоатлас</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #08130e;
+      --bg2:     #0e1d16;
+      --card:    #111e18;
+      --card2:   #162619;
+      --ink:     #f0e8d6;
+      --ink2:    #a09585;
+      --ink3:    #607060;
+      --blue:    #7ec8e3;
+      --blue2:   #b3dff0;
+      --lime:    #c6e85c;
+      --done:    #5ab87a;
+      --line:    rgba(240,232,214,.1);
+      --line2:   rgba(240,232,214,.06);
+      --water:   rgba(126,200,227,.15);
+      --water2:  rgba(126,200,227,.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Figtree', system-ui, sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── GRID OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(240,232,214,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,232,214,.022) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 0 64px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 320px;
+      overflow: hidden;
+    }
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 55%;
+      display: block;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(8,19,14,.2) 0%,
+        rgba(8,19,14,.5) 55%,
+        rgba(8,19,14,.92) 100%
+      );
+    }
+    .hero-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      color: var(--ink2);
+      background: rgba(8,19,14,.55);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 14px;
+      backdrop-filter: blur(8px);
+    }
+    .hero-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--done);
+      background: rgba(90,184,122,.15);
+      border: 1px solid rgba(90,184,122,.3);
+      border-radius: 999px;
+      padding: 6px 12px;
+      backdrop-filter: blur(8px);
+    }
+    .hero-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 20px 22px;
+    }
+    .hero-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+    .hero-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(30px, 9vw, 40px);
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -.04em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .hero-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--blue2);
+    }
+    .hero-sub {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--ink2);
+    }
+
+    /* ── BODY ── */
+    .body { padding: 0 16px; }
+
+    /* ── WAVE DIVIDER ── */
+    .wave {
+      display: block;
+      width: 100%;
+      height: 28px;
+      margin-bottom: -1px;
+    }
+
+    /* ── STATS GRID ── */
+    .stats-section {
+      background: var(--card);
+      border: 1px solid rgba(126,200,227,.2);
+      border-radius: 24px;
+      padding: 20px 16px;
+      margin: 24px 16px 0;
+    }
+    .stats-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 14px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .stat {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 10px 9px;
+    }
+    .stat.wide {
+      grid-column: span 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .stat.wide .stat-inner { text-align: left; }
+    .stat-val {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .stat.wide .stat-val { font-size: 18px; }
+    .stat-unit {
+      font-family: 'Figtree', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--ink3);
+      margin-left: 1px;
+    }
+    .stat-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-top: 4px;
+    }
+    .stat-divider {
+      width: 1px;
+      height: 30px;
+      background: var(--line);
+      flex-shrink: 0;
+    }
+
+    /* ── ROUTE PROFILE SVG ── */
+    .profile-section {
+      margin: 16px 16px 0;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px 16px 12px;
+      overflow: hidden;
+    }
+    .profile-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 10px;
+    }
+    .profile-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .profile-alt {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+    .profile-alt span {
+      font-size: 10px;
+      color: var(--ink3);
+    }
+
+    /* ── DESCRIPTION ── */
+    .desc-section { margin: 24px 16px 0; }
+    .section-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 12px;
+    }
+    .desc-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--ink2);
+    }
+    .desc-text p + p { margin-top: 12px; }
+
+    /* ── WAYPOINTS ── */
+    .waypoints-section { margin: 24px 16px 0; }
+    .waypoints-list { display: flex; flex-direction: column; gap: 2px; }
+    .wp {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px 14px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      position: relative;
+    }
+    .wp:first-child {
+      border-color: rgba(90,184,122,.3);
+      background: rgba(90,184,122,.06);
+      border-radius: 16px 16px 4px 4px;
+    }
+    .wp:last-child {
+      border-radius: 4px 4px 16px 16px;
+    }
+    .wp:not(:first-child):not(:last-child) { border-radius: 4px; }
+    .wp-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 11px;
+      color: var(--ink3);
+      margin-top: 1px;
+    }
+    .wp:first-child .wp-dot {
+      background: rgba(90,184,122,.2);
+      border-color: rgba(90,184,122,.4);
+      color: var(--done);
+    }
+    .wp:last-child .wp-dot {
+      background: rgba(126,200,227,.1);
+      border-color: rgba(126,200,227,.3);
+      color: var(--blue);
+    }
+    .wp-body { flex: 1; min-width: 0; }
+    .wp-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .wp-note {
+      font-size: 12px;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+    .wp-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-left: auto;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+    .wp-tag.water {
+      background: var(--water2);
+      border: 1px solid rgba(126,200,227,.2);
+      color: var(--blue);
+    }
+    .wp-tag.park {
+      background: rgba(90,184,122,.1);
+      border: 1px solid rgba(90,184,122,.2);
+      color: var(--done);
+    }
+    .wp-tag.coffee {
+      background: rgba(212,168,83,.1);
+      border: 1px solid rgba(212,168,83,.2);
+      color: #d4a853;
+    }
+
+    /* ── HIGHLIGHTS ── */
+    .highlights-section { margin: 24px 16px 0; }
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .hl-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 14px;
+    }
+    .hl-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .hl-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .hl-desc {
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--ink3);
+    }
+
+    /* ── KOMOOT BTN ── */
+    .komoot-section { margin: 28px 16px 0; }
+    .komoot-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(126,200,227,.18) 0%, rgba(126,200,227,.06) 100%);
+      border: 1px solid rgba(126,200,227,.35);
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      text-decoration: none;
+      transition: background .2s, transform .1s;
+    }
+    .komoot-btn:active { transform: scale(.97); }
+    .komoot-btn-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .komoot-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #76b71a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .komoot-logo svg {
+      width: 22px;
+      height: 22px;
+    }
+    .komoot-btn-text { line-height: 1.2; }
+    .komoot-btn-sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--blue);
+      display: block;
+    }
+    .komoot-arr {
+      font-size: 20px;
+      color: var(--blue2);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin: 48px 16px 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--line2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .footer-rule { flex: 1; height: 1px; background: var(--line2); }
+    .footer-text {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink3);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero        { animation: fadeUp .5s ease both; }
+    .stats-section   { animation: fadeUp .5s .1s ease both; }
+    .profile-section { animation: fadeUp .5s .15s ease both; }
+    .desc-section    { animation: fadeUp .5s .2s ease both; }
+    .waypoints-section { animation: fadeUp .5s .25s ease both; }
+    .highlights-section{ animation: fadeUp .5s .3s ease both; }
+    .komoot-section  { animation: fadeUp .5s .35s ease both; }
+
+    /* ripple effect on water stats */
+    @keyframes ripple {
+      0%   { box-shadow: 0 0 0 0 rgba(126,200,227,.35); }
+      70%  { box-shadow: 0 0 0 8px rgba(126,200,227,0); }
+      100% { box-shadow: 0 0 0 0 rgba(126,200,227,0); }
+    }
+    .stats-section { animation: fadeUp .5s .1s ease both, ripple 3.5s 1s infinite; }
+  </style>
+</head>
+<body>
+<main class="page">
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <img
+      class="hero-img"
+      src="https://d2exd72xrrp1s7.cloudfront.net/www/1o/1obzv1kdpatw015ne9qraet9qr5rt7odav-p705494721-full/19de958151f?width=1920&crop=false&q=70"
+      alt="Набережная Москвы-реки"
+      loading="eager"
+    />
+    <div class="hero-overlay"></div>
+
+    <div class="hero-top">
+      <a class="back-btn" href="index.html">← Атлас</a>
+      <span class="hero-badge">✓ Проехано</span>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="hero-eyebrow">Шоссе · Москва · 2 мая 2026</div>
+      <h1 class="hero-title">По набережным<br><em>на юг Москвы</em></h1>
+      <p class="hero-sub">Центр — МКАД и обратно. Почти без светофоров, почти без машин.</p>
+    </div>
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="stats-section">
+    <div class="stats-label">Параметры маршрута</div>
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-val">91,9<span class="stat-unit">км</span></div>
+        <div class="stat-label">дистанция</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">6:09<span class="stat-unit">ч</span></div>
+        <div class="stat-label">общее время</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">14,9<span class="stat-unit">км/ч</span></div>
+        <div class="stat-label">средняя скорость</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">430<span class="stat-unit">м</span></div>
+        <div class="stat-label">набор высоты</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">450<span class="stat-unit">м</span></div>
+        <div class="stat-label">сброс высоты</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">130–210<span class="stat-unit">м</span></div>
+        <div class="stat-label">диапазон высот</div>
+      </div>
+      <div class="stat wide">
+        <div class="stat-inner">
+          <div class="stat-val">Дмитровская</div>
+          <div class="stat-label">старт и финиш</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-inner">
+          <div class="stat-val" style="color:var(--blue);font-size:14px;">м. Дмитровская</div>
+          <div class="stat-label">метро рядом</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ELEVATION PROFILE ── -->
+  <div class="profile-section">
+    <div class="profile-label">Профиль высот</div>
+    <svg class="profile-svg" viewBox="0 0 440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="elev" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#7ec8e3" stop-opacity=".45"/>
+          <stop offset="100%" stop-color="#7ec8e3" stop-opacity=".04"/>
+        </linearGradient>
+      </defs>
+      <!-- terrain profile approximation -->
+      <path d="M0,55 C15,53 25,50 40,48 C55,46 65,44 80,42 C90,41 100,40 115,39 C130,38 140,37 155,36 C165,35 175,34 190,35 C200,36 210,38 225,40 C240,42 250,44 265,43 C275,42 285,40 300,38 C315,36 325,34 340,33 C355,32 365,33 380,35 C390,37 400,40 415,42 C425,44 435,48 440,52 L440,80 L0,80 Z"
+        fill="url(#elev)"/>
+      <path d="M0,55 C15,53 25,50 40,48 C55,46 65,44 80,42 C90,41 100,40 115,39 C130,38 140,37 155,36 C165,35 175,34 190,35 C200,36 210,38 225,40 C240,42 250,44 265,43 C275,42 285,40 300,38 C315,36 325,34 340,33 C355,32 365,33 380,35 C390,37 400,40 415,42 C425,44 435,48 440,52"
+        fill="none" stroke="#7ec8e3" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- start dot -->
+      <circle cx="0" cy="55" r="3" fill="#5ab87a"/>
+      <!-- finish dot -->
+      <circle cx="440" cy="52" r="3" fill="#7ec8e3"/>
+    </svg>
+    <div class="profile-alt">
+      <span>130 м (мин)</span>
+      <span>210 м (макс)</span>
+    </div>
+  </div>
+
+  <!-- ── DESCRIPTION ── -->
+  <div class="desc-section body">
+    <h2 class="section-title">Характер маршрута</h2>
+    <div class="desc-text">
+      <p>Быстрый городской маршрут по благоустроенным набережным Москвы-реки. Покрытие почти везде ровное и накатистое — плиточные набережные, асфальтовые дорожки, велоинфраструктура. Трафик минимальный: большая часть пути проходит вдали от машин.</p>
+      <p>Начало — от Дмитровской, через ВДНХ и по Яузе выходим на Москву-реку. Дальше на юг мимо жилых кварталов и парков, до самого МКАДа. Обратно тем же коридором — вид с воды меняет угол, и дорога не надоедает.</p>
+      <p>Рельеф мягкий: несколько пологих подъёмов на мостах, в остальном — ровный накат. Маршрут хорош в будний день с утра, когда набережные свободны.</p>
+    </div>
+  </div>
+
+  <!-- ── WAYPOINTS ── -->
+  <div class="waypoints-section body">
+    <h2 class="section-title">Точки маршрута</h2>
+    <div class="waypoints-list">
+
+      <div class="wp">
+        <div class="wp-dot">◎</div>
+        <div class="wp-body">
+          <div class="wp-name">Дмитровская</div>
+          <div class="wp-note">Старт. Метро рядом — удобно добраться из любой точки города.</div>
+        </div>
+        <span class="wp-tag park">старт</span>
+      </div>
+
+      <div class="wp">
+        <div class="wp-dot">→</div>
+        <div class="wp-body">
+          <div class="wp-name">ВДНХ и Яуза</div>
+          <div class="wp-note">Дорожка вдоль реки Яузы — выход на главную водную артерию Москвы.</div>
+        </div>
+        <span class="wp-tag water">река</span>
+      </div>
+
+      <div class="wp">
+        <div class="wp-dot">→</div>
+        <div class="wp-body">
+          <div class="wp-name">Набережная Марка Шагала</div>
+          <div class="wp-note">Современная набережная в Нагатинском затоне с видами на воду и мост ЗИЛ-арт.</div>
+        </div>
+        <span class="wp-tag water">набережная</span>
+      </div>
+
+      <div class="wp">
+        <div class="wp-dot">→</div>
+        <div class="wp-body">
+          <div class="wp-name">Южный речной вокзал</div>
+          <div class="wp-note">Памятник архитектуры советского модернизма 1937 года, недавно отреставрированный. Один из лучших речных фасадов Москвы.</div>
+        </div>
+        <span class="wp-tag water">архитектура</span>
+      </div>
+
+      <div class="wp">
+        <div class="wp-dot">→</div>
+        <div class="wp-body">
+          <div class="wp-name">Парк Печатники</div>
+          <div class="wp-note">Тихий зелёный коридор вдоль воды — хорошо для небольшой паузы.</div>
+        </div>
+        <span class="wp-tag park">парк</span>
+      </div>
+
+      <div class="wp">
+        <div class="wp-dot">→</div>
+        <div class="wp-body">
+          <div class="wp-name">Парк 850-летия Москвы</div>
+          <div class="wp-note">Просторная набережная с широкими дорожками, фонтанами и видом на реку.</div>
+        </div>
+        <span class="wp-tag park">парк</span>
+      </div>
+
+      <div class="wp">
+        <div class="wp-dot">→</div>
+        <div class="wp-body">
+          <div class="wp-name">Братеевский парк и МКАД</div>
+          <div class="wp-note">Южная точка маршрута. Братеевская пойма — почти нетронутый берег у самого МКАДа.</div>
+        </div>
+        <span class="wp-tag park">разворот</span>
+      </div>
+
+      <div class="wp">
+        <div class="wp-dot">☕</div>
+        <div class="wp-body">
+          <div class="wp-name">Нагатинский затон</div>
+          <div class="wp-note">По пути обратно — можно заехать на набережную у затона и выпить кофе с видом на воду.</div>
+        </div>
+        <span class="wp-tag coffee">кофе</span>
+      </div>
+
+      <div class="wp">
+        <div class="wp-dot">→</div>
+        <div class="wp-body">
+          <div class="wp-name">Нагатинская и Дербеневская набережные</div>
+          <div class="wp-note">Финальный отрезок — быстрый прямой участок в сторону центра вдоль реки.</div>
+        </div>
+        <span class="wp-tag water">набережная</span>
+      </div>
+
+      <div class="wp">
+        <div class="wp-dot">⌂</div>
+        <div class="wp-body">
+          <div class="wp-name">Финиш — Дмитровская</div>
+          <div class="wp-note">Возврат на старт. Круговой маршрут.</div>
+        </div>
+        <span class="wp-tag park">финиш</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── HIGHLIGHTS ── -->
+  <div class="highlights-section body">
+    <h2 class="section-title">Стоит знать</h2>
+    <div class="highlights-grid">
+      <div class="hl-card">
+        <span class="hl-icon">🚴</span>
+        <div class="hl-title">Покрытие</div>
+        <div class="hl-desc">Асфальт и плитка. Почти везде ровно, без грунта.</div>
+      </div>
+      <div class="hl-card">
+        <span class="hl-icon">🌤</span>
+        <div class="hl-title">Лучшее время</div>
+        <div class="hl-desc">Утро в будний день. Набережные свободны.</div>
+      </div>
+      <div class="hl-card">
+        <span class="hl-icon">🗺</span>
+        <div class="hl-title">Навигация</div>
+        <div class="hl-desc">Маршрут логичен: держись воды — не заблудишься.</div>
+      </div>
+      <div class="hl-card">
+        <span class="hl-icon">⚡</span>
+        <div class="hl-title">Темп</div>
+        <div class="hl-desc">Накатистый. Средняя ~15 км/ч с остановками.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── KOMOOT BUTTON ── -->
+  <div class="komoot-section">
+    <a class="komoot-btn" href="https://www.komoot.com/tour/2927524039" target="_blank" rel="noopener">
+      <div class="komoot-btn-left">
+        <div class="komoot-logo">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 8C13.4 8 8 13.4 8 20C8 26.6 13.4 32 20 32C26.6 32 32 26.6 32 20C32 13.4 26.6 8 20 8Z" fill="white" fill-opacity=".9"/>
+            <path d="M20 12L24 18L20 16L16 18L20 12Z" fill="#4a7a0c"/>
+            <path d="M20 28L16 22L20 24L24 22L20 28Z" fill="#76b71a"/>
+          </svg>
+        </div>
+        <div class="komoot-btn-text">
+          Открыть маршрут в Komoot
+          <span class="komoot-btn-sub">Трек, профиль высот, навигация</span>
+        </div>
+      </div>
+      <span class="komoot-arr">›</span>
+    </a>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer-rule"></div>
+    <span class="footer-text">Велоатлас · личная коллекция</span>
+    <div class="footer-rule"></div>
+  </footer>
+
+</main>
+</body>
+</html>
