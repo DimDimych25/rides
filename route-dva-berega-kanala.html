@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08130e">
+  <title>Два берега канала — Велоатлас</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #08130e;
+      --bg2:    #0e1d16;
+      --card:   #111e18;
+      --card2:  #162619;
+      --ink:    #f0e8d6;
+      --ink2:   #a09585;
+      --ink3:   #607060;
+      --lime:   #c6e85c;
+      --lime2:  #daf282;
+      --blue:   #7ec8e3;
+      --blue2:  #b3dff0;
+      --amber:  #d4a853;
+      --amber2: #e8c47a;
+      --done:   #5ab87a;
+      --line:   rgba(240,232,214,.1);
+      --line2:  rgba(240,232,214,.06);
+      --r: 6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Figtree', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(240,232,214,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,232,214,.028) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── TOPBAR ─────────────────────────── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 20px; height: 52px;
+      background: rgba(8,19,14,.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line2);
+    }
+    .back-btn {
+      color: var(--blue); font-size: 14px; font-weight: 600;
+      text-decoration: none; min-height: 44px;
+      display: flex; align-items: center;
+      transition: opacity .15s;
+    }
+    .back-btn:hover { opacity: .7; }
+    .topbar-sep { width: 1px; height: 18px; background: var(--line); }
+    .topbar-title {
+      font-size: 14px; font-weight: 600; color: var(--ink2);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+
+    /* ── HERO ───────────────────────────── */
+    .hero {
+      position: relative; width: 100%; height: 100svh; min-height: 560px;
+      overflow: hidden; display: flex; align-items: flex-end;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-color: #0d1f2d;
+      background-image: url('https://d2exd72xrrp1s7.cloudfront.net/www/lb/lbbqhlrtlmsnsxlszfavvmti50cgrc4c-p466669347-full/18ffdd54756?width=1920&crop=false&q=70');
+      background-size: cover; background-position: center 45%;
+      animation: zoom 24s ease-in-out infinite alternate;
+    }
+    @keyframes zoom {
+      from { transform: scale(1.04); }
+      to   { transform: scale(1.11); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(8,19,14,.97) 0%,
+        rgba(8,19,14,.52) 44%,
+        rgba(8,19,14,.10) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 660px; margin: 0 auto;
+      padding: 0 20px 60px;
+      animation: rise .9s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--blue); margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(40px, 10vw, 72px);
+      font-weight: 900; line-height: 1.04; color: var(--ink);
+      margin-bottom: 18px;
+    }
+    .hero h1 em { font-style: italic; font-weight: 300; color: var(--ink2); }
+    .hero-sub {
+      font-size: 15px; font-weight: 300; color: var(--ink2);
+      max-width: 420px; margin-bottom: 10px; line-height: 1.65;
+    }
+    .hero-date {
+      font-size: 12px; color: var(--ink3); font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; margin-bottom: 22px;
+    }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; letter-spacing: .04em;
+      white-space: nowrap;
+    }
+    .pill-blue  { background: rgba(126,200,227,.13); color: var(--blue2);  border: 1px solid rgba(126,200,227,.22); }
+    .pill-amber { background: rgba(212,168,83,.13);  color: var(--amber2); border: 1px solid rgba(212,168,83,.22); }
+    .pill-done  { background: rgba(90,184,122,.13);  color: var(--done);   border: 1px solid rgba(90,184,122,.22); }
+
+    /* ── LAYOUT ─────────────────────────── */
+    .container {
+      max-width: 660px; margin: 0 auto; padding: 0 20px;
+      position: relative; z-index: 1;
+    }
+
+    /* ── STATS ──────────────────────────── */
+    .stats-section { padding: 40px 0; border-bottom: 1px solid var(--line2); }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .stat-cell {
+      padding: 16px 18px 18px;
+      border-right: 1px solid var(--line2);
+    }
+    .stat-cell:nth-child(3n)   { border-right: none; }
+    .stat-cell:nth-child(n+4)  { border-top: 1px solid var(--line2); }
+    .stat-cell:nth-child(3n+1) { padding-left: 0; }
+    .stat-cell:nth-child(3n)   { padding-right: 0; }
+    .stat-icon { font-size: 13px; color: var(--ink3); margin-bottom: 6px; }
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 24px; font-weight: 700; color: var(--blue2);
+      line-height: 1.15; margin-bottom: 4px;
+    }
+    .stat-unit { font-size: 13px; color: var(--blue); margin-left: 2px; font-weight: 400; }
+    .stat-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .09em; color: var(--ink3);
+    }
+
+    /* ── SECTIONS ───────────────────────── */
+    .section { padding: 48px 0; border-bottom: 1px solid var(--line2); }
+    .section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--ink3); margin-bottom: 22px;
+    }
+    h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(22px, 5vw, 30px); font-weight: 700;
+      color: var(--ink); margin-bottom: 20px; line-height: 1.2;
+    }
+    p { color: var(--ink2); font-weight: 300; margin-bottom: 16px; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── ELEVATION ──────────────────────── */
+    .elev-box {
+      background: var(--card);
+      border: 1px solid var(--line2);
+      border-radius: 12px;
+      padding: 16px 0 0;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .elev-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--ink3);
+      padding: 0 16px 10px;
+    }
+    .elev-box svg { width: 100%; height: auto; display: block; }
+
+    /* ── TAGS ───────────────────────────── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .tag {
+      padding: 5px 12px; border-radius: var(--r);
+      font-size: 11px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .tag.blue  { background: rgba(126,200,227,.1); color: var(--blue); }
+    .tag.amber { background: rgba(212,168,83,.1);  color: var(--amber2); }
+    .tag.hi    { background: rgba(198,232,92,.1);  color: var(--lime2); }
+
+    /* ── GALLERY ────────────────────────── */
+    .gallery-scroll {
+      display: flex; gap: 10px; overflow-x: auto;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      margin: 0 -20px; padding: 0 20px 4px;
+    }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+    .gallery-img {
+      width: 240px; height: 180px; border-radius: 12px;
+      object-fit: cover; flex-shrink: 0;
+      background: var(--card2);
+    }
+
+    /* ── PLACE CARDS ────────────────────── */
+    .place-card {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--card); border: 1px solid var(--line2);
+      border-radius: 12px; padding: 20px;
+      margin-bottom: 12px;
+      transition: background .15s;
+    }
+    .place-card:last-child { margin-bottom: 0; }
+    .place-card:hover { background: var(--card2); }
+    .place-icon {
+      font-size: 26px; flex-shrink: 0;
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg2); border-radius: var(--r);
+    }
+    .place-name {
+      font-weight: 700; font-size: 15px; color: var(--ink); margin-bottom: 2px;
+    }
+    .place-dist {
+      font-size: 11px; color: var(--blue); font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .place-desc {
+      font-size: 14px; color: var(--ink2); font-weight: 300;
+      line-height: 1.65; margin: 0;
+    }
+
+    /* ── KOMOOT EMBED ───────────────────── */
+    .komoot-wrap {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--line2);
+      margin-top: 4px;
+    }
+
+    /* ── CTA ────────────────────────────── */
+    .cta-block {
+      padding: 48px 0 56px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .btn-primary {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 52px; border-radius: var(--r);
+      background: var(--blue); color: #08130e;
+      font-weight: 700; font-size: 15px; text-decoration: none;
+      letter-spacing: .02em; transition: opacity .15s;
+    }
+    .btn-primary:hover { opacity: .85; }
+    .btn-secondary {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 52px; border-radius: var(--r);
+      background: var(--card2); color: var(--ink2);
+      font-weight: 600; font-size: 15px; text-decoration: none;
+      border: 1px solid var(--line); transition: background .15s;
+    }
+    .btn-secondary:hover { background: var(--card); }
+
+    /* ── FOOTER ─────────────────────────── */
+    .footer-line {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 8px;
+      padding: 20px 0 40px;
+      border-top: 1px solid var(--line2);
+      font-size: 12px; color: var(--ink3); font-weight: 600;
+    }
+
+    /* ── RESPONSIVE ─────────────────────── */
+    @media (max-width: 400px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-cell:nth-child(3n) { border-right: 1px solid var(--line2); }
+      .stat-cell:nth-child(2n) { border-right: none; }
+      .stat-cell:nth-child(n+3) { border-top: 1px solid var(--line2); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── TOPBAR ──────────────────────────────────────────────── -->
+<nav class="topbar">
+  <a class="back-btn" href="index.html"
+     onclick="if(history.length>1){history.back();return false;}">← Атлас</a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-title">Два берега канала</span>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Москва · Канал имени Москвы · Шоссе</div>
+    <h1>Два берега <em>канала</em></h1>
+    <p class="hero-sub">Петля по обоим берегам Канала имени Москвы — от Химкинского водохранилища через Долгопрудный и обратно. Асфальт, набережные, парковые дорожки.</p>
+    <div class="hero-date">9 июня 2024</div>
+    <div class="hero-pills">
+      <span class="pill pill-blue">⟷ 99.6 км</span>
+      <span class="pill pill-blue">Шоссе / Парк</span>
+      <span class="pill pill-amber">↑ 405 м набора</span>
+      <span class="pill pill-done">✓ Пройден</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ────────────────────────────────────────────────── -->
+<div class="container">
+  <section class="stats-section">
+    <div class="stats-grid">
+
+      <div class="stat-cell">
+        <div class="stat-icon">⟷</div>
+        <div class="stat-val">99.6<span class="stat-unit">км</span></div>
+        <div class="stat-label">Дистанция</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">↑</div>
+        <div class="stat-val">405<span class="stat-unit">м</span></div>
+        <div class="stat-label">Набор</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">↓</div>
+        <div class="stat-val">392<span class="stat-unit">м</span></div>
+        <div class="stat-label">Сброс</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">⏱</div>
+        <div class="stat-val">7:54<span class="stat-unit">ч</span></div>
+        <div class="stat-label">В движении</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">⌁</div>
+        <div class="stat-val">12.6<span class="stat-unit">км/ч</span></div>
+        <div class="stat-label">Скорость</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">⊜</div>
+        <div class="stat-val">221–259</div>
+        <div class="stat-label">Высоты, м</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── ПРОФИЛЬ ВЫСОТЫ ────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Профиль высоты</div>
+    <div class="elev-box">
+      <div class="elev-label">Набор / Сброс · 405 / 392 м · Плоский рельеф вдоль канала</div>
+      <svg viewBox="0 0 900 210" xmlns="http://www.w3.org/2000/svg" aria-label="Профиль высоты маршрута">
+        <defs>
+          <linearGradient id="eg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#d4a853" stop-opacity=".48"/>
+            <stop offset="100%" stop-color="#d4a853" stop-opacity=".03"/>
+          </linearGradient>
+          <clipPath id="ec">
+            <rect x="40" y="18" width="842" height="163"/>
+          </clipPath>
+        </defs>
+
+        <!-- Горизонтальные направляющие -->
+        <line x1="40" y1="55"  x2="882" y2="55"  stroke="rgba(240,232,214,.04)" stroke-width="1"/>
+        <line x1="40" y1="90"  x2="882" y2="90"  stroke="rgba(240,232,214,.04)" stroke-width="1"/>
+        <line x1="40" y1="128" x2="882" y2="128" stroke="rgba(240,232,214,.04)" stroke-width="1"/>
+        <line x1="40" y1="181" x2="882" y2="181" stroke="rgba(240,232,214,.06)" stroke-width="1"/>
+
+        <!-- Заливка профиля -->
+        <polygon
+          clip-path="url(#ec)"
+          fill="url(#eg)"
+          points="40,181 40.0,125.5 46.8,131.9 50.1,128.0 53.5,129.2 56.9,126.2 63.7,156.2 70.4,166.8 73.8,158.2 80.5,161.1 87.3,177.7 94.0,135.5 100.8,149.4 104.1,136.6 107.5,136.4 110.9,143.4 117.6,130.7 121.0,108.2 127.7,126.9 131.1,126.8 137.8,130.7 141.3,120.3 144.6,127.1 148.0,128.1 151.4,125.8 154.7,126.5 161.5,92.2 164.9,91.2 168.2,83.7 171.6,40.1 181.7,81.4 191.8,69.0 195.2,72.0 205.3,115.0 212.1,72.4 215.5,73.2 222.2,116.5 228.9,60.7 232.3,67.6 235.7,54.3 242.4,89.0 245.8,90.0 249.2,88.7 252.6,93.5 255.9,89.6 259.3,107.0 266.0,70.6 272.8,100.1 286.3,49.0 289.6,77.6 293.0,70.7 296.4,74.9 303.1,72.3 306.5,81.4 309.9,33.5 313.3,72.9 320.0,90.3 326.8,68.0 340.2,85.3 347.0,64.8 357.1,94.8 360.5,57.5 367.3,82.6 377.4,93.5 380.7,91.5 384.1,93.2 387.5,110.7 394.2,114.8 404.4,58.6 411.1,66.8 414.5,86.2 417.8,84.4 428.0,38.8 431.3,108.2 434.7,106.0 438.1,116.6 444.8,84.5 458.3,110.2 461.7,110.8 468.5,109.4 481.9,114.6 492.1,107.9 495.4,95.3 508.9,83.1 519.0,52.3 522.4,78.9 525.8,76.4 529.2,36.6 532.5,32.3 535.9,33.3 546.1,42.2 549.4,20.0 552.8,44.2 559.5,47.2 562.9,59.4 566.3,58.7 569.7,48.0 576.4,71.5 579.8,70.9 583.1,28.4 589.9,49.8 593.3,44.3 596.7,53.7 600.0,51.7 603.4,54.6 610.1,72.1 613.5,72.6 620.2,98.9 623.6,100.5 627.0,98.2 633.8,97.6 637.1,78.1 640.5,99.8 647.2,98.0 650.6,89.3 660.7,80.4 664.2,82.4 667.5,81.2 677.6,181.0 681.0,120.4 691.1,94.5 697.9,98.8 704.6,120.0 714.7,85.7 721.5,94.0 728.2,89.7 731.6,89.9 738.3,86.7 745.1,86.2 751.8,95.1 758.6,99.2 762.0,99.3 765.3,82.9 775.4,134.9 778.8,133.7 782.2,100.7 792.3,82.2 795.7,85.5 799.1,71.7 802.5,79.0 805.8,79.2 809.2,75.9 816.0,84.6 822.7,71.4 826.1,70.7 832.8,82.3 839.6,58.0 846.3,81.2 853.1,80.5 856.4,84.1 859.8,81.6 863.2,83.0 869.9,76.4 873.3,78.4 880.0,71.6 882,181"
+        />
+
+        <!-- Линия профиля -->
+        <polyline
+          clip-path="url(#ec)"
+          fill="none"
+          stroke="#d4a853"
+          stroke-width="1.8"
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          points="40.0,125.5 46.8,131.9 50.1,128.0 53.5,129.2 56.9,126.2 63.7,156.2 70.4,166.8 73.8,158.2 80.5,161.1 87.3,177.7 94.0,135.5 100.8,149.4 104.1,136.6 107.5,136.4 110.9,143.4 117.6,130.7 121.0,108.2 127.7,126.9 131.1,126.8 137.8,130.7 141.3,120.3 144.6,127.1 148.0,128.1 151.4,125.8 154.7,126.5 161.5,92.2 164.9,91.2 168.2,83.7 171.6,40.1 181.7,81.4 191.8,69.0 195.2,72.0 205.3,115.0 212.1,72.4 215.5,73.2 222.2,116.5 228.9,60.7 232.3,67.6 235.7,54.3 242.4,89.0 245.8,90.0 249.2,88.7 252.6,93.5 255.9,89.6 259.3,107.0 266.0,70.6 272.8,100.1 286.3,49.0 289.6,77.6 293.0,70.7 296.4,74.9 303.1,72.3 306.5,81.4 309.9,33.5 313.3,72.9 320.0,90.3 326.8,68.0 340.2,85.3 347.0,64.8 357.1,94.8 360.5,57.5 367.3,82.6 377.4,93.5 380.7,91.5 384.1,93.2 387.5,110.7 394.2,114.8 404.4,58.6 411.1,66.8 414.5,86.2 417.8,84.4 428.0,38.8 431.3,108.2 434.7,106.0 438.1,116.6 444.8,84.5 458.3,110.2 461.7,110.8 468.5,109.4 481.9,114.6 492.1,107.9 495.4,95.3 508.9,83.1 519.0,52.3 522.4,78.9 525.8,76.4 529.2,36.6 532.5,32.3 535.9,33.3 546.1,42.2 549.4,20.0 552.8,44.2 559.5,47.2 562.9,59.4 566.3,58.7 569.7,48.0 576.4,71.5 579.8,70.9 583.1,28.4 589.9,49.8 593.3,44.3 596.7,53.7 600.0,51.7 603.4,54.6 610.1,72.1 613.5,72.6 620.2,98.9 623.6,100.5 627.0,98.2 633.8,97.6 637.1,78.1 640.5,99.8 647.2,98.0 650.6,89.3 660.7,80.4 664.2,82.4 667.5,81.2 677.6,181.0 681.0,120.4 691.1,94.5 697.9,98.8 704.6,120.0 714.7,85.7 721.5,94.0 728.2,89.7 731.6,89.9 738.3,86.7 745.1,86.2 751.8,95.1 758.6,99.2 762.0,99.3 765.3,82.9 775.4,134.9 778.8,133.7 782.2,100.7 792.3,82.2 795.7,85.5 799.1,71.7 802.5,79.0 805.8,79.2 809.2,75.9 816.0,84.6 822.7,71.4 826.1,70.7 832.8,82.3 839.6,58.0 846.3,81.2 853.1,80.5 856.4,84.1 859.8,81.6 863.2,83.0 869.9,76.4 873.3,78.4 880.0,71.6"
+        />
+
+        <!-- Пик: 259 м на 60.4 км -->
+        <line x1="549.4" y1="20.0" x2="549.4" y2="181"
+              stroke="#d4a853" stroke-width="1" stroke-dasharray="4 3" opacity=".35"/>
+        <circle cx="549.4" cy="20.0" r="3.5" fill="#d4a853"/>
+        <text x="555" y="19" fill="#e8c47a" font-size="10.5" font-family="JetBrains Mono, monospace" font-weight="700">259 м</text>
+        <text x="555" y="31" fill="#a09585" font-size="9.5"  font-family="JetBrains Mono, monospace">60 км</text>
+
+        <!-- Мин подпись -->
+        <text x="44" y="179" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace">221 м</text>
+
+        <!-- Ось X -->
+        <line x1="40" y1="181" x2="882" y2="181" stroke="rgba(240,232,214,.1)" stroke-width="1"/>
+
+        <!-- Метки X -->
+        <text x="40"  y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">0</text>
+        <text x="251" y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">25</text>
+        <text x="462" y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">50</text>
+        <text x="673" y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">75</text>
+        <text x="880" y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">99</text>
+        <text x="882" y="210" fill="#607060" font-size="9" font-family="JetBrains Mono, monospace" text-anchor="end">км</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── ХАРАКТЕР МАРШРУТА ──────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Характер маршрута</div>
+    <h2>Вода слева, вода справа</h2>
+    <p>Петля по обоим берегам Канала имени Москвы — один из немногих подмосковных маршрутов, где сотня километров проходит практически без набора высоты. Перепад за всю поездку — 38 метров: канал создаёт идеально ровный коридор, вдоль которого проложены асфальтовые дороги и набережные.</p>
+    <p>Покрытие смешанное: городской асфальт в Тушино, шоссе вдоль канала, накатистые парковые дорожки через лесопарки Долгопрудного и берег у Хлебниково. Встречаются пешеходы, семьи с колясками и рыбаки у воды — темп диктует сам маршрут, а не физподготовка. Средняя 12 км/ч — это не слабость, это правильный ритм для такой дороги.</p>
+    <p>Маршрут хорошо читается навигационно: канал всегда рядом, переправа разворачивает петлю обратно. Подходит для первой длинной поездки, восстановительного дня или просто воскресной вылазки с фотоаппаратом — июньское утро вдоль воды стоит того.</p>
+    <div class="tags">
+      <span class="tag blue">Шоссе + Парк</span>
+      <span class="tag blue">Плоский рельеф</span>
+      <span class="tag amber">Канал имени Москвы</span>
+      <span class="tag blue">Набережные</span>
+      <span class="tag blue">Утренний старт</span>
+      <span class="tag amber">38 м перепад</span>
+    </div>
+  </section>
+
+  <!-- ── ГАЛЕРЕЯ ────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Фотоотчёт</div>
+    <h2>Кадры с маршрута</h2>
+    <div class="gallery-scroll">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/lb/lbbqhlrtlmsnsxlszfavvmti50cgrc4c-p466669347-full/18ffdd54756?width=800&crop=false&q=70"
+           alt="Канал — кадр 1" loading="lazy" onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/14/142c5pncbse2kre73ajdgawtw50cgrcs0-p466669375-full/18ffdd54acc?width=800&crop=false&q=70"
+           alt="Канал — кадр 2" loading="lazy" onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/1i/1iipaoln8cj15pkjgnu4sdpch50cgrfgh-p466669476-full/18ffdd55894?width=800&crop=false&q=70"
+           alt="Канал — кадр 3" loading="lazy" onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/bn/bnah7j5i9rwl1j02uztlpfxlv50cgrhr5-p466669531-full/18ffdd563fd?width=800&crop=false&q=70"
+           alt="Канал — кадр 4" loading="lazy" onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/gp/gp7q6ma5djc51w42t90ro0dx350cgrjq8-p466669607-full/18ffdd56e31?width=800&crop=false&q=70"
+           alt="Канал — кадр 5" loading="lazy" onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/1r/1rv04qi0jq72ch6f06absj9uk50cgrm6b-p466669682-full/18ffdd579f4?width=800&crop=false&q=70"
+           alt="Канал — кадр 6" loading="lazy" onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/re/re17jxdfdo29crtvki7azipq50cgrncn-p466669743-full/18ffdd5801a?width=800&crop=false&q=70"
+           alt="Канал — кадр 7" loading="lazy" onerror="this.style.display='none'">
+    </div>
+  </section>
+
+  <!-- ── МЕСТА ПО ПУТИ ──────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Места по пути</div>
+    <h2>Вдоль канала</h2>
+
+    <div class="place-card">
+      <div class="place-icon">🛳️</div>
+      <div>
+        <div class="place-name">Северный речной вокзал</div>
+        <div class="place-dist">~8 км от старта</div>
+        <p class="place-desc">Выдающийся образец сталинского ампира 1937 года — главное здание комплекса канала Москва–Волга. Семиярусное здание с башней и шпилем задумывалось как «пароход на берегу». После долгого запустения вокзал отреставрировали и открыли заново в 2020 году. На обновлённой набережной стоит действующая миниатюрная модель канала со шлюзами.</p>
+      </div>
+    </div>
+
+    <div class="place-card">
+      <div class="place-icon">🌊</div>
+      <div>
+        <div class="place-name">Канал имени Москвы</div>
+        <div class="place-dist">По всему маршруту</div>
+        <p class="place-desc">Рукотворный водный путь длиной 128 км, соединяющий Москву с Волгой. Строился с 1932 по 1937 год с привлечением труда заключённых Дмитлага — крупнейшего строительного лагеря сталинской эпохи. Канал обеспечивает около 60% водоснабжения Москвы и поднимает воду через пять шлюзов по южному склону Клинско-Дмитровской гряды.</p>
+      </div>
+    </div>
+
+    <div class="place-card">
+      <div class="place-icon">🏙️</div>
+      <div>
+        <div class="place-name">Долгопрудный · Набережная</div>
+        <div class="place-dist">~30–45 км от старта</div>
+        <p class="place-desc">Город вырос вдоль правого берега канала — маршрут проходит по его набережной, где чередуются парковые зоны, лесопарк и жилые кварталы. Именно здесь канал широко раскрывается, и в ясный день хорошо видны проходящие теплоходы. Вдоль берега несколько пирсов и рыболовных мест.</p>
+      </div>
+    </div>
+
+    <div class="place-card">
+      <div class="place-icon">⚓</div>
+      <div>
+        <div class="place-name">Причал Хлебниково</div>
+        <div class="place-dist">~45 км от старта</div>
+        <p class="place-desc">Бывшая речная остановка на канале, у посёлка Хлебниково в черте Долгопрудного. До 2005 года сюда заходили скоростные «Ракеты» с Северного речного вокзала. Сегодня причал используется только малотоннажными судами. Место разворота маршрута — отсюда начинается возвращение по левому берегу.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── KOMOOT EMBED ────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Трек на карте</div>
+    <div class="komoot-wrap">
+      <iframe
+        src="https://www.komoot.com/tour/1637912227/embed?layout=classic&profile=1"
+        width="100%" height="540"
+        frameborder="0" scrolling="no" loading="lazy"
+        title="Два берега канала — трек на Komoot">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- ── CTA ───────────────────────────────────────────────── -->
+  <div class="cta-block">
+    <a class="btn-primary"
+       href="https://www.komoot.com/tour/1637912227"
+       target="_blank" rel="noopener">
+      Открыть маршрут в Komoot →
+    </a>
+    <a class="btn-secondary"
+       href="index.html"
+       onclick="if(history.length>1){history.back();return false;}">
+      ← Вернуться в Велоатлас
+    </a>
+  </div>
+
+  <!-- ── FOOTER ────────────────────────────────────────────── -->
+  <footer class="footer-line">
+    <span>9 июня 2024 · Два берега канала</span>
+    <span>99.6 км · Шоссе</span>
+  </footer>
+
+</div><!-- /container -->
+</body>
+</html>

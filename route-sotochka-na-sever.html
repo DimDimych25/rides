@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08130e">
+  <title>Соточка на север — Велоатлас</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #08130e;
+      --bg2:    #0e1d16;
+      --card:   #111e18;
+      --card2:  #162619;
+      --ink:    #f0e8d6;
+      --ink2:   #a09585;
+      --ink3:   #607060;
+      --lime:   #c6e85c;
+      --lime2:  #daf282;
+      --blue:   #7ec8e3;
+      --blue2:  #b3dff0;
+      --amber:  #d4a853;
+      --amber2: #e8c47a;
+      --done:   #5ab87a;
+      --line:   rgba(240,232,214,.1);
+      --line2:  rgba(240,232,214,.06);
+      --r: 6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Figtree', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(240,232,214,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,232,214,.028) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── TOPBAR ─────────────────────────── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 20px; height: 52px;
+      background: rgba(8,19,14,.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line2);
+    }
+    .back-btn {
+      color: var(--blue); font-size: 14px; font-weight: 600;
+      text-decoration: none; min-height: 44px;
+      display: flex; align-items: center; gap: 4px;
+      transition: opacity .15s;
+    }
+    .back-btn:hover { opacity: .7; }
+    .topbar-sep { width: 1px; height: 18px; background: var(--line); }
+    .topbar-title {
+      font-size: 14px; font-weight: 600; color: var(--ink2);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+
+    /* ── HERO ───────────────────────────── */
+    .hero {
+      position: relative; width: 100%; height: 100svh; min-height: 560px;
+      overflow: hidden; display: flex; align-items: flex-end;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-color: #1a2e20;
+      background-image: url('https://d2exd72xrrp1s7.cloudfront.net/www/t5/t5h9mczppa601xk1lc6yqayhg50kptenn-p468500952-full/1901b928956?width=1920&crop=false&q=70');
+      background-size: cover; background-position: center 40%;
+      animation: zoom 24s ease-in-out infinite alternate;
+    }
+    @keyframes zoom {
+      from { transform: scale(1.04); }
+      to   { transform: scale(1.11); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(8,19,14,.97) 0%,
+        rgba(8,19,14,.55) 44%,
+        rgba(8,19,14,.12) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 660px; margin: 0 auto;
+      padding: 0 20px 60px;
+      animation: rise .9s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--blue); margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(40px, 10vw, 72px);
+      font-weight: 900; line-height: 1.04; color: var(--ink);
+      margin-bottom: 18px;
+    }
+    .hero h1 em {
+      font-style: italic; font-weight: 300; color: var(--ink2);
+    }
+    .hero-sub {
+      font-size: 15px; font-weight: 300; color: var(--ink2);
+      max-width: 440px; margin-bottom: 10px; line-height: 1.65;
+    }
+    .hero-date {
+      font-size: 12px; color: var(--ink3); font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; margin-bottom: 22px;
+    }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; letter-spacing: .04em;
+      white-space: nowrap;
+    }
+    .pill-blue  { background: rgba(126,200,227,.13); color: var(--blue2);  border: 1px solid rgba(126,200,227,.22); }
+    .pill-amber { background: rgba(212,168,83,.13);  color: var(--amber2); border: 1px solid rgba(212,168,83,.22); }
+    .pill-done  { background: rgba(90,184,122,.13);  color: var(--done);   border: 1px solid rgba(90,184,122,.22); }
+
+    /* ── LAYOUT ─────────────────────────── */
+    .container {
+      max-width: 660px; margin: 0 auto; padding: 0 20px;
+      position: relative; z-index: 1;
+    }
+
+    /* ── STATS ──────────────────────────── */
+    .stats-section { padding: 40px 0; border-bottom: 1px solid var(--line2); }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .stat-cell {
+      padding: 16px 18px 18px;
+      border-right: 1px solid var(--line2);
+    }
+    .stat-cell:nth-child(3n) { border-right: none; }
+    .stat-cell:nth-child(n+4) { border-top: 1px solid var(--line2); }
+    .stat-cell:nth-child(3n+1) { padding-left: 0; }
+    .stat-cell:nth-child(3n)   { padding-right: 0; }
+    .stat-icon {
+      font-size: 13px; color: var(--ink3); margin-bottom: 6px;
+    }
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 24px; font-weight: 700; color: var(--blue2);
+      line-height: 1.15; margin-bottom: 4px;
+    }
+    .stat-unit {
+      font-size: 13px; color: var(--blue); margin-left: 2px; font-weight: 400;
+    }
+    .stat-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .09em; color: var(--ink3);
+    }
+
+    /* ── SECTIONS ───────────────────────── */
+    .section { padding: 48px 0; border-bottom: 1px solid var(--line2); }
+    .section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--ink3); margin-bottom: 22px;
+    }
+    h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(22px, 5vw, 30px); font-weight: 700;
+      color: var(--ink); margin-bottom: 20px; line-height: 1.2;
+    }
+    p { color: var(--ink2); font-weight: 300; margin-bottom: 16px; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── ELEVATION PROFILE ──────────────── */
+    .elev-box {
+      background: var(--card);
+      border: 1px solid var(--line2);
+      border-radius: 12px;
+      padding: 16px 0 0;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .elev-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--ink3);
+      padding: 0 16px 10px;
+    }
+    .elev-box svg { width: 100%; height: auto; display: block; }
+
+    /* ── TAGS ───────────────────────────── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .tag {
+      padding: 5px 12px; border-radius: var(--r);
+      font-size: 11px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .tag.blue  { background: rgba(126,200,227,.1); color: var(--blue); }
+    .tag.amber { background: rgba(212,168,83,.1);  color: var(--amber2); }
+    .tag.hi    { background: rgba(198,232,92,.1);  color: var(--lime2); }
+
+    /* ── GALLERY ────────────────────────── */
+    .gallery-scroll {
+      display: flex; gap: 10px; overflow-x: auto;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      margin: 0 -20px; padding: 0 20px 4px;
+    }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+    .gallery-img {
+      width: 240px; height: 180px; border-radius: 12px;
+      object-fit: cover; flex-shrink: 0;
+      background: var(--card2);
+    }
+
+    /* ── PULL QUOTE ─────────────────────── */
+    blockquote.pull {
+      border-left: 3px solid var(--blue);
+      padding: 14px 0 14px 22px;
+      margin: 28px 0;
+    }
+    blockquote.pull p {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 21px; font-style: italic; font-weight: 300;
+      color: var(--ink); line-height: 1.5; margin: 0;
+    }
+
+    /* ── PLACE CARDS ────────────────────── */
+    .place-card {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--card); border: 1px solid var(--line2);
+      border-radius: 12px; padding: 20px;
+      margin-bottom: 12px;
+      transition: background .15s;
+    }
+    .place-card:last-child { margin-bottom: 0; }
+    .place-card:hover { background: var(--card2); }
+    .place-icon {
+      font-size: 26px; flex-shrink: 0;
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg2); border-radius: var(--r);
+    }
+    .place-name {
+      font-weight: 700; font-size: 15px; color: var(--ink); margin-bottom: 2px;
+    }
+    .place-dist {
+      font-size: 11px; color: var(--blue); font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .place-desc {
+      font-size: 14px; color: var(--ink2); font-weight: 300;
+      line-height: 1.65; margin: 0;
+    }
+
+    /* ── KOMOOT EMBED ───────────────────── */
+    .komoot-wrap {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--line2);
+      margin-top: 4px;
+    }
+
+    /* ── CTA ────────────────────────────── */
+    .cta-block {
+      padding: 48px 0 56px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .btn-primary {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 52px; border-radius: var(--r);
+      background: var(--blue); color: #08130e;
+      font-weight: 700; font-size: 15px; text-decoration: none;
+      letter-spacing: .02em; transition: opacity .15s;
+    }
+    .btn-primary:hover { opacity: .85; }
+    .btn-secondary {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 52px; border-radius: var(--r);
+      background: var(--card2); color: var(--ink2);
+      font-weight: 600; font-size: 15px; text-decoration: none;
+      border: 1px solid var(--line); transition: background .15s;
+    }
+    .btn-secondary:hover { background: var(--card); }
+
+    /* ── FOOTER ─────────────────────────── */
+    .footer-line {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+      padding: 20px 0 40px;
+      border-top: 1px solid var(--line2);
+      font-size: 12px; color: var(--ink3); font-weight: 600;
+    }
+
+    /* ── RESPONSIVE ─────────────────────── */
+    @media (max-width: 400px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-cell:nth-child(2n) { border-right: none; }
+      .stat-cell:nth-child(3n) { border-right: 1px solid var(--line2); }
+      .stat-cell:nth-child(2n).stat-cell:nth-child(3n) { border-right: none; }
+      .stat-cell:nth-child(n+3) { border-top: 1px solid var(--line2); }
+      .stat-cell:nth-child(3) { border-right: 1px solid var(--line2); border-top: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── TOPBAR ──────────────────────────────────────────────── -->
+<nav class="topbar">
+  <a class="back-btn" href="index.html"
+     onclick="if(history.length>1){history.back();return false;}">← Атлас</a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-title">Соточка на север</span>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Подмосковье · Шоссе · Север</div>
+    <h1>Соточка<br>на север <em>в тишине</em></h1>
+    <p class="hero-sub">Химкинское водохранилище — Шереметьево — Круглое озеро — Рогачёвское шоссе — Дмитровское шоссе — Долгопрудный</p>
+    <div class="hero-date">15 июня 2024</div>
+    <div class="hero-pills">
+      <span class="pill pill-blue">⟷ 109.4 км</span>
+      <span class="pill pill-blue">Шоссе / Асфальт</span>
+      <span class="pill pill-amber">↑ 638 м набора</span>
+      <span class="pill pill-done">✓ Пройден</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ────────────────────────────────────────────────── -->
+<div class="container">
+  <section class="stats-section">
+    <div class="stats-grid">
+
+      <div class="stat-cell">
+        <div class="stat-icon">⟷</div>
+        <div class="stat-val">109.4<span class="stat-unit">км</span></div>
+        <div class="stat-label">Дистанция</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">↑</div>
+        <div class="stat-val">638<span class="stat-unit">м</span></div>
+        <div class="stat-label">Набор</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">↓</div>
+        <div class="stat-val">559<span class="stat-unit">м</span></div>
+        <div class="stat-label">Сброс</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">⏱</div>
+        <div class="stat-val">5:07<span class="stat-unit">ч</span></div>
+        <div class="stat-label">В движении</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">⌁</div>
+        <div class="stat-val">21.4<span class="stat-unit">км/ч</span></div>
+        <div class="stat-label">Скорость</div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon">⊜</div>
+        <div class="stat-val">127–249</div>
+        <div class="stat-label">Высоты, м</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── ELEVATION PROFILE ─────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Профиль высоты</div>
+    <div class="elev-box">
+      <div class="elev-label">Набор / Сброс · 638 / 559 м · Пик 249 м на 74.7 км</div>
+      <svg viewBox="0 0 900 210" xmlns="http://www.w3.org/2000/svg" aria-label="Профиль высоты маршрута">
+        <defs>
+          <linearGradient id="eg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#d4a853" stop-opacity=".48"/>
+            <stop offset="100%" stop-color="#d4a853" stop-opacity=".03"/>
+          </linearGradient>
+          <clipPath id="ec">
+            <rect x="40" y="18" width="842" height="163"/>
+          </clipPath>
+        </defs>
+
+        <!-- Горизонтальные направляющие -->
+        <line x1="40" y1="55"  x2="882" y2="55"  stroke="rgba(240,232,214,.04)" stroke-width="1"/>
+        <line x1="40" y1="90"  x2="882" y2="90"  stroke="rgba(240,232,214,.04)" stroke-width="1"/>
+        <line x1="40" y1="128" x2="882" y2="128" stroke="rgba(240,232,214,.04)" stroke-width="1"/>
+        <line x1="40" y1="181" x2="882" y2="181" stroke="rgba(240,232,214,.06)" stroke-width="1"/>
+
+        <!-- Заливка профиля -->
+        <polygon
+          clip-path="url(#ec)"
+          fill="url(#eg)"
+          points="40,181 40.0,141.2 46.8,138.6 50.1,141.6 56.9,132.6 63.6,141.6 67.0,136.9 80.5,142.8 83.9,143.0 87.3,146.5 90.6,147.5 94.0,146.3 104.1,157.8 107.5,157.6 110.9,152.4 117.6,154.1 134.5,177.3 137.8,176.3 144.6,159.1 148.0,160.3 151.3,157.1 154.7,159.8 171.6,151.2 191.8,145.0 195.2,138.3 201.9,140.2 212.1,135.5 215.4,129.3 222.2,125.3 228.9,174.2 235.7,138.7 239.1,138.8 245.8,177.0 249.2,181.0 255.9,140.5 262.7,143.7 266.0,132.1 269.5,136.2 279.5,130.7 282.9,135.9 286.3,134.6 293.1,136.2 296.4,133.7 299.8,135.6 303.1,133.7 316.7,159.8 320.0,159.9 323.4,158.5 330.2,161.0 334.0,160.7 343.6,149.6 350.4,113.1 367.3,102.1 374.0,104.5 377.4,103.7 380.8,104.4 390.8,99.1 394.2,100.0 404.4,114.6 407.7,103.4 424.6,85.7 431.4,112.1 434.7,100.0 444.8,85.2 448.2,84.2 451.6,76.3 455.0,77.5 458.3,76.5 461.7,61.8 468.5,81.6 471.8,79.7 478.6,87.8 481.9,101.1 488.7,72.4 502.2,62.4 505.6,64.5 509.0,85.1 515.7,91.2 522.4,73.8 525.8,71.2 532.6,69.6 535.9,75.2 539.3,74.4 546.1,59.1 552.8,58.5 559.5,48.3 562.9,47.2 569.6,53.0 573.1,51.4 579.8,61.9 583.1,62.2 589.9,24.6 596.7,22.5 603.4,33.8 606.8,31.4 610.1,32.4 613.5,20.0 623.6,33.2 630.4,28.7 647.3,60.1 650.7,74.0 657.4,81.5 664.1,73.7 670.9,83.5 674.3,86.3 677.6,85.8 684.4,59.1 687.8,62.0 691.1,59.9 694.5,52.4 708.0,67.2 711.3,53.3 721.5,78.1 728.2,74.9 731.6,57.6 738.3,61.7 745.1,76.2 748.4,73.0 755.2,71.6 761.9,84.3 772.1,65.5 778.8,76.7 785.6,76.9 789.0,81.2 792.3,75.5 795.7,77.5 799.1,76.5 802.4,77.9 815.9,106.4 822.7,90.1 826.0,90.1 836.2,74.3 842.9,90.7 846.3,89.8 853.0,78.8 856.4,79.6 863.1,73.5 876.7,24.5 880.0,36.2 882,181"
+        />
+
+        <!-- Линия профиля -->
+        <polyline
+          clip-path="url(#ec)"
+          fill="none"
+          stroke="#d4a853"
+          stroke-width="1.8"
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          points="40.0,141.2 46.8,138.6 50.1,141.6 56.9,132.6 63.6,141.6 67.0,136.9 80.5,142.8 83.9,143.0 87.3,146.5 90.6,147.5 94.0,146.3 104.1,157.8 107.5,157.6 110.9,152.4 117.6,154.1 134.5,177.3 137.8,176.3 144.6,159.1 148.0,160.3 151.3,157.1 154.7,159.8 171.6,151.2 191.8,145.0 195.2,138.3 201.9,140.2 212.1,135.5 215.4,129.3 222.2,125.3 228.9,174.2 235.7,138.7 239.1,138.8 245.8,177.0 249.2,181.0 255.9,140.5 262.7,143.7 266.0,132.1 269.5,136.2 279.5,130.7 282.9,135.9 286.3,134.6 293.1,136.2 296.4,133.7 299.8,135.6 303.1,133.7 316.7,159.8 320.0,159.9 323.4,158.5 330.2,161.0 334.0,160.7 343.6,149.6 350.4,113.1 367.3,102.1 374.0,104.5 377.4,103.7 380.8,104.4 390.8,99.1 394.2,100.0 404.4,114.6 407.7,103.4 424.6,85.7 431.4,112.1 434.7,100.0 444.8,85.2 448.2,84.2 451.6,76.3 455.0,77.5 458.3,76.5 461.7,61.8 468.5,81.6 471.8,79.7 478.6,87.8 481.9,101.1 488.7,72.4 502.2,62.4 505.6,64.5 509.0,85.1 515.7,91.2 522.4,73.8 525.8,71.2 532.6,69.6 535.9,75.2 539.3,74.4 546.1,59.1 552.8,58.5 559.5,48.3 562.9,47.2 569.6,53.0 573.1,51.4 579.8,61.9 583.1,62.2 589.9,24.6 596.7,22.5 603.4,33.8 606.8,31.4 610.1,32.4 613.5,20.0 623.6,33.2 630.4,28.7 647.3,60.1 650.7,74.0 657.4,81.5 664.1,73.7 670.9,83.5 674.3,86.3 677.6,85.8 684.4,59.1 687.8,62.0 691.1,59.9 694.5,52.4 708.0,67.2 711.3,53.3 721.5,78.1 728.2,74.9 731.6,57.6 738.3,61.7 745.1,76.2 748.4,73.0 755.2,71.6 761.9,84.3 772.1,65.5 778.8,76.7 785.6,76.9 789.0,81.2 792.3,75.5 795.7,77.5 799.1,76.5 802.4,77.9 815.9,106.4 822.7,90.1 826.0,90.1 836.2,74.3 842.9,90.7 846.3,89.8 853.0,78.8 856.4,79.6 863.1,73.5 876.7,24.5 880.0,36.2"
+        />
+
+        <!-- Пик: 249 м на 74.7 км -->
+        <line x1="613.5" y1="20.0" x2="613.5" y2="181"
+              stroke="#d4a853" stroke-width="1" stroke-dasharray="4 3" opacity=".35"/>
+        <circle cx="613.5" cy="20.0" r="3.5" fill="#d4a853"/>
+        <text x="619" y="19" fill="#e8c47a" font-size="10.5" font-family="JetBrains Mono, monospace" font-weight="700">249 м</text>
+        <text x="619" y="31" fill="#a09585" font-size="9.5"  font-family="JetBrains Mono, monospace">75 км</text>
+
+        <!-- Минимум подпись -->
+        <text x="44" y="179" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace">127 м</text>
+
+        <!-- Ось X -->
+        <line x1="40" y1="181" x2="882" y2="181" stroke="rgba(240,232,214,.1)" stroke-width="1"/>
+
+        <!-- Метки X -->
+        <text x="40"  y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">0</text>
+        <text x="232" y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">25</text>
+        <text x="425" y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">50</text>
+        <text x="617" y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">75</text>
+        <text x="810" y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">100</text>
+        <text x="880" y="196" fill="#607060" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">109</text>
+        <!-- Подпись единицы -->
+        <text x="882" y="210" fill="#607060" font-size="9" font-family="JetBrains Mono, monospace" text-anchor="end">км</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── ХАРАКТЕР МАРШРУТА ──────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Характер маршрута</div>
+    <h2>Асфальт и пустота</h2>
+    <p>Классическая петля из северного Тушино в глубь Подмосковья: старт у Химкинского водохранилища, выход на Ленинградское шоссе, затем петля через Лобню и Долгопрудный к Круглому озеру в Дмитровском районе. Большую часть пути — малонаселённые подмосковные шоссе с минимальным трафиком, особенно в утренние часы.</p>
+    <p>Рельеф мягкий, с характерным подъёмом на Клинско-Дмитровскую гряду в середине маршрута (пик 249 м на ~75 км) и плавным спуском на обратном ходу по Рогачёвскому и Дмитровскому шоссе. Никаких технических сложностей — только шоссейное покрытие, ровный каденс и метры, которые сами уходят назад.</p>
+    <p>Лучший сезон — поздняя весна и начало лета: берёзовые рощи в свежей зелени, пустые шоссе ранним утром, разворачивающееся поле перед аэропортом и зеркало Круглого озера у дороги. Маршрут подходит для подготовленных шоссейников и туристов с хорошей базой: техника не нужна, нужна только усидчивость на 100+ км.</p>
+    <div class="tags">
+      <span class="tag blue">Шоссе</span>
+      <span class="tag blue">Асфальт &gt;95%</span>
+      <span class="tag amber">Клинско-Дмитровская гряда</span>
+      <span class="tag amber">Набор 638 м</span>
+      <span class="tag blue">Утренний старт</span>
+      <span class="tag blue">Подмосковье</span>
+    </div>
+  </section>
+
+  <!-- ── ГАЛЕРЕЯ ────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Фотоотчёт</div>
+    <h2>Кадры с маршрута</h2>
+    <div class="gallery-scroll">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/t5/t5h9mczppa601xk1lc6yqayhg50kptenn-p468500952-full/1901b928956?width=800&crop=false&q=70"
+           alt="Маршрут — кадр 1"
+           loading="lazy"
+           onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/1k/1kd5d5evdiyoi1henvhjkqdppx50kptjx6-p468500996-full/1901b92a48f?width=800&crop=false&q=70"
+           alt="Маршрут — кадр 2"
+           loading="lazy"
+           onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/11/11xnecu10e9rt1wrjasudh3veg50kptpmb-p468501035-full/1901b92c123?width=800&crop=false&q=70"
+           alt="Маршрут — кадр 3"
+           loading="lazy"
+           onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/1h/1hsat603xidpqqusairxlxbzq4ypw3b19-p447790353-full/18f2aba6ffe?width=800&crop=false&q=70"
+           alt="Маршрут — кадр 4"
+           loading="lazy"
+           onerror="this.style.display='none'">
+      <img class="gallery-img"
+           src="https://d2exd72xrrp1s7.cloudfront.net/www/1u/1uuf4lld2d9ek13uo0poooe5r74ypw3a6e-p447790342-full/18f2aba6b1f?width=800&crop=false&q=70"
+           alt="Маршрут — кадр 5"
+           loading="lazy"
+           onerror="this.style.display='none'">
+    </div>
+  </section>
+
+  <!-- ── КАК ЭТО БЫЛО ──────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Как это было</div>
+    <h2>Медитация в кручении</h2>
+    <p>Маршрут, который одно время был почти регулярным. Выезжаешь ранним утром из Тушино — солнце ещё низко, воздух прохладный, трасса почти пустая. Химкинское водохранилище остаётся справа, и сразу задаёшь темп, который потом держишь всю поездку.</p>
+
+    <blockquote class="pull">
+      <p>Пустынный асфальт — медитация в кручении.</p>
+    </blockquote>
+
+    <p>Именно так: не гонка, не тренировка с пульсометром — а состояние, когда километры перестают считаться, а остаётся только ровный каданс, звук шин и длинные прямые участки шоссе уходящие куда-то в горизонт лесопосадок. За Шереметьево трафик заметно спадает. Дальше — малолюдные посёлки, поля и та самая тишина, которую почти не встретишь в Москве.</p>
+    <p>Круглое озеро появляется где-то посередине — плоское, бликующее, с берегами в осоке. Хороший ориентир, что скоро разворот. На обратном ходу по Рогачёвке и Дмитровке уже ловишь накопленную усталость в ногах, но маршрут пологий и позволяет доехать в своём ритме. Финиш — без триумфа, просто закрываешь круг.</p>
+  </section>
+
+  <!-- ── МЕСТА ПО ПУТИ ──────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Места по пути</div>
+    <h2>Что встречается на маршруте</h2>
+
+    <div class="place-card">
+      <div class="place-icon">🌊</div>
+      <div>
+        <div class="place-name">Химкинское водохранилище</div>
+        <div class="place-dist">Старт · 0 км</div>
+        <p class="place-desc">Единственное водохранилище в черте Москвы, построено в 1932–1936 годах как часть Канала имени Москвы. Длина около 9 км, площадь 4 км². На берегу — Северный речной вокзал, от которого отходят теплоходы до Волги. Маршрут стартует у его северного берега в районе Тушино.</p>
+      </div>
+    </div>
+
+    <div class="place-card">
+      <div class="place-icon">✈️</div>
+      <div>
+        <div class="place-name">Аэропорт Шереметьево</div>
+        <div class="place-dist">~15 км от старта</div>
+        <p class="place-desc">Крупнейший аэропорт России, изначально построен как военный аэродром ВВС в 1957 году, передан гражданской авиации в 1959-м. Имя — от близлежащего посёлка Шереметьевский и одноимённой платформы Савёловского направления. Шоссе проходит прямо вдоль периметра — над головой постоянно заходят или взлетают борта.</p>
+      </div>
+    </div>
+
+    <div class="place-card">
+      <div class="place-icon">🏞️</div>
+      <div>
+        <div class="place-name">Круглое озеро</div>
+        <div class="place-dist">~55 км от старта</div>
+        <p class="place-desc">Ледниковое озеро мышецкой группы в Дмитровском районе — 18-е по площади в Московском регионе. Площадь 0.96 км², наибольшая глубина 4.2 м. Соединено с озером Долгое рекой Мещериха. С 2016 года — памятник природы «Озёра Нерское, Долгое, Круглое и их ближайшее окружение».</p>
+      </div>
+    </div>
+
+    <div class="place-card">
+      <div class="place-icon">🛣️</div>
+      <div>
+        <div class="place-name">Рогачёвское шоссе</div>
+        <div class="place-dist">~45–65 км от старта</div>
+        <p class="place-desc">Двухполосная дорога межмуниципального значения — часть старинного Рогачёвского тракта, соединявшего Москву с городом Корчева через Дмитров. Сегодня проходит через Лобню и множество подмосковных посёлков, пересекает Малое и Большое Московские кольца. Умеренный трафик, характерный ритм: прямые участки, чередующиеся с плавными поворотами.</p>
+      </div>
+    </div>
+
+    <div class="place-card">
+      <div class="place-icon">🏙️</div>
+      <div>
+        <div class="place-name">Долгопрудный</div>
+        <div class="place-dist">~100 км от старта</div>
+        <p class="place-desc">Город в 18 км от Москвы по Савёловскому направлению. В 1931 году здесь началось строительство первой в СССР дирижаблестроительной верфи, что дало городу первоначальное имя «Дирижабльстрой». В 1941–1942 годах линия фронта проходила в 7–16 км от Долгопрудного. Сегодня город известен Московским физтехом (МФТИ).</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── KOMOOT EMBED ────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-label">Трек на карте</div>
+    <div class="komoot-wrap">
+      <iframe
+        src="https://www.komoot.com/tour/1648040982/embed?layout=classic&profile=1"
+        width="100%" height="540"
+        frameborder="0" scrolling="no" loading="lazy"
+        title="Соточка на север — трек на Komoot">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- ── CTA ───────────────────────────────────────────────── -->
+  <div class="cta-block">
+    <a class="btn-primary"
+       href="https://www.komoot.com/tour/1648040982"
+       target="_blank" rel="noopener">
+      Открыть маршрут в Komoot →
+    </a>
+    <a class="btn-secondary"
+       href="index.html"
+       onclick="if(history.length>1){history.back();return false;}">
+      ← Вернуться в Велоатлас
+    </a>
+  </div>
+
+  <!-- ── FOOTER ────────────────────────────────────────────── -->
+  <footer class="footer-line">
+    <span>15 июня 2024 · Соточка на север</span>
+    <span>109.4 км · Шоссе</span>
+  </footer>
+
+</div><!-- /container -->
+</body>
+</html>
