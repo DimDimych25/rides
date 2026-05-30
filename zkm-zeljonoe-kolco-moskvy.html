@@ -1,428 +1,378 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ЗКМ — Зелёное Кольцо Москвы</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg:     #0c1a0c;
-  --bg2:    #132213;
-  --bg3:    #192919;
-  --card:   #1d2f1d;
-  --text:   #dde8cc;
-  --muted:  #7fa868;
-  --accent: #5db845;
-  --gold:   #c8a040;
-  --rust:   #b85c30;
-  --border: rgba(93,184,69,0.22);
-  --border2:rgba(93,184,69,0.08);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Raleway',sans-serif;
-  font-weight:400;
-  line-height:1.75;
-  overflow-x:hidden;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08130e">
+  <title>ЗКМ — Зелёное Кольцо Москвы · 178 км · Велоатлас</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #08130e;
+      --bg2:    #0e1d16;
+      --card:   #111e18;
+      --card2:  #162619;
+      --ink:    #f0e8d6;
+      --ink2:   #a09585;
+      --ink3:   #607060;
+      --lime:   #c6e85c;
+      --lime2:  #daf282;
+      --amber:  #d4a853;
+      --amber2: #e8c47a;
+      --rust:   #c06040;
+      --done:   #5ab87a;
+      --line:   rgba(240,232,214,.1);
+      --line2:  rgba(240,232,214,.06);
+      --r: 6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Figtree', system-ui, sans-serif;
+      font-size: 16px; line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
 
-/* topo texture */
-body::before{
-  content:'';
-  position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='180'%3E%3Cellipse cx='150' cy='90' rx='140' ry='75' fill='none' stroke='%235db845' stroke-width='0.4' opacity='0.12'/%3E%3Cellipse cx='150' cy='90' rx='110' ry='55' fill='none' stroke='%235db845' stroke-width='0.35' opacity='0.1'/%3E%3Cellipse cx='150' cy='90' rx='80' ry='38' fill='none' stroke='%235db845' stroke-width='0.3' opacity='0.08'/%3E%3C/svg%3E");
-  background-size:300px 180px;
-  pointer-events:none;
-  z-index:0;
-  opacity:.5;
-}
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(240,232,214,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,232,214,.028) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none; z-index: 0;
+    }
 
-h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:300;line-height:1.15}
+    /* ── TOPBAR ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(8,19,14,.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 20px;
+      display: flex; align-items: center; gap: 12px;
+      height: 52px;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--ink3); padding: 6px 0; transition: color .2s;
+    }
+    .back-btn:hover { color: var(--lime); }
+    .back-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .topbar-sep { flex: 1; }
+    .topbar-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 13px; font-style: italic; color: var(--ink3);
+    }
 
-/* ── HERO ── */
-.hero{
-  position:relative;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  padding:7rem 6vw 5rem;
-  overflow:hidden;
-  z-index:1;
-}
-.hero-content{flex:1;max-width:560px;z-index:2;position:relative}
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 92svh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 40px 20px 52px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    /* Animated compass ring decoration */
+    .compass-deco {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(480px, 92vw); height: min(480px, 92vw);
+      opacity: .18; pointer-events: none;
+      animation: compass-spin 80s linear infinite;
+    }
+    @keyframes compass-spin {
+      from { transform: translate(-50%,-50%) rotate(0deg); }
+      to   { transform: translate(-50%,-50%) rotate(360deg); }
+    }
+    .compass-deco2 {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(320px, 68vw); height: min(320px, 68vw);
+      opacity: .1; pointer-events: none;
+      animation: compass-spin 50s linear infinite reverse;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 640px;
+      animation: rise .9s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(3.2rem, 12vw, 6rem);
+      font-weight: 900; line-height: .88;
+      letter-spacing: -.04em;
+      color: var(--ink); margin-bottom: 20px;
+    }
+    .hero-title em { font-style: italic; font-weight: 300; color: var(--lime2); }
+    .hero-sub {
+      font-size: clamp(.95rem, 2.5vw, 1.05rem);
+      color: rgba(240,232,214,.65);
+      max-width: 480px; line-height: 1.65; margin-bottom: 26px;
+    }
+    .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .08em; padding: 5px 12px; border-radius: 999px;
+    }
+    .pill-lime {
+      background: rgba(198,232,92,.12);
+      border: 1px solid rgba(198,232,92,.3); color: var(--lime);
+    }
+    .pill-amber {
+      background: rgba(212,168,83,.15);
+      border: 1px solid rgba(212,168,83,.3); color: var(--amber2);
+    }
+    .pill-ghost { border: 1px solid var(--line); color: var(--ink3); }
 
-.hero-eyebrow{
-  font-size:11px;font-weight:600;
-  letter-spacing:.3em;text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:1.8rem;
-  opacity:0;
-  animation:fadeUp .8s .2s ease forwards;
-}
-.hero-title{
-  font-size:clamp(54px,9vw,104px);
-  color:#fff;
-  margin-bottom:1.5rem;
-  opacity:0;
-  animation:fadeUp .9s .4s ease forwards;
-}
-.hero-title em{color:var(--accent);font-style:italic}
-.hero-sub{
-  font-size:17px;font-weight:300;
-  color:var(--muted);max-width:430px;
-  margin-bottom:3rem;
-  opacity:0;
-  animation:fadeUp .9s .6s ease forwards;
-}
-.hero-stats{
-  display:flex;gap:2.5rem;flex-wrap:wrap;
-  opacity:0;
-  animation:fadeUp .9s .8s ease forwards;
-}
-.hs-val{
-  font-family:'Cormorant Garamond',serif;
-  font-size:44px;font-weight:300;
-  color:#fff;line-height:1;
-}
-.hs-label{
-  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--muted);margin-top:5px;
-}
+    /* ── WRAPPER ── */
+    .wrap {
+      position: relative; z-index: 1;
+      max-width: 660px; margin: 0 auto; padding: 0 20px;
+    }
+    .section { padding: 56px 0; }
+    .section + .section { border-top: 1px solid var(--line2); }
+    .sec-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 12px;
+    }
+    .sec-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.65rem, 4vw, 2.3rem);
+      font-weight: 700; letter-spacing: -.03em;
+      color: var(--ink); margin-bottom: 22px; line-height: 1.08;
+    }
 
-/* ring graphic */
-.hero-ring{
-  position:absolute;right:-4vw;top:50%;
-  transform:translateY(-50%);
-  width:min(52vw,620px);height:min(52vw,620px);
-  z-index:1;
-  opacity:0;
-  animation:fadeIn 1.4s .5s ease forwards;
-}
-.ring-anim{
-  stroke-dasharray:1900;stroke-dashoffset:1900;
-  animation:drawRing 3.2s 1s cubic-bezier(.4,0,.2,1) forwards;
-}
-@keyframes drawRing{to{stroke-dashoffset:0}}
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(18px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes fadeIn{to{opacity:1}}
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1px; background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--r); overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .stat-cell {
+      background: var(--card); padding: 22px 16px;
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+    }
+    .stat-cell.medals {
+      grid-column: 1 / -1; flex-direction: row;
+      justify-content: center; gap: 40px; padding: 22px 20px;
+    }
+    .stat-ico { font-size: 1.1rem; line-height: 1; }
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      font-weight: 700; color: var(--lime2); line-height: 1;
+    }
+    .stat-unit { font-size: .7rem; color: var(--ink3); text-transform: uppercase; letter-spacing: .07em; }
+    .stat-lbl  { font-size: .75rem; color: var(--ink3); margin-top: 1px; }
+    .medal-item { text-align: center; }
+    .medal-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.4rem; font-weight: 700; line-height: 1;
+    }
+    .gold .medal-val { color: var(--amber2); }
+    .silver .medal-val { color: #b0b8c8; }
+    .medal-lbl { font-size: .75rem; color: var(--ink3); margin-top: 4px; }
 
-/* scroll hint */
-.scroll-hint{
-  position:absolute;bottom:2.5rem;left:50%;
-  transform:translateX(-50%);
-  display:flex;flex-direction:column;
-  align-items:center;gap:8px;
-  color:var(--muted);font-size:10px;
-  letter-spacing:.25em;text-transform:uppercase;
-  opacity:0;animation:fadeIn 1s 2.2s ease forwards;
-}
-.scroll-line{
-  width:1px;height:48px;
-  background:linear-gradient(to bottom,var(--accent),transparent);
-  animation:pulse 2s 2.5s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{opacity:.35;transform:scaleY(1)}
-  50%{opacity:1;transform:scaleY(1.1)}
-}
+    /* ── ABOUT TEXT ── */
+    .prose p { color: rgba(240,232,214,.82); margin-bottom: 14px; }
+    .prose p:last-child { margin-bottom: 0; }
+    .pull {
+      border-left: 2px solid var(--lime);
+      padding-left: 16px; margin: 20px 0;
+      font-family: 'Fraunces', serif;
+      font-style: italic; font-size: 1.1rem;
+      color: rgba(240,232,214,.7); line-height: 1.55;
+    }
 
-/* ── LAYOUT ── */
-.container{
-  position:relative;z-index:1;
-  padding:5rem 6vw;
-  max-width:1240px;margin:0 auto;
-}
-.divider{
-  position:relative;z-index:1;
-  width:90%;margin:0 auto;
-  height:1px;
-  background:linear-gradient(90deg,transparent,var(--border2) 15%,var(--border) 50%,var(--border2) 85%,transparent);
-}
-.eyebrow{
-  font-size:10px;font-weight:600;
-  letter-spacing:.3em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:1rem;
-}
-.section-title{
-  font-size:clamp(32px,5vw,58px);
-  color:#fff;margin-bottom:2rem;
-}
+    /* ── CHALLENGES ── */
+    .challenges-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 480px) { .challenges-grid { grid-template-columns: 1fr 1fr; } }
 
-/* ── ABOUT GRID ── */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:start}
-.about-text{font-size:16px;color:var(--text);line-height:1.85}
-.about-text p+p{margin-top:1.2rem}
+    .chal-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px; padding: 18px;
+    }
+    .chal-card.red  { border-color: rgba(192,96,64,.35); }
+    .chal-card.amber { border-color: rgba(212,168,83,.3); }
+    .chal-card.green { border-color: rgba(198,232,92,.2); }
+    .chal-icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .chal-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 6px;
+    }
+    .chal-text { font-size: 13px; line-height: 1.6; color: var(--ink2); }
 
-blockquote.pull{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(22px,3.5vw,34px);
-  font-style:italic;font-weight:300;
-  color:var(--muted);line-height:1.45;
-  border-left:2px solid var(--accent);
-  padding-left:1.8rem;
-  margin:2.5rem 0;
-}
+    /* ── TOUR CARDS ── */
+    .tours-grid { display: flex; flex-direction: column; gap: 14px; }
+    .tour-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px; overflow: hidden;
+    }
+    .tour-img {
+      width: 100%; height: 180px;
+      object-fit: cover; display: block;
+      background: var(--bg2);
+    }
+    .tour-body { padding: 16px; }
+    .badge {
+      display: inline-flex; align-items: center;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 999px; margin-bottom: 10px;
+    }
+    .badge-green {
+      background: rgba(90,184,122,.15); color: var(--done);
+      border: 1px solid rgba(90,184,122,.3);
+    }
+    .badge-gold {
+      background: rgba(212,168,83,.15); color: var(--amber2);
+      border: 1px solid rgba(212,168,83,.3);
+    }
+    .badge-rust {
+      background: rgba(192,96,64,.15); color: #e0906a;
+      border: 1px solid rgba(192,96,64,.3);
+    }
+    .badge-silver {
+      background: rgba(176,184,200,.1); color: #b0b8c8;
+      border: 1px solid rgba(176,184,200,.25);
+    }
+    .tour-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .tour-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+    .tour-stat { font-size: 13px; color: var(--ink3); }
+    .tour-stat strong { color: var(--ink); font-weight: 600; }
+    .tour-links { display: flex; gap: 10px; }
+    .tlink {
+      display: inline-flex; align-items: center;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 8px 14px; border-radius: 8px;
+      background: rgba(198,232,92,.1);
+      border: 1px solid rgba(198,232,92,.25);
+      color: var(--lime);
+      transition: background .15s;
+    }
+    .tlink:active { background: rgba(198,232,92,.18); }
+    .tlink.sec {
+      background: transparent;
+      border-color: var(--line); color: var(--ink3);
+    }
 
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
-.stat-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:3px;
-  padding:1.4rem 1.4rem 1.2rem;
-  position:relative;overflow:hidden;
-}
-.stat-card::before{
-  content:'';position:absolute;
-  top:0;left:0;width:3px;height:100%;
-  background:var(--accent);
-}
-.stat-val{
-  font-family:'Cormorant Garamond',serif;
-  font-size:46px;font-weight:300;
-  color:#fff;line-height:1;
-}
-.stat-unit{font-size:20px;color:var(--muted);margin-left:2px}
-.stat-lbl{
-  font-size:11px;letter-spacing:.15em;
-  text-transform:uppercase;color:var(--muted);margin-top:6px;
-}
+    /* ── MEDAL CTA ── */
+    .medal-cta-section {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 16px; padding: 32px 24px;
+      text-align: center;
+    }
+    .medal-cta-section .sec-title { margin-bottom: 14px; }
+    .medal-cta-section p { font-size: 14px; color: var(--ink2); line-height: 1.65; margin-bottom: 24px; }
 
-/* ── CHALLENGES ── */
-.challenges-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:1.2rem;margin-top:2.5rem;
-}
-.chal-card{
-  background:var(--bg3);
-  border:1px solid var(--border2);
-  border-top:2px solid;
-  border-radius:3px;padding:1.5rem;
-}
-.chal-card.red{border-top-color:var(--rust)}
-.chal-card.amber{border-top-color:var(--gold)}
-.chal-card.green{border-top-color:var(--accent)}
-.chal-icon{font-size:26px;margin-bottom:.9rem}
-.chal-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px;font-weight:400;
-  color:#fff;margin-bottom:.5rem;
-}
-.chal-text{font-size:14px;color:var(--muted);line-height:1.72}
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 16px;
+      background: var(--lime); color: #08130e;
+      font-family: 'Figtree', sans-serif;
+      font-size: 15px; font-weight: 700; letter-spacing: .04em;
+      border: none; border-radius: 14px; cursor: pointer;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: background .18s;
+    }
+    .btn-primary:active { background: var(--lime2); }
+    .btn-secondary {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 15px; margin-top: 10px;
+      background: transparent; color: var(--ink3);
+      font-family: 'Figtree', sans-serif;
+      font-size: 14px; font-weight: 600; letter-spacing: .04em;
+      border: 1px solid var(--line); border-radius: 14px; cursor: pointer;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-gold {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 14px 28px; border-radius: 12px;
+      background: rgba(212,168,83,.15);
+      border: 1px solid rgba(212,168,83,.3);
+      color: var(--amber2);
+      font-family: 'Figtree', sans-serif;
+      font-size: 14px; font-weight: 700; letter-spacing: .06em;
+      text-decoration: none;
+      transition: background .18s;
+    }
+    .btn-gold:active { background: rgba(212,168,83,.25); }
 
-/* ── TOURS ── */
-.tours-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
-  gap:1.3rem;margin-top:2.5rem;
-}
-.tour-card{
-  background:var(--card);
-  border:1px solid var(--border2);
-  border-radius:3px;overflow:hidden;
-  transition:transform .3s,border-color .3s;
-}
-.tour-card:hover{transform:translateY(-5px);border-color:var(--border)}
-.tour-img{
-  width:100%;aspect-ratio:16/9;object-fit:cover;display:block;
-  background:var(--bg3);
-  filter:saturate(.75) brightness(.82);
-  transition:filter .35s;
-}
-.tour-card:hover .tour-img{filter:saturate(1) brightness(.98)}
-.tour-body{padding:1.2rem 1.2rem 1.3rem}
-.badge{
-  display:inline-block;
-  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
-  padding:3px 10px;border-radius:2px;margin-bottom:.7rem;
-}
-.badge-green{background:rgba(93,184,69,.15);color:var(--accent)}
-.badge-gold {background:rgba(200,160,64,.15);color:var(--gold)}
-.badge-rust {background:rgba(184,92,48,.15);color:var(--rust)}
-.tour-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:21px;font-weight:400;
-  color:#fff;margin-bottom:.7rem;line-height:1.3;
-}
-.tour-stats{display:flex;gap:1rem;margin-bottom:.9rem;flex-wrap:wrap}
-.tour-stat{font-size:13px;color:var(--muted)}
-.tour-stat strong{color:var(--text);font-weight:500}
-.tour-links{display:flex;gap:.7rem;flex-wrap:wrap}
-.tlink{
-  font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--accent);text-decoration:none;
-  padding:6px 14px;
-  border:1px solid rgba(93,184,69,.3);
-  border-radius:2px;
-  transition:background .2s,color .2s;
-}
-.tlink:hover{background:var(--accent);color:var(--bg)}
-.tlink.sec{color:var(--muted);border-color:rgba(127,168,104,.18)}
-.tlink.sec:hover{background:var(--bg2);color:var(--text)}
-
-/* ── MEDAL ── */
-.medal-wrap{
-  position:relative;z-index:1;
-  margin:0 6vw 5rem;
-}
-.medal-inner{
-  background:var(--bg3);
-  border:1px solid var(--border);
-  border-radius:3px;
-  padding:4rem 5vw 4rem 5rem;
-  display:flex;align-items:center;gap:4rem;
-  overflow:hidden;
-}
-.medal-ring-deco{
-  position:absolute;right:-60px;top:50%;
-  transform:translateY(-50%);
-  width:280px;height:280px;opacity:.06;
-}
-.medal-content{flex:1;position:relative}
-.medal-cta{
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-size:13px;font-weight:600;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--bg);background:var(--accent);
-  text-decoration:none;
-  padding:13px 28px;border-radius:2px;
-  transition:background .2s;
-  margin-top:2rem;white-space:nowrap;
-}
-.medal-cta:hover{background:#6dcf57}
-
-/* ── FOOTER ── */
-footer{
-  position:relative;z-index:1;
-  padding:2rem 6vw;
-  border-top:1px solid var(--border2);
-  display:flex;align-items:center;
-  justify-content:space-between;flex-wrap:wrap;gap:.8rem;
-  font-size:12px;color:var(--muted);letter-spacing:.06em;
-}
-footer a{color:var(--muted);text-decoration:none}
-footer a:hover{color:var(--accent)}
-.footer-logo{
-  font-family:'Cormorant Garamond',serif;
-  font-size:20px;font-weight:300;
-  color:var(--accent);letter-spacing:.05em;
-}
-
-/* ── BACK NAV ── */
-.back-nav{
-  position:fixed;top:0;left:0;right:0;
-  z-index:100;
-  display:flex;align-items:center;
-  padding:0 6vw;
-  height:48px;
-  background:rgba(12,26,12,.82);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border2);
-}
-.back-link{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:11px;font-weight:600;
-  letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted);
-  text-decoration:none;
-  transition:color .2s;
-}
-.back-link:hover{color:var(--accent)}
-.back-link svg{
-  width:14px;height:14px;
-  stroke:currentColor;fill:none;
-  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-  transition:transform .2s;
-}
-.back-link:hover svg{transform:translateX(-3px)}
-.back-nav-sep{
-  flex:1;
-  height:1px;
-  margin:0 1.5rem;
-  background:var(--border2);
-}
-.back-nav-label{
-  font-size:10px;font-weight:600;
-  letter-spacing:.2em;text-transform:uppercase;
-  color:var(--border);
-}
-
-/* offset hero so it's not behind the nav */
-.hero{padding-top:calc(7rem + 48px)}
-@media(max-width:800px){
-  .hero-ring{display:none}
-  .about-grid{grid-template-columns:1fr;gap:2.5rem}
-  .medal-inner{flex-direction:column;gap:2rem;padding:3rem 2rem}
-  .medal-ring-deco{display:none}
-}
-@media(max-width:500px){
-  .hero{padding:6rem 5vw 4rem}
-  .container{padding:4rem 5vw}
-  .medal-wrap{margin:0 5vw 4rem}
-}
-</style>
+    .footer-line {
+      padding: 28px 20px 40px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      font-size: 12px; color: var(--ink3);
+      letter-spacing: .06em;
+      border-top: 1px solid var(--line2);
+    }
+  </style>
 </head>
 <body>
 
-<!-- ═══════════════ BACK NAV ═══════════════ -->
-<nav class="back-nav">
-  <a class="back-link" href="index.html">
-    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    Велоатлас
+<nav class="topbar">
+  <a class="back-btn" href="index.html" onclick="if(history.length>1){history.back();return false;}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Атлас
   </a>
-  <div class="back-nav-sep"></div>
-  <span class="back-nav-label">ЗКМ</span>
+  <div class="topbar-sep"></div>
+  <span class="topbar-title">ЗКМ</span>
 </nav>
 
-<!-- ═══════════════ HERO ═══════════════ -->
-<section class="hero">
-  <div class="hero-content">
-    <p class="hero-eyebrow">Неофициальный маршрут · Москва · ЗКМ</p>
-    <h1 class="hero-title">
-      Зелёное<br><em>Кольцо</em><br>Москвы
-    </h1>
-    <p class="hero-sub">Велосипедный маршрут сквозь лесопарки, грунты и зелёную тишину городской природы — другая Москва, которую не видно из окна метро</p>
-    <div class="hero-stats">
-      <div>
-        <div class="hs-val">~178</div>
-        <div class="hs-label">километров</div>
-      </div>
-      <div>
-        <div class="hs-val">360°</div>
-        <div class="hs-label">вокруг города</div>
-      </div>
-      <div>
-        <div class="hs-val">3×</div>
-        <div class="hs-label">пройдено мной</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Animated compass ring -->
-  <svg class="hero-ring" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="250" cy="250" r="235" stroke="#5db845" stroke-width=".4" opacity=".15"/>
-    <circle cx="250" cy="250" r="210" stroke="#5db845" stroke-width=".35" opacity=".12"/>
-    <circle cx="250" cy="250" r="185" stroke="#5db845" stroke-width=".3" opacity=".1"/>
-    <!-- main animated ring -->
-    <circle class="ring-anim" cx="250" cy="250" r="220" stroke="#5db845" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- cardinal ticks -->
-    <g stroke="#5db845" stroke-width="1.5" opacity=".7">
+<!-- HERO with animated compass -->
+<div class="hero">
+  <!-- Animated ring decorations -->
+  <svg class="compass-deco" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="250" cy="250" r="235" stroke="#c6e85c" stroke-width=".4"/>
+    <circle cx="250" cy="250" r="210" stroke="#c6e85c" stroke-width=".3"/>
+    <circle cx="250" cy="250" r="185" stroke="#c6e85c" stroke-width=".25"/>
+    <circle class="ring-main" cx="250" cy="250" r="220" stroke="#c6e85c" stroke-width="2" stroke-dasharray="8 6" stroke-linecap="round"/>
+    <g stroke="#c6e85c" stroke-width="1.5" opacity=".7">
       <line x1="250" y1="18" x2="250" y2="36"/>
       <line x1="250" y1="464" x2="250" y2="482"/>
       <line x1="18" y1="250" x2="36" y2="250"/>
       <line x1="464" y1="250" x2="482" y2="250"/>
     </g>
-    <!-- minor ticks -->
-    <g stroke="#5db845" stroke-width=".8" opacity=".4">
+    <g stroke="#c6e85c" stroke-width=".8" opacity=".35">
       <line x1="250" y1="22" x2="250" y2="36" transform="rotate(30 250 250)"/>
       <line x1="250" y1="22" x2="250" y2="36" transform="rotate(60 250 250)"/>
       <line x1="250" y1="22" x2="250" y2="36" transform="rotate(120 250 250)"/>
@@ -432,242 +382,219 @@ footer a:hover{color:var(--accent)}
       <line x1="250" y1="22" x2="250" y2="36" transform="rotate(300 250 250)"/>
       <line x1="250" y1="22" x2="250" y2="36" transform="rotate(330 250 250)"/>
     </g>
-    <!-- cardinal labels -->
-    <text x="250" y="13"  text-anchor="middle" font-family="Raleway,sans-serif" font-size="11" fill="#5db845" opacity=".85" font-weight="600">С</text>
-    <text x="250" y="497" text-anchor="middle" font-family="Raleway,sans-serif" font-size="11" fill="#5db845" opacity=".85" font-weight="600">Ю</text>
-    <text x="9"   y="255" text-anchor="middle" font-family="Raleway,sans-serif" font-size="11" fill="#5db845" opacity=".85" font-weight="600">З</text>
-    <text x="491" y="255" text-anchor="middle" font-family="Raleway,sans-serif" font-size="11" fill="#5db845" opacity=".85" font-weight="600">В</text>
-    <!-- centre label -->
-    <text x="250" y="245" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="26" fill="#fff" opacity=".88" font-weight="300">МОСКВА</text>
-    <text x="250" y="264" text-anchor="middle" font-family="Raleway,sans-serif" font-size="8"  fill="#5db845" opacity=".65" letter-spacing="4">ЗКМ</text>
-    <!-- dot markers: green=normal, amber=gps loss, red=hard section -->
-    <!-- N  0°  --> <circle cx="250" cy="30" r="4.5" fill="#5db845" opacity=".85" transform="rotate(0 250 250)"/>
-    <!-- NE 45° --> <circle cx="250" cy="30" r="3"   fill="#5db845" opacity=".5"  transform="rotate(45 250 250)"/>
-    <!-- E  90° --> <circle cx="250" cy="30" r="4.5" fill="#5db845" opacity=".85" transform="rotate(90 250 250)"/>
-    <!-- SE 120°--> <circle cx="250" cy="30" r="5"   fill="#c8a040" opacity=".9"  transform="rotate(130 250 250)"/>
-    <!-- S  180° hard --> <circle cx="250" cy="30" r="6" fill="#b85c30" opacity=".95" transform="rotate(180 250 250)"/>
-    <!-- SW 225° hard --> <circle cx="250" cy="30" r="6" fill="#b85c30" opacity=".95" transform="rotate(225 250 250)"/>
-    <!-- W  270°--> <circle cx="250" cy="30" r="4.5" fill="#5db845" opacity=".85" transform="rotate(270 250 250)"/>
-    <!-- NW 315°--> <circle cx="250" cy="30" r="3"   fill="#5db845" opacity=".55" transform="rotate(315 250 250)"/>
-    <!-- legend -->
-    <circle cx="350" cy="410" r="5" fill="#5db845" opacity=".85"/>
-    <text x="360" y="414" font-family="Raleway,sans-serif" font-size="9" fill="#7fa868">грунтовые тропы</text>
-    <circle cx="350" cy="428" r="5" fill="#c8a040" opacity=".9"/>
-    <text x="360" y="432" font-family="Raleway,sans-serif" font-size="9" fill="#7fa868">потеря GPS</text>
-    <circle cx="350" cy="446" r="5" fill="#b85c30" opacity=".95"/>
-    <text x="360" y="450" font-family="Raleway,sans-serif" font-size="9" fill="#7fa868">сложный участок</text>
+    <text x="250" y="13"  text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" fill="#c6e85c" opacity=".85" font-weight="600">С</text>
+    <text x="250" y="497" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" fill="#c6e85c" opacity=".85" font-weight="600">Ю</text>
+    <text x="9"   y="255" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" fill="#c6e85c" opacity=".85" font-weight="600">З</text>
+    <text x="491" y="255" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" fill="#c6e85c" opacity=".85" font-weight="600">В</text>
+    <text x="250" y="245" text-anchor="middle" font-family="'Fraunces',serif" font-size="26" fill="#f0e8d6" opacity=".88" font-weight="300">МОСКВА</text>
+    <text x="250" y="264" text-anchor="middle" font-family="Figtree,sans-serif" font-size="8"  fill="#c6e85c" opacity=".65" letter-spacing="4">ЗКМ</text>
+    <circle cx="250" cy="30" r="4.5" fill="#c6e85c" opacity=".85"/>
+    <circle cx="250" cy="30" r="3"   fill="#c6e85c" opacity=".5"  transform="rotate(45 250 250)"/>
+    <circle cx="250" cy="30" r="4.5" fill="#c6e85c" opacity=".85" transform="rotate(90 250 250)"/>
+    <circle cx="250" cy="30" r="5"   fill="#d4a853" opacity=".9"  transform="rotate(130 250 250)"/>
+    <circle cx="250" cy="30" r="6"   fill="#c06040" opacity=".95" transform="rotate(180 250 250)"/>
+    <circle cx="250" cy="30" r="6"   fill="#c06040" opacity=".95" transform="rotate(225 250 250)"/>
+    <circle cx="250" cy="30" r="4.5" fill="#c6e85c" opacity=".85" transform="rotate(270 250 250)"/>
+    <circle cx="250" cy="30" r="3"   fill="#c6e85c" opacity=".55" transform="rotate(315 250 250)"/>
   </svg>
 
-  <div class="scroll-hint">
-    <span>Далее</span>
-    <div class="scroll-line"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Неофициальный маршрут · Москва · ЗКМ</p>
+    <h1 class="hero-title">Зелёное<br><em>Кольцо</em><br>Москвы</h1>
+    <p class="hero-sub">Велосипедный маршрут сквозь лесопарки, грунты и зелёную тишину городской природы — другая Москва, которую не видно из окна метро</p>
+    <div class="hero-pills">
+      <span class="pill pill-lime">Gravel / MTB</span>
+      <span class="pill pill-amber">~178 км</span>
+      <span class="pill pill-ghost">360° вокруг города</span>
+      <span class="pill pill-ghost">3× пройдено</span>
+    </div>
   </div>
-</section>
+</div>
 
-<div class="divider"></div>
-
-<!-- ═══════════════ ABOUT ═══════════════ -->
-<div class="container">
-  <p class="eyebrow">О маршруте</p>
-  <div class="about-grid">
-    <div class="about-text">
+<!-- ABOUT + STATS -->
+<div class="wrap">
+  <div class="section">
+    <p class="sec-label">О маршруте</p>
+    <h2 class="sec-title">Что такое ЗКМ</h2>
+    <div class="prose">
       <p>Зелёное кольцо Москвы — неофициальный велосипедный маршрут, проходящий через лесопарки, природные территории и зелёные коридоры на периферии города. Это не парадный МКАД, а совсем другая Москва — та, которую не видно из окна метро.</p>
       <p>Кольцо длиной около 178–180 км соединяет десятки парков от Химок на севере до Бутово на юге. По пути встречаются и асфальтовые аллеи, и лесные грунтовки, и откровенное бездорожье. Маршрут для проверки себя и для того, чтобы увидеть зелёную Москву.</p>
-      <p>За прохождение ЗКМ организаторы вручают медаль и грамоту: <strong style="color:var(--gold)">золото</strong> — за полное кольцо в один день, <strong style="color:#b0b8c8">серебро</strong> — за кольцо в два захода. Подробности в группе ВКонтакте <a href="https://vk.com/mostrail" target="_blank" style="color:var(--accent);text-decoration:none">@mostrail</a>.</p>
+      <p>За прохождение ЗКМ организаторы вручают медаль и грамоту: <strong style="color:var(--amber2)">золото</strong> — за полное кольцо в один день, <strong style="color:#b0b8c8">серебро</strong> — за кольцо в два захода. Подробности в группе ВКонтакте <a href="https://vk.com/mostrail" target="_blank" style="color:var(--lime);text-decoration:underline">@mostrail</a>.</p>
       <blockquote class="pull">
         Останавливаться снимать красоту — значит никогда не пройти маршрут.
       </blockquote>
     </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-val">178<span class="stat-unit">км</span></div>
-        <div class="stat-lbl">Длина маршрута</div>
+
+    <div class="stats-grid" style="margin-top:28px">
+      <div class="stat-cell">
+        <div class="stat-ico">⟷</div>
+        <div class="stat-val">~178<span class="stat-unit"> км</span></div>
+        <div class="stat-lbl">длина маршрута</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-cell">
+        <div class="stat-ico">↺</div>
         <div class="stat-val">360<span class="stat-unit">°</span></div>
-        <div class="stat-lbl">Полное кольцо</div>
+        <div class="stat-lbl">полное кольцо</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-val" style="font-size:36px">3×</div>
-        <div class="stat-lbl">Пройдено мной</div>
+      <div class="stat-cell">
+        <div class="stat-ico">🏆</div>
+        <div class="stat-val">3<span class="stat-unit">×</span></div>
+        <div class="stat-lbl">пройдено мной</div>
       </div>
-      <div class="stat-card" style="border-color:rgba(200,160,64,.35);grid-column:span 2">
-        <div style="display:flex;gap:2rem;align-items:flex-end">
-          <div>
-            <div class="stat-val" style="color:var(--gold)">2×</div>
-            <div class="stat-lbl" style="color:var(--gold)">🥇 Золото — кольцо за 1 день</div>
+      <div class="stat-cell">
+        <div class="stat-ico">⏱</div>
+        <div class="stat-val">10:54<span class="stat-unit"> ч</span></div>
+        <div class="stat-lbl">лучший результат</div>
+      </div>
+      <div class="stat-cell medals">
+        <div class="medal-item gold">
+          <div class="medal-val">2×</div>
+          <div class="medal-lbl">🥇 Золото</div>
+          <div class="medal-lbl">кольцо за 1 день</div>
+        </div>
+        <div class="medal-item silver">
+          <div class="medal-val">1×</div>
+          <div class="medal-lbl">🥈 Серебро</div>
+          <div class="medal-lbl">кольцо за 2 захода</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHALLENGES -->
+  <div class="section">
+    <p class="sec-label">Важные особенности</p>
+    <h2 class="sec-title">Что нужно знать</h2>
+    <div class="challenges-grid">
+      <div class="chal-card red">
+        <div class="chal-icon">🌳</div>
+        <div class="chal-title">Юг и юго-запад</div>
+        <p class="chal-text">Самый тяжёлый участок маршрута. «Дикие» парки, грунтово-грязевые дорожки, плохо обслуживаемые тропы — средняя скорость резко падает. Это не загородный велотрек, а настоящий офф-роад внутри города.</p>
+      </div>
+      <div class="chal-card amber">
+        <div class="chal-icon">📡</div>
+        <div class="chal-title">Потеря GPS</div>
+        <p class="chal-text">На юго-востоке вдоль Москвы-реки (на обоих берегах) GPS стабильно теряется. Трек «плывёт» или пропадает совсем. Будьте готовы ориентироваться без навигации или сверяться с картой.</p>
+      </div>
+      <div class="chal-card green">
+        <div class="chal-icon">📸</div>
+        <div class="chal-title">Ловушка красоты</div>
+        <p class="chal-text">Маршрут проходит через удивительные места, которых не ожидаешь увидеть в городе. Каждый раз хочется остановиться и сфотографировать. Помни: это против тебя. Выбор за тобой.</p>
+      </div>
+      <div class="chal-card green">
+        <div class="chal-icon">🚴</div>
+        <div class="chal-title">Гравел или МТБ</div>
+        <p class="chal-text">Шоссейник справится не везде. Грунтовые секции на юге требуют минимального клиренса и уверенности на мокрой почве. Гравел или МТБ — оптимальный выбор для полного прохождения.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOURS HISTORY -->
+  <div class="section">
+    <p class="sec-label">Мои заезды</p>
+    <h2 class="sec-title">История прохождений</h2>
+    <div class="tours-grid">
+
+      <div class="tour-card">
+        <img class="tour-img"
+          src="https://d2exd72xrrp1s7.cloudfront.net/www/1v/1v9f407k735k510rc027u8ewlu5g54b8f6-p608246487-full/197ff4cc7fc?width=768&height=576&crop=true"
+          alt="Зелёное кольцо Москвы — соло по часовой" loading="lazy"
+          onerror="this.style.display='none'">
+        <div class="tour-body">
+          <span class="badge badge-green">Соло · По часовой</span>&nbsp;<span class="badge badge-gold">🥇 Золото</span>
+          <div class="tour-name">Зелёное кольцо Москвы</div>
+          <div class="tour-stats">
+            <span class="tour-stat"><strong>178 км</strong></span>
+            <span class="tour-stat"><strong>10 ч 54 м</strong></span>
+            <span class="tour-stat">Gravel</span>
           </div>
-          <div>
-            <div class="stat-val" style="color:#b0b8c8;font-size:38px">1×</div>
-            <div class="stat-lbl" style="color:#b0b8c8">🥈 Серебро — кольцо за 2 захода</div>
+          <div class="tour-links">
+            <a class="tlink" href="https://www.komoot.com/tour/2398442464" target="_blank">Трек →</a>
+            <a class="tlink sec" href="https://www.komoot.com/tour/2398442464/gallery" target="_blank">Фотоотчёт</a>
           </div>
         </div>
       </div>
+
+      <div class="tour-card">
+        <img class="tour-img"
+          src="https://d2exd72xrrp1s7.cloudfront.net/www/1m/1mcnxhh0mg4n61ncknj4ot4v7f5hhyvq7b-p625479112-full/198af5afdb8?width=768&height=576&crop=true"
+          alt="ЗКМ против часовой — вдвоём" loading="lazy"
+          onerror="this.style.display='none'">
+        <div class="tour-body">
+          <span class="badge badge-gold">Вдвоём · Против часовой</span>&nbsp;<span class="badge badge-gold">🥇 Золото</span>
+          <div class="tour-name">ЗКМ неоф. против часовой</div>
+          <div class="tour-stats">
+            <span class="tour-stat"><strong>179 км</strong></span>
+            <span class="tour-stat"><strong>14 ч 22 м</strong></span>
+            <span class="tour-stat">Gravel</span>
+          </div>
+          <div class="tour-links">
+            <a class="tlink" href="https://www.komoot.com/tour/2497499731" target="_blank">Трек →</a>
+            <a class="tlink sec" href="https://www.komoot.com/tour/2497499731/gallery" target="_blank">Фотоотчёт</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card">
+        <img class="tour-img"
+          src="https://d2exd72xrrp1s7.cloudfront.net/www/15/151pis6qfdava1naaltmhfcjey5gf1t39d-p611587871-full/198231703c4?width=768&height=576&crop=true"
+          alt="ЗКМ часть 1" loading="lazy"
+          onerror="this.style.display='none'">
+        <div class="tour-body">
+          <span class="badge badge-rust">Часть 1 из 2</span>&nbsp;<span class="badge badge-silver">🥈 Серебро</span>
+          <div class="tour-name">ЗКМ — первая половина</div>
+          <div class="tour-stats">
+            <span class="tour-stat"><strong>74,8 км</strong></span>
+            <span class="tour-stat"><strong>6 ч 38 м</strong></span>
+            <span class="tour-stat">Road</span>
+          </div>
+          <div class="tour-links">
+            <a class="tlink" href="https://www.komoot.com/tour/2418207948" target="_blank">Трек →</a>
+            <a class="tlink sec" href="https://www.komoot.com/tour/2418207948/gallery" target="_blank">Фотоотчёт</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card">
+        <img class="tour-img"
+          src="https://d2exd72xrrp1s7.cloudfront.net/www/1d/1do79b2wmglqh89rseaxftkx55snig695-p716291703-full/19e568b62b7?width=768&height=576&crop=true"
+          alt="ЗКМ часть 2 — с Ниной" loading="lazy"
+          onerror="this.style.display='none'">
+        <div class="tour-body">
+          <span class="badge badge-rust">Часть 2 из 2</span>&nbsp;<span class="badge badge-silver">🥈 Серебро</span>
+          <div class="tour-name">Вторая половинка ЗКМ — с Ниной</div>
+          <div class="tour-stats">
+            <span class="tour-stat"><strong>115 км</strong></span>
+            <span class="tour-stat"><strong>9 ч 58 м</strong></span>
+            <span class="tour-stat">Gravel</span>
+          </div>
+          <div class="tour-links">
+            <a class="tlink" href="https://www.komoot.com/tour/2977580114" target="_blank">Трек →</a>
+            <a class="tlink sec" href="https://www.komoot.com/tour/2977580114/gallery" target="_blank">Фотоотчёт</a>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
+
+  <!-- MEDAL CTA -->
+  <div class="section">
+    <div class="medal-cta-section">
+      <p class="sec-label">Хочешь пройти ЗКМ?</p>
+      <h2 class="sec-title">Зафиксируй прохождение — получи медаль</h2>
+      <p>За прохождение полного кольца организаторы вручают медаль и именную грамоту. <strong style="color:var(--amber2)">Золото</strong> — полное кольцо за один день, <strong style="color:#b0b8c8">серебро</strong> — за два захода. Все условия участия и форма подачи трека — в группе ВКонтакте.</p>
+      <a class="btn-gold" href="https://vk.com/mostrail" target="_blank">Группа ВКонтакте ↗</a>
+    </div>
+    <a class="btn-secondary" href="index.html" onclick="if(history.length>1){history.back();return false;}">
+      ← Вернуться в Велоатлас
+    </a>
   </div>
 </div>
 
-<div class="divider"></div>
-
-<!-- ═══════════════ CHALLENGES ═══════════════ -->
-<div class="container">
-  <p class="eyebrow">Важные особенности</p>
-  <h2 class="section-title">Что нужно знать</h2>
-  <div class="challenges-grid">
-    <div class="chal-card red">
-      <div class="chal-icon">🌳</div>
-      <h3 class="chal-title">Юг и юго-запад</h3>
-      <p class="chal-text">Самый тяжёлый участок маршрута. «Дикие» парки, грунтово-грязевые дорожки, плохо обслуживаемые тропы — средняя скорость резко падает. Это не загородный велотрек, а настоящий офф-роад внутри города.</p>
-    </div>
-    <div class="chal-card amber">
-      <div class="chal-icon">📡</div>
-      <h3 class="chal-title">Потеря GPS</h3>
-      <p class="chal-text">На юго-востоке вдоль Москвы-реки (на обоих берегах) GPS стабильно теряется. Трек «плывёт» или пропадает совсем. Будьте готовы ориентироваться без навигации или сверяться с картой.</p>
-    </div>
-    <div class="chal-card green">
-      <div class="chal-icon">📸</div>
-      <h3 class="chal-title">Ловушка красоты</h3>
-      <p class="chal-text">Маршрут проходит через удивительные места, которых не ожидаешь увидеть в городе. Каждый раз хочется остановиться и сфотографировать. Помни: это против тебя. Выбор за тобой.</p>
-    </div>
-    <div class="chal-card green">
-      <div class="chal-icon">🚴</div>
-      <h3 class="chal-title">Гравел или МТБ</h3>
-      <p class="chal-text">Шоссейник справится не везде. Грунтовые секции на юге требуют минимального клиренса и уверенности на мокрой почве. Гравел или МТБ — оптимальный выбор для полного прохождения.</p>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- ═══════════════ TOURS ═══════════════ -->
-<div class="container">
-  <p class="eyebrow">Мои заезды</p>
-  <h2 class="section-title">История прохождений</h2>
-  <div class="tours-grid">
-
-    <!-- 1: solo clockwise -->
-    <div class="tour-card">
-      <img class="tour-img"
-        src="https://d2exd72xrrp1s7.cloudfront.net/www/1v/1v9f407k735k510rc027u8ewlu5g54b8f6-p608246487-full/197ff4cc7fc?width=768&height=576&crop=true"
-        alt="Зелёное кольцо Москвы — соло по часовой"
-        onerror="this.style.minHeight='180px';this.style.background='#1d2f1d'">
-      <div class="tour-body">
-        <span class="badge badge-green">Соло · По часовой</span>
-        <span class="badge" style="background:rgba(200,160,64,.18);color:var(--gold);margin-left:4px">🥇 Золото</span>
-        <h3 class="tour-name">Зелёное кольцо Москвы</h3>
-        <div class="tour-stats">
-          <span class="tour-stat"><strong>178 км</strong></span>
-          <span class="tour-stat"><strong>10 ч 54 м</strong></span>
-          <span class="tour-stat">Gravel</span>
-        </div>
-        <div class="tour-links">
-          <a class="tlink" href="https://www.komoot.com/tour/2398442464" target="_blank">Трек →</a>
-          <a class="tlink sec" href="https://www.komoot.com/tour/2398442464/gallery" target="_blank">Фотоотчёт</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2: with friend counterclockwise -->
-    <div class="tour-card">
-      <img class="tour-img"
-        src="https://d2exd72xrrp1s7.cloudfront.net/www/1m/1mcnxhh0mg4n61ncknj4ot4v7f5hhyvq7b-p625479112-full/198af5afdb8?width=768&height=576&crop=true"
-        alt="ЗКМ против часовой — вдвоём"
-        onerror="this.style.minHeight='180px';this.style.background='#1d2f1d'">
-      <div class="tour-body">
-        <span class="badge badge-gold">Вдвоём · Против часовой</span>
-        <span class="badge" style="background:rgba(200,160,64,.18);color:var(--gold);margin-left:4px">🥇 Золото</span>
-        <h3 class="tour-name">ЗКМ неоф. против часовой</h3>
-        <div class="tour-stats">
-          <span class="tour-stat"><strong>179 км</strong></span>
-          <span class="tour-stat"><strong>14 ч 22 м</strong></span>
-          <span class="tour-stat">Gravel</span>
-        </div>
-        <div class="tour-links">
-          <a class="tlink" href="https://www.komoot.com/tour/2497499731" target="_blank">Трек →</a>
-          <a class="tlink sec" href="https://www.komoot.com/tour/2497499731/gallery" target="_blank">Фотоотчёт</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3: part 1 of 2 -->
-    <div class="tour-card">
-      <img class="tour-img"
-        src="https://d2exd72xrrp1s7.cloudfront.net/www/15/151pis6qfdava1naaltmhfcjey5gf1t39d-p611587871-full/198231703c4?width=768&height=576&crop=true"
-        alt="ЗКМ часть 1"
-        onerror="this.style.minHeight='180px';this.style.background='#1d2f1d'">
-      <div class="tour-body">
-        <span class="badge badge-rust">Часть 1 из 2</span>
-        <span class="badge" style="background:rgba(176,184,200,.12);color:#b0b8c8;margin-left:4px">🥈 Серебро</span>
-        <h3 class="tour-name">ЗКМ — первая половина</h3>
-        <div class="tour-stats">
-          <span class="tour-stat"><strong>74,8 км</strong></span>
-          <span class="tour-stat"><strong>6 ч 38 м</strong></span>
-          <span class="tour-stat">Road</span>
-        </div>
-        <div class="tour-links">
-          <a class="tlink" href="https://www.komoot.com/tour/2418207948" target="_blank">Трек →</a>
-          <a class="tlink sec" href="https://www.komoot.com/tour/2418207948/gallery" target="_blank">Фотоотчёт</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4: part 2 of 2 -->
-    <div class="tour-card">
-      <img class="tour-img"
-        src="https://d2exd72xrrp1s7.cloudfront.net/www/1d/1do79b2wmglqh89rseaxftkx55snig695-p716291703-full/19e568b62b7?width=768&height=576&crop=true"
-        alt="ЗКМ часть 2 — с Ниной"
-        onerror="this.style.minHeight='180px';this.style.background='#1d2f1d'">
-      <div class="tour-body">
-        <span class="badge badge-rust">Часть 2 из 2</span>
-        <span class="badge" style="background:rgba(176,184,200,.12);color:#b0b8c8;margin-left:4px">🥈 Серебро</span>
-        <h3 class="tour-name">Вторая половинка ЗКМ — с Ниной</h3>
-        <div class="tour-stats">
-          <span class="tour-stat"><strong>115 км</strong></span>
-          <span class="tour-stat"><strong>9 ч 58 м</strong></span>
-          <span class="tour-stat">Gravel</span>
-        </div>
-        <div class="tour-links">
-          <a class="tlink" href="https://www.komoot.com/tour/2977580114" target="_blank">Трек →</a>
-          <a class="tlink sec" href="https://www.komoot.com/tour/2977580114/gallery" target="_blank">Фотоотчёт</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════ MEDAL CTA ═══════════════ -->
-<div class="medal-wrap">
-  <div class="medal-inner">
-    <svg class="medal-ring-deco" viewBox="0 0 280 280" fill="none" aria-hidden="true">
-      <circle cx="140" cy="140" r="125" stroke="#5db845" stroke-width="2"/>
-      <circle cx="140" cy="140" r="95"  stroke="#5db845" stroke-width="1"/>
-      <circle cx="140" cy="140" r="65"  stroke="#5db845" stroke-width=".6"/>
-    </svg>
-    <div class="medal-content">
-      <p class="eyebrow">Хочешь пройти ЗКМ?</p>
-      <h2 class="section-title" style="font-size:clamp(26px,4vw,46px);margin-bottom:.8rem">
-        Зафиксируй прохождение —<br>получи медаль и грамоту
-      </h2>
-      <p style="font-size:16px;color:var(--muted);max-width:480px;line-height:1.8">
-        За прохождение полного кольца организаторы вручают медаль и именную грамоту. <strong style="color:var(--gold)">Золото</strong> — полное кольцо за один день, <strong style="color:#b0b8c8">серебро</strong> — за два захода. Все условия участия и форма подачи трека — в группе ВКонтакте.
-      </p>
-      <a class="medal-cta" href="https://vk.com/mostrail" target="_blank">
-        Группа ВКонтакте ↗
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════ FOOTER ═══════════════ -->
-<footer>
-  <span class="footer-logo">ЗКМ</span>
-  <span>
-    <a href="https://vk.com/mostrail" target="_blank">ВКонтакте @mostrail</a>
-    &nbsp;·&nbsp;
-    <a href="https://www.komoot.com/tour/2398442464" target="_blank">Komoot</a>
-  </span>
-  <span style="color:var(--bg3)"><!-- spacer --></span>
+<footer class="footer-line">
+  <span>~178 км · Москва · ЗКМ</span>
+  <span>Gravel / MTB</span>
 </footer>
 
 </body>

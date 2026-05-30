@@ -7,7 +7,7 @@
   <title>Велоатлас · маршруты одного дня</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:      #08130e;
@@ -18,6 +18,8 @@
       --ink2:    #a09585;
       --ink3:    #607060;
       --lime:    #c6e85c;
+      --blue:    #7ec8e3;
+      --blue2:   #b3dff0;
       --amber:   #d4a853;
       --amber2:  #e8c47a;
       --done:    #5ab87a;
@@ -36,452 +38,372 @@
     }
     a { color: inherit; text-decoration: none; }
 
-    /* ── GRID OVERLAY ── */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image:
         linear-gradient(rgba(240,232,214,.028) 1px, transparent 1px),
         linear-gradient(90deg, rgba(240,232,214,.028) 1px, transparent 1px);
       background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
 
     .page {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       max-width: 480px;
       margin: 0 auto;
       padding: 0 16px 56px;
     }
 
-    /* ── COVER ── */
-    .cover {
-      padding: 48px 0 40px;
-      border-bottom: 1px solid var(--line);
-    }
+    .cover { padding: 48px 0 36px; border-bottom: 1px solid var(--line); }
 
     .atlas-meta {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
-      margin-bottom: 36px;
+      margin-bottom: 32px;
     }
     .atlas-series {
-      font-family: 'Figtree', sans-serif;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .22em;
-      text-transform: uppercase;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .22em; text-transform: uppercase;
       color: var(--ink3);
     }
     .atlas-num {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 11px;
-      font-style: italic;
+      font-size: 11px; font-style: italic;
       color: var(--ink3);
       border: 1px solid var(--line);
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 4px 10px; border-radius: 20px;
     }
 
-    /* Decorative compass */
-    .compass-wrap {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 28px;
-    }
-    .compass {
-      width: 54px;
-      height: 54px;
-      opacity: .55;
-    }
+    .compass-wrap { display: flex; justify-content: center; margin-bottom: 24px; }
+    .compass { width: 54px; height: 54px; opacity: .55; }
 
     h1 {
       font-family: 'Fraunces', Georgia, serif;
       font-size: clamp(52px, 16vw, 74px);
-      font-weight: 900;
-      line-height: .88;
+      font-weight: 900; line-height: .88;
       letter-spacing: -.04em;
-      color: var(--ink);
-      text-align: center;
+      color: var(--ink); text-align: center;
       margin-bottom: 10px;
     }
-    h1 em {
-      font-style: italic;
-      font-weight: 300;
-      color: var(--lime);
-    }
+    h1 em { font-style: italic; font-weight: 300; color: var(--lime); }
 
     .cover-sub {
       text-align: center;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--ink3);
-      margin-bottom: 28px;
+      font-size: 13px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 24px;
     }
 
     .cover-rule {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
     }
-    .cover-rule::before,
-    .cover-rule::after {
-      content: '';
-      flex: 1;
-      height: 1px;
+    .cover-rule::before, .cover-rule::after {
+      content: ''; flex: 1; height: 1px;
       background: linear-gradient(90deg, transparent, var(--line) 50%, transparent);
     }
     .cover-rule-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--lime);
-      box-shadow: 0 0 14px var(--lime);
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--lime); box-shadow: 0 0 14px var(--lime);
     }
 
     .cover-tags {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
+      display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
     }
     .cover-tag {
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 11px; font-weight: 600;
       letter-spacing: .08em;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      color: var(--ink2);
+      padding: 6px 12px; border-radius: 999px;
+      border: 1px solid var(--line); color: var(--ink2);
     }
 
-    /* ── SECTION HEADER ── */
-    .section { padding-top: 40px; }
+    .atlas-totals {
+      display: flex; gap: 0;
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 14px; overflow: hidden;
+      margin-top: 24px;
+    }
+    .at-cell {
+      flex: 1; text-align: center;
+      padding: 14px 8px;
+      border-right: 1px solid var(--line);
+    }
+    .at-cell:last-child { border-right: none; }
+    .at-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px; font-weight: 700;
+      color: var(--lime); line-height: 1;
+    }
+    .at-lbl {
+      font-size: 9px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink3); margin-top: 4px;
+    }
 
+    .section { padding-top: 36px; }
     .section-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      display: flex; align-items: center;
+      gap: 10px; margin-bottom: 16px;
     }
     .section-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 7px 13px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 13px; border-radius: 999px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
     }
     .section-badge.done {
-      background: rgba(90,184,122,.15);
-      color: var(--done);
+      background: rgba(90,184,122,.15); color: var(--done);
       border: 1px solid rgba(90,184,122,.3);
     }
     .section-badge.dream {
-      background: rgba(212,168,83,.1);
-      color: var(--amber);
+      background: rgba(212,168,83,.1); color: var(--amber);
       border: 1px solid rgba(212,168,83,.25);
     }
-    .section-badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
+    .section-badge-dot { width: 6px; height: 6px; border-radius: 50%; }
     .done .section-badge-dot { background: var(--done); }
     .dream .section-badge-dot { background: var(--amber); }
-
     .section-count {
-      font-size: 11px;
-      color: var(--ink3);
-      font-weight: 500;
-      letter-spacing: .06em;
-      margin-left: auto;
+      font-size: 11px; color: var(--ink3);
+      font-weight: 500; letter-spacing: .06em; margin-left: auto;
     }
 
     h2 {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -.03em;
+      font-size: 28px; font-weight: 700;
+      line-height: 1.1; letter-spacing: -.03em;
       margin-bottom: 6px;
     }
     .section-desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--ink2);
-      margin-bottom: 20px;
+      font-size: 14px; line-height: 1.6;
+      color: var(--ink2); margin-bottom: 18px;
     }
 
-    /* ── ROUTE CARDS ── */
+    .filter-tabs {
+      display: flex; gap: 8px;
+      padding: 0 0 18px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .filter-tabs::-webkit-scrollbar { display: none; }
+    .filter-tab {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 999px;
+      font-family: 'Figtree', sans-serif;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      border: 1px solid var(--line);
+      background: transparent; color: var(--ink3);
+      cursor: pointer; transition: all .18s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 40px;
+    }
+    .filter-tab:active { transform: scale(.96); }
+    .filter-tab.active-all {
+      background: rgba(90,184,122,.15);
+      border-color: rgba(90,184,122,.4);
+      color: var(--done);
+    }
+    .filter-tab.active-gravel {
+      background: rgba(198,232,92,.12);
+      border-color: rgba(198,232,92,.35);
+      color: var(--lime);
+    }
+    .filter-tab.active-road {
+      background: rgba(126,200,227,.12);
+      border-color: rgba(126,200,227,.35);
+      color: var(--blue);
+    }
+    .filter-tab-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: currentColor; flex-shrink: 0;
+    }
+
     .routes { display: flex; flex-direction: column; gap: 14px; }
 
-    /* DONE card — full width, richer */
     .card-done {
-      position: relative;
-      border-radius: 24px;
+      position: relative; border-radius: 24px;
       overflow: hidden;
       border: 1px solid rgba(90,184,122,.25);
       background: var(--card);
       box-shadow: 0 2px 0 rgba(90,184,122,.2), 0 20px 50px rgba(0,0,0,.35);
     }
     .card-done:active { transform: scale(.988); }
+    .card-done.hidden { display: none; }
 
     .card-done .photo {
-      height: 200px;
-      background-size: cover;
-      background-position: center;
+      height: 196px; background-size: cover; background-position: center;
       position: relative;
     }
     .card-done .photo::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(8,19,14,.1) 0%, rgba(8,19,14,.7) 100%);
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(8,19,14,.08) 0%, rgba(8,19,14,.68) 100%);
     }
     .card-done .photo-stamp {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      z-index: 2;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
+      position: absolute; top: 14px; right: 14px; z-index: 2;
+      width: 48px; height: 48px; border-radius: 50%;
       background: var(--done);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       box-shadow: 0 0 0 3px rgba(90,184,122,.3), 0 4px 20px rgba(90,184,122,.4);
     }
     .card-done .photo-stamp svg {
-      width: 22px;
-      height: 22px;
-      stroke: #08130e;
-      fill: none;
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      width: 20px; height: 20px; stroke: #08130e;
+      fill: none; stroke-width: 2.5;
+      stroke-linecap: round; stroke-linejoin: round;
     }
 
-    .card-done .body {
-      padding: 18px 18px 20px;
+    .type-chip {
+      position: absolute; bottom: 12px; left: 14px; z-index: 2;
+      font-family: 'Figtree', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 4px 9px; border-radius: 999px;
     }
+    .type-chip.gravel {
+      background: rgba(198,232,92,.18);
+      border: 1px solid rgba(198,232,92,.4);
+      color: var(--lime);
+    }
+    .type-chip.road {
+      background: rgba(126,200,227,.16);
+      border: 1px solid rgba(126,200,227,.35);
+      color: var(--blue);
+    }
+    .type-chip.challenge {
+      background: rgba(212,168,83,.18);
+      border: 1px solid rgba(212,168,83,.38);
+      color: var(--amber2);
+    }
+
+    .card-done .body { padding: 18px 18px 20px; }
     .card-done .eyebrow {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--done);
-      margin-bottom: 6px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--done); margin-bottom: 6px;
     }
     .card-done h3 {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 26px;
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -.03em;
-      margin-bottom: 8px;
+      font-size: 26px; font-weight: 700;
+      line-height: 1.1; letter-spacing: -.03em; margin-bottom: 8px;
     }
-    .card-done h3 em {
-      font-style: italic;
-      font-weight: 300;
-      color: var(--ink2);
-    }
+    .card-done h3 em { font-style: italic; font-weight: 300; color: var(--ink2); }
     .card-done .blurb {
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--ink2);
-      margin-bottom: 16px;
+      font-size: 14px; line-height: 1.6; color: var(--ink2); margin-bottom: 16px;
     }
 
     .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 8px; margin-bottom: 16px;
     }
     .stat {
-      background: var(--bg2);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 10px 10px 8px;
+      background: var(--bg2); border: 1px solid var(--line);
+      border-radius: 12px; padding: 10px 10px 8px;
     }
     .stat-val {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--ink);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px; font-weight: 700;
+      line-height: 1; color: var(--ink);
     }
     .stat-unit {
-      font-family: 'Figtree', sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      color: var(--ink3);
-      margin-left: 1px;
+      font-size: 10px; font-weight: 400; color: var(--ink3); margin-left: 1px;
     }
     .stat-label {
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--ink3);
-      margin-top: 4px;
+      font-size: 9px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink3); margin-top: 4px;
     }
 
     .open-btn {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
-      padding: 13px 16px;
-      border-radius: 14px;
-      background: var(--done);
-      color: #08130e;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: .06em;
+      padding: 13px 16px; border-radius: 12px;
+      background: var(--done); color: #08130e;
+      font-size: 13px; font-weight: 700; letter-spacing: .06em;
     }
-    .open-btn .arr {
-      font-size: 16px;
-      line-height: 1;
-    }
+    .open-btn .arr { font-size: 16px; line-height: 1; }
 
-    /* DREAM cards — compact */
     .cards-dream { display: flex; flex-direction: column; gap: 12px; }
-
     .card-dream {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px;
-      border-radius: 20px;
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px; border-radius: 20px;
       background: var(--card);
-      border: 1px solid var(--line);
-      border-style: dashed;
-      transition: border-color .2s;
+      border: 1px dashed var(--line);
     }
     .card-dream:active { transform: scale(.988); }
 
     .card-dream-thumb {
-      width: 68px;
-      height: 68px;
-      border-radius: 14px;
-      background-size: cover;
-      background-position: center;
-      flex-shrink: 0;
-      position: relative;
-      overflow: hidden;
+      width: 68px; height: 68px; border-radius: 14px;
+      background-size: cover; background-position: center;
+      flex-shrink: 0; position: relative; overflow: hidden;
     }
     .card-dream-thumb::after {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: rgba(8,19,14,.35);
     }
 
     .card-dream-body { flex: 1; min-width: 0; }
     .card-dream-eyebrow {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 3px;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 3px;
     }
     .card-dream h3 {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 19px;
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -.02em;
-      margin-bottom: 4px;
+      font-size: 19px; font-weight: 700;
+      line-height: 1.1; letter-spacing: -.02em; margin-bottom: 4px;
     }
     .card-dream .blurb {
-      font-size: 13px;
-      line-height: 1.5;
-      color: var(--ink2);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 13px; line-height: 1.5; color: var(--ink2);
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
     }
-    .card-dream-meta {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
+    .card-dream-meta { display: flex; gap: 8px; margin-top: 8px; }
     .pill {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .04em;
-      padding: 3px 8px;
-      border-radius: 999px;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .04em; padding: 3px 8px; border-radius: 999px;
     }
     .pill.amber {
-      background: rgba(212,168,83,.13);
-      color: var(--amber2);
+      background: rgba(212,168,83,.13); color: var(--amber2);
       border: 1px solid rgba(212,168,83,.2);
     }
     .pill.ghost {
-      background: rgba(240,232,214,.06);
-      color: var(--ink2);
+      background: rgba(240,232,214,.06); color: var(--ink2);
       border: 1px solid var(--line);
     }
+    .card-dream-arr { color: var(--ink3); font-size: 18px; flex-shrink: 0; align-self: center; }
 
-    .card-dream-arr {
-      color: var(--ink3);
-      font-size: 18px;
-      flex-shrink: 0;
-      align-self: center;
-    }
-
-    /* ── FOOTER ── */
     .footer {
-      margin-top: 56px;
-      padding-top: 28px;
+      margin-top: 56px; padding-top: 28px;
       border-top: 1px solid var(--line2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
+      display: flex; align-items: center; justify-content: center; gap: 14px;
     }
-    .footer-rule {
-      flex: 1;
-      height: 1px;
-      background: var(--line2);
-    }
+    .footer-rule { flex: 1; height: 1px; background: var(--line2); }
     .footer-text {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--ink3);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--ink3);
     }
 
-    /* ── LOAD ANIMATION ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .cover         { animation: fadeUp .6s ease both; }
+    .cover          { animation: fadeUp .6s ease both; }
     .section:nth-of-type(1) { animation: fadeUp .6s .12s ease both; }
     .section:nth-of-type(2) { animation: fadeUp .6s .22s ease both; }
+
+    .no-results {
+      text-align: center; padding: 36px 0;
+      font-size: 14px; color: var(--ink3);
+      display: none;
+    }
+    .no-results.visible { display: block; }
   </style>
 </head>
 <body>
 <main class="page">
 
-  <!-- ── COVER ── -->
   <div class="cover">
     <div class="atlas-meta">
       <span class="atlas-series">Личный атлас</span>
@@ -515,29 +437,58 @@
       <span class="cover-tag">Сочи</span>
       <span class="cover-tag">Абхазия</span>
     </div>
+
+    <div class="atlas-totals">
+      <div class="at-cell">
+        <div class="at-val">501</div>
+        <div class="at-lbl">км проехано</div>
+      </div>
+      <div class="at-cell">
+        <div class="at-val">5</div>
+        <div class="at-lbl">маршрутов</div>
+      </div>
+      <div class="at-cell">
+        <div class="at-val">4 / 1</div>
+        <div class="at-lbl">gravel / шоссе</div>
+      </div>
+    </div>
   </div>
 
-  <!-- ── SECTION 1: ПРОЕХАНО ── -->
   <section class="section">
     <div class="section-label">
       <div class="section-badge done">
         <span class="section-badge-dot"></span>
         Проехано
       </div>
-      <span class="section-count">5 маршрутов</span>
+      <span class="section-count" id="route-count">5 маршрутов</span>
     </div>
     <h2>Рекомендую сам</h2>
     <p class="section-desc">Лично проверенные маршруты — с заметками, треком и честной оценкой дороги.</p>
 
-    <div class="routes">
-      <a class="card-done" href="barvikha-lokhin.html" aria-label="Открыть маршрут Барвиха · Лохин остров">
+    <div class="filter-tabs" role="tablist">
+      <button class="filter-tab active-all" data-filter="all" role="tab">
+        <span class="filter-tab-dot"></span>Все
+      </button>
+      <button class="filter-tab" data-filter="gravel" role="tab">
+        <span class="filter-tab-dot"></span>Gravel / MTB
+      </button>
+      <button class="filter-tab" data-filter="road" role="tab">
+        <span class="filter-tab-dot"></span>Шоссе
+      </button>
+    </div>
+
+    <div class="routes" id="routes-list">
+
+      <a class="card-done" href="barvikha-lokhin.html" data-type="gravel"
+         aria-label="Открыть маршрут Барвиха · Лохин остров">
         <div class="photo" style="background-image:url('https://d2exd72xrrp1s7.cloudfront.net/www/17/174wtma70qb061iek576cn4bdb5sormrjt-p717237283-full/19e5b1160a7?width=1920&crop=false&q=70');background-position:center 60%">
           <div class="photo-stamp">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
+          <div class="type-chip gravel">Gravel</div>
         </div>
         <div class="body">
-          <div class="eyebrow">Gravel · Москва и Подмосковье</div>
+          <div class="eyebrow">Москва · Подмосковье · Рублёвка</div>
           <h3>Барвиха <em>или на Лохин остров</em></h3>
           <p class="blurb">Тихий асфальт, грунтовки вдоль Москвы-реки, дворцы Рублёвки и необитаемый остров-заповедник. Почти сотня без пробок и суеты.</p>
           <div class="stats-row">
@@ -554,20 +505,20 @@
               <div class="stat-label">в движении</div>
             </div>
           </div>
-          <div class="open-btn">
-            <span>Открыть маршрут</span>
-            <span class="arr">→</span>
-          </div>
+          <div class="open-btn"><span>Открыть маршрут</span><span class="arr">→</span></div>
         </div>
       </a>
-      <a class="card-done" href="moskva-naberezhnie.html" aria-label="Открыть маршрут По набережным на юг Москвы">
+
+      <a class="card-done" href="moskva-naberezhnie.html" data-type="road"
+         aria-label="Открыть маршрут По набережным на юг Москвы">
         <div class="photo" style="background-image:url('https://d2exd72xrrp1s7.cloudfront.net/www/1o/1obzv1kdpatw015ne9qraet9qr5rt7odav-p705494721-full/19de958151f?width=1920&crop=false&q=70');background-position:center 55%">
           <div class="photo-stamp">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
+          <div class="type-chip road">Шоссе</div>
         </div>
         <div class="body">
-          <div class="eyebrow">Шоссе · Москва · набережные</div>
+          <div class="eyebrow">Москва · набережные · юг</div>
           <h3>По набережным <em>на юг Москвы</em></h3>
           <p class="blurb">Центр — МКАД и обратно по благоустроенным набережным Москвы-реки. Быстро, накатисто, почти без машин — мимо Южного речного вокзала, Братеевского парка и затона.</p>
           <div class="stats-row">
@@ -584,21 +535,20 @@
               <div class="stat-label">в движении</div>
             </div>
           </div>
-          <div class="open-btn">
-            <span>Открыть маршрут</span>
-            <span class="arr">→</span>
-          </div>
+          <div class="open-btn"><span>Открыть маршрут</span><span class="arr">→</span></div>
         </div>
       </a>
 
-      <a class="card-done" href="zkm-zeljonoe-kolco-moskvy.html" aria-label="Открыть маршрут Зелёное кольцо Москвы">
+      <a class="card-done" href="zkm-zeljonoe-kolco-moskvy.html" data-type="gravel"
+         aria-label="Открыть маршрут Зелёное кольцо Москвы">
         <div class="photo" style="background-image:url('https://d2exd72xrrp1s7.cloudfront.net/www/1v/1v9f407k735k510rc027u8ewlu5g54b8f6-p608246487-full/197ff4cc7fc?width=768&height=576&crop=true');background-position:center 50%">
           <div class="photo-stamp">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
+          <div class="type-chip challenge">Gravel · 3×</div>
         </div>
         <div class="body">
-          <div class="eyebrow">Gravel · Москва · лесопарки · ЗКМ</div>
+          <div class="eyebrow">Москва · все лесопарки · ЗКМ</div>
           <h3>Зелёное <em>кольцо Москвы</em></h3>
           <p class="blurb">~178 км неофициального кольца через все московские лесопарки. Дикие грунтовки на юге, потеря GPS у Москвы-реки и памятная медаль за финиш. Пройдено 3 раза: 2× золото, 1× серебро.</p>
           <div class="stats-row">
@@ -615,20 +565,20 @@
               <div class="stat-label">пройдено</div>
             </div>
           </div>
-          <div class="open-btn">
-            <span>Открыть маршрут</span>
-            <span class="arr">→</span>
-          </div>
+          <div class="open-btn"><span>Открыть маршрут</span><span class="arr">→</span></div>
         </div>
       </a>
-      <a class="card-done" href="route-chekhov-melikhovo-serpukhov.html" aria-label="Открыть маршрут Чехов — Мелихово — Монастырь — Серпухов">
+
+      <a class="card-done" href="route-chekhov-melikhovo-serpukhov.html" data-type="gravel"
+         aria-label="Открыть маршрут Чехов — Мелихово — Монастырь — Серпухов">
         <div class="photo" style="background-image:url('https://d2exd72xrrp1s7.cloudfront.net/www/3o/3o9r6mcc4or91wf5jpc88arpt5er1iahp-p590614276-full/1974ad0e3fd?width=1920&crop=false&q=70');background-position:center 50%">
           <div class="photo-stamp">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
+          <div class="type-chip gravel">Gravel</div>
         </div>
         <div class="body">
-          <div class="eyebrow">Gravel · Чехов · Серпухов · медитация</div>
+          <div class="eyebrow">Чехов · Серпухов · лесные грунты</div>
           <h3>Чехов — Мелихово — <em>Монастырь — Серпухов</em></h3>
           <p class="blurb">Тихий маршрут по лесным грунтовкам. Усадьба, где Чехов писал «Чайку». Монастырь XVI века над Лопасней. Минимум машин — максимум воздуха.</p>
           <div class="stats-row">
@@ -645,25 +595,25 @@
               <div class="stat-label">в движении</div>
             </div>
           </div>
-          <div class="open-btn">
-            <span>Открыть маршрут</span>
-            <span class="arr">→</span>
-          </div>
+          <div class="open-btn"><span>Открыть маршрут</span><span class="arr">→</span></div>
         </div>
       </a>
-      <a class="card-done" href="route-po-vodopadam.html" aria-label="Открыть маршрут По водопадам Калужского пограничья">
+
+      <a class="card-done" href="route-po-vodopadam.html" data-type="gravel"
+         aria-label="Открыть маршрут По водопадам Калужского пограничья">
         <div class="photo" style="background-image:url('https://lh3.googleusercontent.com/pw/AP1GczPVIxN7nnDpZnPyQIoulbFN7rGGzAsbaMxSE9hsncndk2HpCHM--H5ygORrdcdPhDYzyCmuPjA4yLxaPS6aho4dPZHMEKQ-h8zDkVlG6XaCJw2gy0jI0iMSrcwNJXRP8wwh2gEMZ-H_SVW-fpRx4nrb8w=w1284-h963-s-no-gm?authuser=0');background-position:center 50%">
           <div class="photo-stamp">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
+          <div class="type-chip gravel">Gravel</div>
         </div>
         <div class="body">
-          <div class="eyebrow">Gravel · Серпухов · Калужская область</div>
+          <div class="eyebrow">Серпухов · Калужская область · трейлы</div>
           <h3>По водопадам <em>Калужского пограничья</em></h3>
           <p class="blurb">Кольцо через Протвино, Юрятино и Кременки. Мельница купцов Бобровых, два водопада, усадьбы Дашковой и Вяземских, подземный ход и сказочные трейлы вдоль Нары и Протвы.</p>
           <div class="stats-row">
             <div class="stat">
-              <div class="stat-val">73.9<span class="stat-unit">км</span></div>
+              <div class="stat-val">73,9<span class="stat-unit">км</span></div>
               <div class="stat-label">дистанция</div>
             </div>
             <div class="stat">
@@ -675,14 +625,14 @@
               <div class="stat-label">в движении</div>
             </div>
           </div>
-          <div class="open-btn">
-            <span>Открыть маршрут</span>
-            <span class="arr">→</span>
-          </div>
+          <div class="open-btn"><span>Открыть маршрут</span><span class="arr">→</span></div>
         </div>
       </a>
+
     </div>
+    <div class="no-results" id="no-results">Маршрутов этого типа пока нет</div>
   </section>
+
   <section class="section">
     <div class="section-label">
       <div class="section-badge dream">
@@ -713,7 +663,7 @@
       <a class="card-dream" href="deepseek_html_20260501_7190b3.html" aria-label="Королевская дорога">
         <div class="card-dream-thumb" style="background-image:url('https://images.pexels.com/photos/1365421/pexels-photo-1365421.jpeg?auto=compress&cs=tinysrgb&w=400')"></div>
         <div class="card-dream-body">
-          <div class="card-dream-eyebrow">Сочи · 3 дня</div>
+          <div class="card-dream-eyebrow">Сочи · 3 дня · шоссе</div>
           <h3>Королевская дорога</h3>
           <p class="blurb">Красная Поляна, тоннели Ахцу, серпантины, Прометей, финиш у моря.</p>
           <div class="card-dream-meta">
@@ -748,5 +698,32 @@
   </footer>
 
 </main>
+
+<script>
+  const tabs    = document.querySelectorAll('.filter-tab');
+  const cards   = document.querySelectorAll('.card-done');
+  const counter = document.getElementById('route-count');
+  const noRes   = document.getElementById('no-results');
+  const cls     = { all: 'active-all', gravel: 'active-gravel', road: 'active-road' };
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const filter = tab.dataset.filter;
+      tabs.forEach(t => { t.classList.remove('active-all','active-gravel','active-road'); });
+      tab.classList.add(cls[filter]);
+
+      let n = 0;
+      cards.forEach(c => {
+        const show = filter === 'all' || c.dataset.type === filter;
+        c.classList.toggle('hidden', !show);
+        if (show) n++;
+      });
+
+      const word = n === 1 ? 'маршрут' : n < 5 ? 'маршрута' : 'маршрутов';
+      counter.textContent = n + ' ' + word;
+      noRes.classList.toggle('visible', n === 0);
+    });
+  });
+</script>
 </body>
 </html>

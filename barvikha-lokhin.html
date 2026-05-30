@@ -1,350 +1,456 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Барвиха · Лохин остров — веломаршрут</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Mulish:wght@300;400;600&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08130e">
+  <title>Барвиха · Лохин остров — Gravel · 92 км · Велоатлас</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #08130e;
+      --bg2:    #0e1d16;
+      --card:   #111e18;
+      --card2:  #162619;
+      --ink:    #f0e8d6;
+      --ink2:   #a09585;
+      --ink3:   #607060;
+      --lime:   #c6e85c;
+      --lime2:  #daf282;
+      --amber:  #d4a853;
+      --amber2: #e8c47a;
+      --done:   #5ab87a;
+      --line:   rgba(240,232,214,.1);
+      --line2:  rgba(240,232,214,.06);
+      --r: 6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Figtree', system-ui, sans-serif;
+      font-size: 16px; line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(240,232,214,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,232,214,.028) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none; z-index: 0;
+    }
 
-:root {
-  --ink:    #f0ebe0;
-  --ink2:   #b8b0a0;
-  --bg:     #0d1a10;
-  --bg2:    #152018;
-  --bg3:    #1d2e21;
-  --gold:   #c9a55a;
-  --gold2:  #e4c07a;
-  --green:  #4a7c3f;
-  --border: rgba(200,185,150,0.18);
-  --r:      12px;
-}
+    /* ── TOPBAR ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(8,19,14,.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 20px;
+      display: flex; align-items: center; gap: 12px;
+      height: 52px;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--ink3); padding: 6px 0;
+      transition: color .2s;
+    }
+    .back-btn:hover { color: var(--lime); }
+    .back-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .topbar-sep { flex: 1; }
+    .topbar-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 13px; font-style: italic; color: var(--ink3);
+    }
 
-html { background: var(--bg); color: var(--ink); font-family: 'Mulish', sans-serif; font-weight: 300; }
-body { max-width: 480px; margin: 0 auto; padding-bottom: 3rem; }
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 90svh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 56px 20px 52px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://d2exd72xrrp1s7.cloudfront.net/www/17/174wtma70qb061iek576cn4bdb5sormrjt-p717237283-full/19e5b1160a7?width=1920&crop=false&q=70');
+      background-size: cover; background-position: center 60%;
+      animation: zoom 24s ease-in-out infinite alternate;
+    }
+    @keyframes zoom {
+      from { transform: scale(1.04); }
+      to   { transform: scale(1.11); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8,19,14,.96) 0%,
+        rgba(8,19,14,.58) 42%,
+        rgba(8,19,14,.15) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 640px;
+      animation: rise .9s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      font-weight: 900; line-height: .88;
+      letter-spacing: -.04em;
+      color: var(--ink); margin-bottom: 20px;
+    }
+    .hero-title em { font-style: italic; font-weight: 300; color: var(--lime2); }
+    .hero-sub {
+      font-size: clamp(.95rem, 2.5vw, 1.05rem);
+      color: rgba(240,232,214,.68);
+      max-width: 480px; line-height: 1.65;
+      margin-bottom: 26px;
+    }
+    .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .08em; padding: 5px 12px; border-radius: 999px;
+    }
+    .pill-lime {
+      background: rgba(198,232,92,.12);
+      border: 1px solid rgba(198,232,92,.3);
+      color: var(--lime);
+    }
+    .pill-amber {
+      background: rgba(212,168,83,.15);
+      border: 1px solid rgba(212,168,83,.3);
+      color: var(--amber2);
+    }
+    .pill-ghost { border: 1px solid var(--line); color: var(--ink3); }
 
-/* ── HERO ── */
-.hero {
-  position: relative;
-  padding: 3.5rem 1.5rem 2.5rem;
-  overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 10% 30%, rgba(74,124,63,0.22) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 90% 70%, rgba(201,165,90,0.12) 0%, transparent 60%);
-  pointer-events: none;
-}
-.hero-label {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 600; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--gold);
-  border: 1px solid rgba(201,165,90,0.35);
-  padding: 4px 10px; border-radius: 20px;
-  margin-bottom: 1.2rem;
-}
-.hero-label svg { width: 12px; height: 12px; fill: var(--gold); }
-h1 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 8vw, 2.6rem);
-  font-weight: 700; line-height: 1.15;
-  color: var(--ink);
-  margin-bottom: .6rem;
-}
-h1 em { font-style: italic; color: var(--gold2); }
-.hero-sub {
-  font-size: 15px; line-height: 1.65;
-  color: var(--ink2); max-width: 36ch;
-  margin-top: .5rem;
-}
-.divider {
-  width: 48px; height: 2px;
-  background: linear-gradient(90deg, var(--gold), transparent);
-  margin: 1.4rem 0;
-}
+    /* ── WRAPPER ── */
+    .wrap {
+      position: relative; z-index: 1;
+      max-width: 660px; margin: 0 auto; padding: 0 20px;
+    }
+    .section { padding: 56px 0; }
+    .section + .section { border-top: 1px solid var(--line2); }
 
-/* ── STATS ── */
-.stats { padding: 0 1.5rem 2rem; }
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-.stat {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 1rem 1.1rem;
-}
-.stat-label {
-  font-size: 10px; font-weight: 600;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 5px;
-}
-.stat-value {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.55rem; font-weight: 700;
-  color: var(--ink); line-height: 1.1;
-}
-.stat-unit {
-  font-family: 'Mulish', sans-serif;
-  font-size: 13px; font-weight: 400;
-  color: var(--ink2); margin-left: 3px;
-}
-.stat-wide {
-  grid-column: 1 / -1;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.stat-wide .stat-value { font-size: 1.2rem; }
+    .sec-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 12px;
+    }
+    .sec-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.65rem, 4vw, 2.3rem);
+      font-weight: 700; letter-spacing: -.03em;
+      color: var(--ink); margin-bottom: 22px; line-height: 1.08;
+    }
 
-/* ── SECTION ── */
-.section { padding: 0 1.5rem 2rem; }
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.25rem; font-weight: 700;
-  color: var(--ink); margin-bottom: 1rem;
-}
-.section-title span {
-  display: block;
-  width: 32px; height: 2px;
-  background: var(--gold);
-  margin-top: 6px;
-}
-.body-text {
-  font-size: 15px; line-height: 1.75;
-  color: var(--ink2);
-}
-.body-text p + p { margin-top: .8rem; }
+    /* ── STATS GRID ── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--r); overflow: hidden;
+    }
+    .stat-cell {
+      background: var(--card); padding: 22px 12px;
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+    }
+    .stat-cell.wide { grid-column: 1 / -1; padding: 18px; }
+    .stat-ico { font-size: 1.1rem; line-height: 1; }
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 700; color: var(--lime2); line-height: 1;
+    }
+    .stat-unit { font-size: .7rem; color: var(--ink3); text-transform: uppercase; letter-spacing: .07em; }
+    .stat-lbl  { font-size: .75rem; color: var(--ink3); margin-top: 1px; }
+    .stat-cell.wide .stat-val { font-size: 1.1rem; color: var(--ink2); }
 
-/* ── HIGHLIGHTS ── */
-.highlights { display: flex; flex-direction: column; gap: 10px; }
-.highlight {
-  display: flex; align-items: flex-start; gap: 12px;
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 1rem 1.1rem;
-}
-.highlight-icon {
-  width: 36px; height: 36px; flex-shrink: 0;
-  background: rgba(201,165,90,0.12);
-  border-radius: 8px; display: flex;
-  align-items: center; justify-content: center;
-}
-.highlight-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.highlight-name {
-  font-size: 14px; font-weight: 600;
-  color: var(--ink); margin-bottom: 3px;
-}
-.highlight-desc {
-  font-size: 13px; line-height: 1.55;
-  color: var(--ink2);
-}
+    /* ── TEXT BODY ── */
+    .prose p { color: rgba(240,232,214,.82); margin-bottom: 14px; }
+    .prose p:last-child { margin-bottom: 0; }
 
-/* ── EMBED ── */
-.embed-wrap {
-  margin: 0 1.5rem 2rem;
-  border-radius: var(--r); overflow: hidden;
-  border: 1px solid var(--border);
-}
-.embed-wrap iframe { display: block; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 22px; }
+    .tag {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .07em; padding: 5px 12px;
+      border-radius: 999px; border: 1px solid var(--line); color: var(--ink3);
+    }
+    .tag.hi { border-color: rgba(198,232,92,.3); color: var(--lime); }
 
-/* ── CTA ── */
-.cta { padding: 0 1.5rem 1rem; }
-.cta-btn {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 1rem;
-  background: var(--gold);
-  color: #0d1a10; font-family: 'Mulish', sans-serif;
-  font-size: 15px; font-weight: 700; letter-spacing: .04em;
-  border: none; border-radius: var(--r);
-  text-decoration: none; cursor: pointer;
-  transition: background .2s, transform .1s;
-  -webkit-tap-highlight-color: transparent;
-}
-.cta-btn:active { transform: scale(0.98); background: var(--gold2); }
-.cta-btn svg { width: 18px; height: 18px; stroke: #0d1a10; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    /* ── HIGHLIGHTS ── */
+    .highlights { display: flex; flex-direction: column; gap: 12px; }
+    .hl {
+      display: flex; align-items: flex-start; gap: 14px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px; padding: 16px;
+    }
+    .hl-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(198,232,92,.08);
+      border: 1px solid rgba(198,232,92,.2);
+      border-radius: 10px; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .hl-icon svg {
+      width: 18px; height: 18px;
+      stroke: var(--lime); fill: none;
+      stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .hl-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+    .hl-desc { font-size: 13px; line-height: 1.55; color: var(--ink2); }
 
-/* ── FOOTER ── */
-.footer {
-  text-align: center; padding: 1.5rem 1.5rem 0;
-  font-size: 12px; color: rgba(184,176,160,0.45);
-  letter-spacing: .06em;
-}
+    /* ── EMBED ── */
+    .embed-box {
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .embed-box iframe { display: block; }
 
-/* ── BACK BUTTON ── */
-.back-btn {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  z-index: 100;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 9px 14px 9px 10px;
-  background: rgba(13,26,16,.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(200,185,150,.2);
-  border-radius: 999px;
-  color: var(--gold);
-  font-family: 'Mulish', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-decoration: none;
-  box-shadow: 0 4px 20px rgba(0,0,0,.4);
-  transition: background .2s;
-}
-.back-btn:active { background: rgba(13,26,16,.95); }
-.back-btn svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-</style>
+    /* ── CTA ── */
+    .cta-wrap { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+    .btn-primary {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 16px;
+      background: var(--lime); color: #08130e;
+      font-family: 'Figtree', sans-serif;
+      font-size: 15px; font-weight: 700; letter-spacing: .04em;
+      border: none; border-radius: 14px; cursor: pointer;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: background .18s, transform .1s;
+    }
+    .btn-primary:active { transform: scale(.98); background: var(--lime2); }
+    .btn-primary svg {
+      width: 18px; height: 18px; stroke: #08130e;
+      fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .btn-secondary {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 15px;
+      background: transparent; color: var(--ink3);
+      font-family: 'Figtree', sans-serif;
+      font-size: 14px; font-weight: 600; letter-spacing: .04em;
+      border: 1px solid var(--line); border-radius: 14px; cursor: pointer;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: border-color .18s, color .18s;
+    }
+    .btn-secondary:hover { color: var(--lime); border-color: rgba(198,232,92,.3); }
+
+    /* ── FOOTER ── */
+    .footer-line {
+      padding: 28px 20px 40px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      font-size: 12px; color: var(--ink3);
+      letter-spacing: .06em;
+      border-top: 1px solid var(--line2);
+    }
+  </style>
 </head>
 <body>
 
-<a class="back-btn" href="index.html" onclick="if(history.length>1){history.back();return false;}">
-  <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-  Атлас
-</a>
+<nav class="topbar">
+  <a class="back-btn" href="index.html" onclick="if(history.length>1){history.back();return false;}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Атлас
+  </a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-title">Барвиха · Лохин</span>
+</nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-label">
-    <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5l2 1.5" stroke="#0d1a10" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-    Gravel · Москва и Подмосковье
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Gravel · Москва и Подмосковье</p>
+    <h1 class="hero-title">Барвиха<br><em>или на Лохин остров</em></h1>
+    <p class="hero-sub">Почти сотня километров без пробок и суеты: тихий асфальт, накатистые грунтовки, дворцы вдоль Рублёвки и необитаемый остров-заповедник на Москве-реке.</p>
+    <div class="hero-pills">
+      <span class="pill pill-lime">Gravel</span>
+      <span class="pill pill-amber">92,3 км</span>
+      <span class="pill pill-ghost">м. Дмитровская / Стрешнево</span>
+    </div>
   </div>
-  <h1>Барвиха<br><em>или на Лохин остров</em></h1>
-  <div class="divider"></div>
-  <p class="hero-sub">Почти сотня километров без пробок и суеты: тихий асфальт, накатистые грунтовки, дворцы вдоль Рублёвки и необитаемый остров-заповедник на Москве-реке.</p>
 </div>
 
 <!-- STATS -->
-<div class="stats">
-  <div class="stats-grid">
-    <div class="stat">
-      <div class="stat-label">Дистанция</div>
-      <div class="stat-value">92,3<span class="stat-unit">км</span></div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Время в движении</div>
-      <div class="stat-value">5:40<span class="stat-unit">ч</span></div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Средняя скорость</div>
-      <div class="stat-value">16,3<span class="stat-unit">км/ч</span></div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Набор высоты</div>
-      <div class="stat-value">630<span class="stat-unit">м</span></div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Мин. высота</div>
-      <div class="stat-value">120<span class="stat-unit">м</span></div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Макс. высота</div>
-      <div class="stat-value">180<span class="stat-unit">м</span></div>
-    </div>
-    <div class="stat stat-wide">
-      <div>
-        <div class="stat-label">Старт / Финиш</div>
-        <div class="stat-value">м. Дмитровская <span class="stat-unit">или</span> м. Стрешнево</div>
+<div class="wrap">
+  <div class="section">
+    <p class="sec-label">Параметры маршрута</p>
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-ico">⟷</div>
+        <div class="stat-val">92,3<span class="stat-unit"> км</span></div>
+        <div class="stat-lbl">дистанция</div>
       </div>
-      <svg width="20" height="20" viewBox="0 0 24 24" style="stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+      <div class="stat-cell">
+        <div class="stat-ico">⏱</div>
+        <div class="stat-val">5:40<span class="stat-unit"> ч</span></div>
+        <div class="stat-lbl">в движении</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">⌁</div>
+        <div class="stat-val">16,3<span class="stat-unit"> км/ч</span></div>
+        <div class="stat-lbl">средняя</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">↑</div>
+        <div class="stat-val">630<span class="stat-unit"> м</span></div>
+        <div class="stat-lbl">набор</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">▼</div>
+        <div class="stat-val">120<span class="stat-unit"> м</span></div>
+        <div class="stat-lbl">мин. высота</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">▲</div>
+        <div class="stat-val">180<span class="stat-unit"> м</span></div>
+        <div class="stat-lbl">макс. высота</div>
+      </div>
+      <div class="stat-cell wide">
+        <div class="stat-lbl" style="margin-bottom:4px">Старт / Финиш</div>
+        <div class="stat-val">м. Дмитровская или м. Стрешнево</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARACTER -->
+  <div class="section">
+    <p class="sec-label">О маршруте</p>
+    <h2 class="sec-title">Характер маршрута</h2>
+    <div class="prose">
+      <p>Маршрут получился по-настоящему спокойным. Большая часть пути — тихие улочки, лесные грунтовки и велодорожки вдоль Москвы-реки. Серьёзного трафика почти нет.</p>
+      <p>Рельеф мягкий: набор высоты распределён равномерно, крутых подъёмов нет. Грунтовые участки укатанные — подходит для гравийника или гибрида.</p>
+      <p>Маршрут закольцован: удобно стартовать с Дмитровской или Стрешнево и вернуться на ту же станцию.</p>
+    </div>
+    <div class="tags">
+      <span class="tag hi">gravel</span>
+      <span class="tag hi">гибрид</span>
+      <span class="tag">мягкий рельеф</span>
+      <span class="tag">лесные грунтовки</span>
+      <span class="tag">набережные</span>
+      <span class="tag">кольцевой</span>
+    </div>
+  </div>
+
+  <!-- HIGHLIGHTS -->
+  <div class="section">
+    <p class="sec-label">Точки интереса</p>
+    <h2 class="sec-title">Что встретится на пути</h2>
+    <div class="highlights">
+
+      <div class="hl">
+        <div class="hl-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <div class="hl-name">Барвиха</div>
+          <div class="hl-desc">Элитный посёлок вдоль Рублёво-Успенского шоссе. Роскошные усадьбы и виллы за заборами, ухоженные обочины и почти пустые дороги.</div>
+        </div>
+      </div>
+
+      <div class="hl">
+        <div class="hl-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 4-4 9-7 13C9 18 5 13 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <div>
+          <div class="hl-name">Лохин остров</div>
+          <div class="hl-desc">Необитаемый остров на Москве-реке — природный заказник. Нетронутый лес, тишина и ощущение, что Москвы не существует.</div>
+        </div>
+      </div>
+
+      <div class="hl">
+        <div class="hl-icon">
+          <svg viewBox="0 0 24 24"><path d="M2 12h20M2 12c0-5 4-9 10-9s10 4 10 9M2 12c0 5 4 9 10 9s10-4 10-9"/></svg>
+        </div>
+        <div>
+          <div class="hl-name">Парк Отражение</div>
+          <div class="hl-desc">Молодой парк в Красногорске у берега Москвы-реки. Приятные дорожки и виды на воду.</div>
+        </div>
+      </div>
+
+      <div class="hl">
+        <div class="hl-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 17l3-6 4 4 3-8 4 10"/></svg>
+        </div>
+        <div>
+          <div class="hl-name">Парк Виражи</div>
+          <div class="hl-desc">Лесопарковая зона с ухоженными дорожками, хорошо известная местным велосипедистам.</div>
+        </div>
+      </div>
+
+      <div class="hl">
+        <div class="hl-icon">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <div>
+          <div class="hl-name">Дорога Жизни и набережные</div>
+          <div class="hl-desc">Исторический участок и ухоженные набережные Москвы-реки — связывают парки в единый спокойный трек.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- KOMOOT EMBED -->
+  <div class="section">
+    <p class="sec-label">Трек</p>
+    <h2 class="sec-title">Маршрут на карте</h2>
+    <div class="embed-box">
+      <iframe
+        src="https://www.komoot.com/tour/2943783380/embed?layout=classic&profile=1"
+        width="100%" height="540"
+        frameborder="0" scrolling="no"
+        loading="lazy"
+        title="Маршрут на Komoot"
+      ></iframe>
+    </div>
+
+    <div class="cta-wrap">
+      <a class="btn-primary" href="https://www.komoot.com/tour/2943783380" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+        Открыть маршрут в Komoot
+      </a>
+      <a class="btn-secondary" href="index.html" onclick="if(history.length>1){history.back();return false;}">
+        ← Вернуться в Велоатлас
+      </a>
     </div>
   </div>
 </div>
 
-<!-- CHARACTER -->
-<div class="section">
-  <div class="section-title">Характер маршрута<span></span></div>
-  <div class="body-text">
-    <p>Маршрут получился по-настоящему спокойным. Большая часть пути — тихие улочки, лесные грунтовки и велодорожки вдоль Москвы-реки. Серьёзного трафика почти нет.</p>
-    <p>Рельеф мягкий: набор высоты распределён равномерно, крутых подъёмов нет. Грунтовые участки укатанные — подходит для гравийника или гибрида.</p>
-    <p>Маршрут закольцован: удобно стартовать с Дмитровской или Стрешнево и вернуться на ту же станцию.</p>
-  </div>
-</div>
-
-<!-- HIGHLIGHTS -->
-<div class="section">
-  <div class="section-title">Что встретится на пути<span></span></div>
-  <div class="highlights">
-
-    <div class="highlight">
-      <div class="highlight-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </div>
-      <div>
-        <div class="highlight-name">Барвиха</div>
-        <div class="highlight-desc">Элитный посёлок вдоль Рублёво-Успенского шоссе. Роскошные усадьбы и виллы за заборами, ухоженные обочины и почти пустые дороги.</div>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <div class="highlight-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 4-4 9-7 13C9 18 5 13 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      </div>
-      <div>
-        <div class="highlight-name">Лохин остров</div>
-        <div class="highlight-desc">Необитаемый остров на Москве-реке — природный заказник. Нетронутый лес, тишина и ощущение, что Москвы не существует.</div>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <div class="highlight-icon">
-        <svg viewBox="0 0 24 24"><path d="M2 12h20M2 12c0-5 4-9 10-9s10 4 10 9M2 12c0 5 4 9 10 9s10-4 10-9"/></svg>
-      </div>
-      <div>
-        <div class="highlight-name">Парк Отражение</div>
-        <div class="highlight-desc">Молодой парк в Красногорске у берега Москвы-реки. Приятные дорожки и виды на воду.</div>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <div class="highlight-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 17l3-6 4 4 3-8 4 10"/></svg>
-      </div>
-      <div>
-        <div class="highlight-name">Парк Виражи</div>
-        <div class="highlight-desc">Лесопарковая зона с ухоженными дорожками, хорошо известная местным велосипедистам.</div>
-      </div>
-    </div>
-
-    <div class="highlight">
-      <div class="highlight-icon">
-        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-      <div>
-        <div class="highlight-name">Дорога Жизни и набережные</div>
-        <div class="highlight-desc">Исторический участок и ухоженные набережные Москвы-реки — связывают парки в единый спокойный трек.</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- KOMOOT EMBED -->
-<div class="embed-wrap">
-  <iframe
-    src="https://www.komoot.com/tour/2943783380/embed?layout=classic&profile=1"
-    width="100%" height="580"
-    frameborder="0" scrolling="no"
-    loading="lazy"
-    title="Маршрут на Komoot"
-  ></iframe>
-</div>
-
-<!-- CTA -->
-<div class="cta">
-  <a class="cta-btn" href="https://www.komoot.com/tour/2943783380" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8l4 4-4 4M8 12h8"/></svg>
-    Открыть маршрут в Komoot
-  </a>
-</div>
-
-<div class="footer">92,3 км · Москва и Подмосковье</div>
+<footer class="footer-line">
+  <span>92,3 км · Москва и Подмосковье</span>
+  <span>Gravel</span>
+</footer>
 
 </body>
 </html>
