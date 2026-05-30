@@ -316,7 +316,48 @@ footer a:hover{color:var(--accent)}
   color:var(--accent);letter-spacing:.05em;
 }
 
-/* ── RESPONSIVE ── */
+/* ── BACK NAV ── */
+.back-nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  display:flex;align-items:center;
+  padding:0 6vw;
+  height:48px;
+  background:rgba(12,26,12,.82);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border2);
+}
+.back-link{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);
+  text-decoration:none;
+  transition:color .2s;
+}
+.back-link:hover{color:var(--accent)}
+.back-link svg{
+  width:14px;height:14px;
+  stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  transition:transform .2s;
+}
+.back-link:hover svg{transform:translateX(-3px)}
+.back-nav-sep{
+  flex:1;
+  height:1px;
+  margin:0 1.5rem;
+  background:var(--border2);
+}
+.back-nav-label{
+  font-size:10px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--border);
+}
+
+/* offset hero so it's not behind the nav */
+.hero{padding-top:calc(7rem + 48px)}
 @media(max-width:800px){
   .hero-ring{display:none}
   .about-grid{grid-template-columns:1fr;gap:2.5rem}
@@ -331,6 +372,16 @@ footer a:hover{color:var(--accent)}
 </style>
 </head>
 <body>
+
+<!-- ═══════════════ BACK NAV ═══════════════ -->
+<nav class="back-nav">
+  <a class="back-link" href="index.html">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Велоатлас
+  </a>
+  <div class="back-nav-sep"></div>
+  <span class="back-nav-label">ЗКМ</span>
+</nav>
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <section class="hero">
