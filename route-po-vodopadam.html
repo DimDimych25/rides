@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08130e">
+  <title>По водопадам · Серпухов · Грэвел · 73.9 км</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #08130e;
+      --bg2:    #0e1d16;
+      --card:   #111e18;
+      --card2:  #162619;
+      --ink:    #f0e8d6;
+      --ink2:   #a09585;
+      --ink3:   #607060;
+      --lime:   #c6e85c;
+      --amber:  #d4a853;
+      --amber2: #e8c47a;
+      --water:  #5aaccc;
+      --water2: #82c8e0;
+      --done:   #5ab87a;
+      --line:   rgba(240,232,214,.1);
+      --line2:  rgba(240,232,214,.06);
+      --r: 6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Figtree', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Grid overlay — same as index */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(240,232,214,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,232,214,.028) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(8,19,14,.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 20px;
+      display: flex; align-items: center; gap: 12px;
+      height: 52px;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--ink3);
+      padding: 6px 0;
+      transition: color .2s;
+    }
+    .back-btn:hover { color: var(--lime); }
+    .back-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .topbar-sep { flex: 1; }
+    .topbar-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 13px; font-style: italic;
+      color: var(--ink3);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 92svh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 56px 20px 56px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://lh3.googleusercontent.com/pw/AP1GczNJZU8z3ILnJVdjLz7jI2rolRoIY6ejOuVFYeDxpcQs9qbbkDQ7QKXcTIBYFUpIqTn6kh7PABEIc9NzmLjwIERRTK6vGxLekC_QQwk_29fGSxBEDF7mbNYgArGWgjoRSgL3SjPm07O6yDSaLwJGewqWQQ=w1600-h963-s-no-gm?authuser=0');
+      background-size: cover; background-position: center;
+      animation: zoom 24s ease-in-out infinite alternate;
+    }
+    @keyframes zoom {
+      from { transform: scale(1.04); }
+      to   { transform: scale(1.11); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8,19,14,.96) 0%,
+        rgba(8,19,14,.62) 38%,
+        rgba(8,19,14,.18) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 640px;
+      animation: rise .9s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(3rem, 9vw, 5.8rem);
+      font-weight: 900; line-height: .88;
+      letter-spacing: -.04em;
+      color: var(--ink); margin-bottom: 22px;
+    }
+    .hero-title em {
+      font-style: italic; font-weight: 300;
+      color: var(--water2);
+    }
+    .hero-sub {
+      font-size: clamp(.95rem, 2.2vw, 1.05rem);
+      color: rgba(240,232,214,.68);
+      max-width: 480px; line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .hero-pills {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .pill {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .08em;
+      padding: 5px 12px; border-radius: 999px;
+    }
+    .pill-amber {
+      background: rgba(212,168,83,.15);
+      border: 1px solid rgba(212,168,83,.3);
+      color: var(--amber2);
+    }
+    .pill-lime {
+      background: rgba(198,232,92,.12);
+      border: 1px solid rgba(198,232,92,.25);
+      color: var(--lime);
+    }
+    .pill-ghost {
+      border: 1px solid var(--line);
+      color: var(--ink3);
+    }
+
+    /* Peacock decoration */
+    .peacock {
+      position: absolute; top: 10%; right: 3%;
+      opacity: .09; z-index: 1; pointer-events: none;
+      animation: sway 11s ease-in-out infinite;
+    }
+    @keyframes sway {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50%      { transform: translateY(-16px) rotate(3deg); }
+    }
+
+    /* ── WRAPPER ── */
+    .wrap {
+      position: relative; z-index: 1;
+      max-width: 660px; margin: 0 auto; padding: 0 20px;
+    }
+    .section { padding: 60px 0; }
+    .section + .section { border-top: 1px solid var(--line2); }
+
+    .sec-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 12px;
+    }
+    .sec-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.65rem, 4vw, 2.3rem);
+      font-weight: 700; letter-spacing: -.03em;
+      color: var(--ink); margin-bottom: 22px;
+      line-height: 1.08;
+    }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--r); overflow: hidden;
+    }
+    .stat-cell {
+      background: var(--card); padding: 22px 16px;
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+      transition: background .2s;
+    }
+    .stat-cell:hover { background: var(--card2); }
+    .stat-ico { font-size: 1.2rem; line-height: 1; }
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.45rem, 3.5vw, 2.1rem);
+      font-weight: 700; color: var(--amber2); line-height: 1;
+    }
+    .stat-unit { font-size: .7rem; color: var(--ink3); text-transform: uppercase; letter-spacing: .07em; }
+    .stat-lbl  { font-size: .75rem; color: var(--ink3); margin-top: 1px; }
+
+    /* ── ROUTE SEQUENCE ── */
+    .route-seq {
+      display: flex; flex-direction: column; gap: 0;
+      position: relative;
+    }
+    .route-seq::before {
+      content: '';
+      position: absolute; left: 19px; top: 28px; bottom: 28px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--lime), var(--water), var(--amber));
+      opacity: .3;
+    }
+    .seq-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 14px 0;
+    }
+    .seq-dot {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--card2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+      position: relative; z-index: 1;
+    }
+    .seq-dot.start { border-color: rgba(198,232,92,.4); background: rgba(198,232,92,.08); }
+    .seq-dot.end   { border-color: rgba(198,232,92,.4); background: rgba(198,232,92,.08); }
+    .seq-dot.water { border-color: rgba(90,172,204,.35); background: rgba(90,172,204,.08); }
+    .seq-dot.heritage { border-color: rgba(212,168,83,.35); background: rgba(212,168,83,.08); }
+    .seq-body { padding-top: 6px; }
+    .seq-name {
+      font-weight: 600; font-size: .95rem;
+      color: var(--ink); margin-bottom: 2px;
+    }
+    .seq-desc { font-size: .82rem; color: var(--ink3); line-height: 1.5; }
+
+    /* ── ELEVATION ── */
+    .elev-box {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--r); padding: 20px 16px 12px;
+      overflow: hidden;
+    }
+    .elev-box svg { width: 100%; height: auto; display: block; }
+
+    /* ── CHARACTER ── */
+    .prose p { color: rgba(240,232,214,.82); margin-bottom: 14px; }
+    .prose p:last-child { margin-bottom: 0; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 22px; }
+    .tag {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .07em;
+      padding: 5px 12px; border-radius: 999px;
+      border: 1px solid var(--line); color: var(--ink3);
+    }
+    .tag.hi { border-color: rgba(212,168,83,.3); color: var(--amber); }
+
+    /* ── GALLERY ── */
+    .gallery-mosaic {
+      display: grid;
+      gap: 4px;
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+    /* Row 1: landscape wide */
+    .g-wide {
+      aspect-ratio: 16/7;
+      overflow: hidden;
+    }
+    /* Row 2: three portrait cells */
+    .g-row-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    /* Row 3: landscape + portrait side by side */
+    .g-row-2 {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 4px;
+    }
+    .g-cell {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+    }
+    .g-cell-land {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+    .gallery-mosaic img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .55s ease;
+    }
+    .gallery-mosaic img:hover { transform: scale(1.04); }
+    @media (max-width: 520px) {
+      .g-wide  { aspect-ratio: 4/3; }
+      .g-row-3 { grid-template-columns: 1fr 1fr; }
+      .g-row-3 .g-cell:last-child { grid-column: 1 / 3; aspect-ratio: 2/1; }
+      .g-row-2 { grid-template-columns: 1fr; }
+      .g-cell-land { aspect-ratio: 4/3; }
+    }
+
+    /* ── STORY ── */
+    .pull {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic; font-size: 1.12rem;
+      font-weight: 300; line-height: 1.55;
+      color: var(--amber2);
+      padding-left: 18px;
+      border-left: 2px solid rgba(212,168,83,.4);
+      margin: 22px 0;
+    }
+    .rain-note {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: rgba(90,172,204,.08);
+      border: 1px solid rgba(90,172,204,.22);
+      border-radius: var(--r); padding: 14px 16px; margin-top: 20px;
+    }
+    .rain-note .ico { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .rain-note p { margin: 0; color: var(--water2); font-size: .85rem; line-height: 1.55; }
+
+    /* ── PLACES ── */
+    .places { display: grid; gap: 10px; }
+    .place {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r); padding: 18px 20px;
+      display: grid; grid-template-columns: 40px 1fr;
+      gap: 14px; align-items: start;
+      transition: border-color .22s, transform .18s;
+    }
+    .place:hover { border-color: rgba(212,168,83,.35); transform: translateX(4px); }
+    .place-ico { font-size: 1.55rem; text-align: center; padding-top: 1px; }
+    .place h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: -.02em; color: var(--ink);
+      margin-bottom: 5px;
+    }
+    .place p { font-size: .83rem; color: var(--ink3); line-height: 1.58; margin: 0; }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 64px 20px;
+      text-align: center; border-top: 1px solid var(--line2);
+    }
+    .cta-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 900; letter-spacing: -.04em;
+      color: var(--ink); margin-bottom: 8px;
+    }
+    .cta-sub { font-size: .9rem; color: var(--ink3); margin-bottom: 30px; }
+    .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 4px;
+      font-size: .88rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      transition: all .2s;
+    }
+    .btn-komoot {
+      background: var(--amber); color: #08130e;
+    }
+    .btn-komoot:hover { background: var(--amber2); transform: translateY(-2px); }
+    .btn-photo {
+      background: transparent; color: var(--ink2);
+      border: 1px solid var(--line);
+    }
+    .btn-photo:hover { border-color: rgba(240,232,214,.3); color: var(--ink); transform: translateY(-2px); }
+    .btn-home {
+      background: rgba(198,232,92,.1);
+      border: 1px solid rgba(198,232,92,.25);
+      color: var(--lime);
+    }
+    .btn-home:hover { background: rgba(198,232,92,.18); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 24px 20px; text-align: center;
+      font-size: .78rem; color: var(--ink3);
+    }
+    footer a { color: var(--ink3); transition: color .2s; }
+    footer a:hover { color: var(--lime); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .place { grid-template-columns: 32px 1fr; gap: 10px; padding: 14px 14px; }
+      .peacock { display: none; }
+      .hero { padding-bottom: 44px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <a class="back-btn" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    На главную
+  </a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-title">Велоатлас · Т. I</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+
+  <!-- Peacock silhouette -->
+  <svg class="peacock" width="260" height="290" viewBox="0 0 260 290" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="130" cy="200" rx="18" ry="28" fill="white" opacity=".6"/>
+    <ellipse cx="130" cy="155" rx="10" ry="16" fill="white" opacity=".6"/>
+    <circle cx="130" cy="132" r="13" fill="white" opacity=".65"/>
+    <line x1="124" y1="121" x2="119" y2="107" stroke="white" stroke-width="1.3"/>
+    <line x1="130" y1="119" x2="130" y2="105" stroke="white" stroke-width="1.3"/>
+    <line x1="136" y1="121" x2="141" y2="107" stroke="white" stroke-width="1.3"/>
+    <circle cx="119" cy="106" r="2.5" fill="white" opacity=".8"/>
+    <circle cx="130" cy="104" r="2.5" fill="white" opacity=".8"/>
+    <circle cx="141" cy="106" r="2.5" fill="white" opacity=".8"/>
+    <g stroke="white" stroke-width="1.2" opacity=".7">
+      <line x1="130" y1="185" x2="55"  y2="68"/>
+      <line x1="130" y1="185" x2="72"  y2="52"/>
+      <line x1="130" y1="185" x2="92"  y2="43"/>
+      <line x1="130" y1="185" x2="110" y2="38"/>
+      <line x1="130" y1="185" x2="130" y2="35"/>
+      <line x1="130" y1="185" x2="150" y2="38"/>
+      <line x1="130" y1="185" x2="168" y2="43"/>
+      <line x1="130" y1="185" x2="188" y2="52"/>
+      <line x1="130" y1="185" x2="205" y2="68"/>
+      <line x1="130" y1="185" x2="38"  y2="96"/>
+      <line x1="130" y1="185" x2="222" y2="96"/>
+    </g>
+    <g fill="none" stroke="white" stroke-width=".9" opacity=".65">
+      <circle cx="55"  cy="68" r="4.5"/>
+      <circle cx="72"  cy="52" r="4.5"/>
+      <circle cx="92"  cy="43" r="4.5"/>
+      <circle cx="110" cy="38" r="4.5"/>
+      <circle cx="130" cy="35" r="4.5"/>
+      <circle cx="150" cy="38" r="4.5"/>
+      <circle cx="168" cy="43" r="4.5"/>
+      <circle cx="188" cy="52" r="4.5"/>
+      <circle cx="205" cy="68" r="4.5"/>
+      <circle cx="38"  cy="96" r="4.5"/>
+      <circle cx="222" cy="96" r="4.5"/>
+    </g>
+    <g fill="white" opacity=".4">
+      <circle cx="55"  cy="68" r="1.8"/>
+      <circle cx="72"  cy="52" r="1.8"/>
+      <circle cx="92"  cy="43" r="1.8"/>
+      <circle cx="110" cy="38" r="1.8"/>
+      <circle cx="130" cy="35" r="1.8"/>
+      <circle cx="150" cy="38" r="1.8"/>
+      <circle cx="168" cy="43" r="1.8"/>
+      <circle cx="188" cy="52" r="1.8"/>
+      <circle cx="205" cy="68" r="1.8"/>
+      <circle cx="38"  cy="96" r="1.8"/>
+      <circle cx="222" cy="96" r="1.8"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Gravel · Кольцевой · Серпухов · 12 июня 2025</div>
+    <h1 class="hero-title">По <em>водопадам</em><br>Калужского<br>пограничья</h1>
+    <p class="hero-sub">
+      Два региона, две реки, две усадьбы — и водопады посреди равнины.
+      Кольцо через Протвино, Юрятино, Кременки и Оболенск.
+    </p>
+    <div class="hero-pills">
+      <span class="pill pill-amber">73.9 км</span>
+      <span class="pill pill-amber">700 м ↑</span>
+      <span class="pill pill-lime">gravel</span>
+      <span class="pill pill-ghost">кольцевой</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <!-- STATS -->
+  <section class="section">
+    <div class="sec-label">Параметры маршрута</div>
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-ico">🛣</div>
+        <div class="stat-val">73.9</div>
+        <div class="stat-unit">км</div>
+        <div class="stat-lbl">Дистанция</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">⏱</div>
+        <div class="stat-val">4:54</div>
+        <div class="stat-unit">ч:мин</div>
+        <div class="stat-lbl">В движении</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">⚡</div>
+        <div class="stat-val">15.1</div>
+        <div class="stat-unit">км/ч</div>
+        <div class="stat-lbl">Ср. скорость</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">↑</div>
+        <div class="stat-val">700</div>
+        <div class="stat-unit">м</div>
+        <div class="stat-lbl">Набор высоты</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">↓</div>
+        <div class="stat-val">620</div>
+        <div class="stat-unit">м</div>
+        <div class="stat-lbl">Сброс высоты</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">🗓</div>
+        <div class="stat-val" style="font-size:1.3rem">12.06</div>
+        <div class="stat-unit">2025</div>
+        <div class="stat-lbl">Дата поездки</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROUTE SEQUENCE -->
+  <section class="section">
+    <div class="sec-label">Последовательность</div>
+    <h2 class="sec-title">Как устроено кольцо</h2>
+    <div class="route-seq">
+
+      <div class="seq-item">
+        <div class="seq-dot start">🦚</div>
+        <div class="seq-body">
+          <div class="seq-name">Серпухов — старт</div>
+          <div class="seq-desc">Город павлинов. Сбор символических птиц по дороге на выезд.</div>
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-dot heritage">🏭</div>
+        <div class="seq-body">
+          <div class="seq-name">Протвино · Юрятино — Юрятинская мельница</div>
+          <div class="seq-desc">Переправа через Протву. Пятиэтажные кирпичные руины купцов Бобровых на берегу реки.</div>
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-dot water">💧</div>
+        <div class="seq-body">
+          <div class="seq-name">Ершово · Кислино — водопады</div>
+          <div class="seq-desc">Ершовский водопад среди известняковых выходов, затем Калужская Ниагара — главная вершина маршрута.</div>
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-dot heritage">🏰</div>
+        <div class="seq-body">
+          <div class="seq-name">Троицкое — усадьба Дашковой</div>
+          <div class="seq-desc">Имение княгини Екатерины Дашковой. Ворота, церковь и подземный ход под руинами.</div>
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-dot">🏙</div>
+        <div class="seq-body">
+          <div class="seq-name">Кременки · Оболенск</div>
+          <div class="seq-desc">Тихий асфальт вдоль правого берега. Смена ландшафта — из калужских оврагов на подмосковские поля.</div>
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-dot heritage">🏛</div>
+        <div class="seq-body">
+          <div class="seq-name">Пущино-на-Наре — усадьба Вяземских</div>
+          <div class="seq-desc">Палладианский дворец конца XVIII века на берегу Нары. Переправа через реку.</div>
+        </div>
+      </div>
+
+      <div class="seq-item">
+        <div class="seq-dot end">🦚</div>
+        <div class="seq-body">
+          <div class="seq-name">Серпухов — финиш</div>
+          <div class="seq-desc">Возвращение в город. Павлины встречают.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ELEVATION -->
+  <section class="section">
+    <div class="sec-label">Профиль высот</div>
+    <div class="elev-box">
+      <svg viewBox="0 0 700 190" xmlns="http://www.w3.org/2000/svg" aria-label="Схематичный профиль высот маршрута">
+        <defs>
+          <linearGradient id="gFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#5aaccc" stop-opacity=".38"/>
+            <stop offset="100%" stop-color="#5aaccc" stop-opacity=".02"/>
+          </linearGradient>
+          <linearGradient id="gLine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="#d4a853"/>
+            <stop offset="45%"  stop-color="#5aaccc"/>
+            <stop offset="70%"  stop-color="#5aaccc"/>
+            <stop offset="100%" stop-color="#d4a853"/>
+          </linearGradient>
+        </defs>
+        <!-- Grid -->
+        <line x1="0" y1="45"  x2="700" y2="45"  stroke="#fff" stroke-width=".3" stroke-opacity=".06"/>
+        <line x1="0" y1="90"  x2="700" y2="90"  stroke="#fff" stroke-width=".3" stroke-opacity=".06"/>
+        <line x1="0" y1="135" x2="700" y2="135" stroke="#fff" stroke-width=".3" stroke-opacity=".06"/>
+        <!-- Vertical guides -->
+        <line x1="175" y1="8" x2="175" y2="162" stroke="#fff" stroke-width=".25" stroke-opacity=".05"/>
+        <line x1="350" y1="8" x2="350" y2="162" stroke="#fff" stroke-width=".25" stroke-opacity=".05"/>
+        <line x1="525" y1="8" x2="525" y2="162" stroke="#fff" stroke-width=".25" stroke-opacity=".05"/>
+
+        <!-- Fill -->
+        <polygon
+          points="0,108 28,116 50,130 75,140 100,132 122,118 145,104 165,116 185,130 208,144 228,148 248,136 268,118 290,100 312,110 332,124 352,140 370,146 388,138 408,120 428,104 450,86 468,64 482,52 496,62 510,78 528,96 548,112 568,126 588,136 608,120 628,108 648,112 668,106 700,110 700,176 0,176"
+          fill="url(#gFill)"
+        />
+        <!-- Line -->
+        <polyline
+          points="0,108 28,116 50,130 75,140 100,132 122,118 145,104 165,116 185,130 208,144 228,148 248,136 268,118 290,100 312,110 332,124 352,140 370,146 388,138 408,120 428,104 450,86 468,64 482,52 496,62 510,78 528,96 548,112 568,126 588,136 608,120 628,108 648,112 668,106 700,110"
+          fill="none" stroke="url(#gLine)" stroke-width="1.8"
+          stroke-linejoin="round" stroke-linecap="round"
+        />
+        <!-- Markers -->
+        <circle cx="0"   cy="108" r="4" fill="#d4a853"/>
+        <text x="6" y="102" fill="#d4a853" font-size="9" font-family="JetBrains Mono,monospace">Серпухов</text>
+
+        <!-- Waterfalls peak ~km 47 → x≈445 -->
+        <circle cx="482" cy="52" r="4" fill="#82c8e0"/>
+        <line x1="482" y1="52" x2="482" y2="34" stroke="#82c8e0" stroke-width="1" stroke-dasharray="3,2.5"/>
+        <text x="452" y="30" fill="#82c8e0" font-size="8.5" font-family="JetBrains Mono,monospace">~210 м</text>
+
+        <circle cx="700" cy="110" r="4" fill="#d4a853"/>
+
+        <!-- X labels -->
+        <text x="2"   y="184" fill="#607060" font-size="8.5" font-family="JetBrains Mono,monospace" text-anchor="start">0</text>
+        <text x="175" y="184" fill="#607060" font-size="8.5" font-family="JetBrains Mono,monospace" text-anchor="middle">~18 км<tspan fill="#607060" font-size="7.5" dy="0"> Юрятино</tspan></text>
+        <text x="350" y="184" fill="#607060" font-size="8.5" font-family="JetBrains Mono,monospace" text-anchor="middle">~36 км</text>
+        <text x="482" y="184" fill="#82c8e0" font-size="8.5" font-family="JetBrains Mono,monospace" text-anchor="middle">водопады</text>
+        <text x="698" y="184" fill="#607060" font-size="8.5" font-family="JetBrains Mono,monospace" text-anchor="end">73.9</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- CHARACTER -->
+  <section class="section">
+    <div class="sec-label">Дорога и рельеф</div>
+    <h2 class="sec-title">Характер маршрута</h2>
+    <div class="prose">
+      <p>
+        Грэвел здесь оправдан полностью. Маршрут умело чередует тихий лесной грунт,
+        заросшие просёлки вдоль полей и пустой асфальт по деревням. Рельеф — типичный
+        подмосковно-калужский: короткие крутые сброски к поймам рек, длинные пологие подъёмы
+        на водоразделы. Два пересечения Протвы и Нары делят кольцо на три разных по характеру части.
+      </p>
+      <p>
+        Самый технически насыщенный отрезок — трейлы между Юрятино и водопадами.
+        Тропы петляют по оврагам долины Лохоловки, местами крутые, с глинистым покрытием.
+        После Кременок и Оболенска темп вырастает: дорога выходит на поля и короткий тихий асфальт,
+        который ведёт к усадьбе Пущино и обратно в Серпухов.
+      </p>
+      <p>
+        Маршрут рассчитан на уверенного грэвелиста. В сухую погоду проходится без особых трудностей.
+        После дождей отдельные участки в долинах рек становятся скользкими и требуют пешей проводки.
+      </p>
+    </div>
+    <div class="tags">
+      <span class="tag">грэвел</span>
+      <span class="tag">грунт + асфальт</span>
+      <span class="tag">кольцевой</span>
+      <span class="tag">два региона</span>
+      <span class="tag">лесные трейлы</span>
+      <span class="tag">переправы</span>
+      <span class="tag">усадьбы · руины</span>
+      <span class="tag hi">сложность↑ после дождя</span>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section">
+    <div class="sec-label">Фотографии</div>
+    <div class="gallery-mosaic">
+
+      <!-- Ряд 1: горизонтальный кадр во всю ширину -->
+      <div class="g-wide">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczNJZU8z3ILnJVdjLz7jI2rolRoIY6ejOuVFYeDxpcQs9qbbkDQ7QKXcTIBYFUpIqTn6kh7PABEIc9NzmLjwIERRTK6vGxLekC_QQwk_29fGSxBEDF7mbNYgArGWgjoRSgL3SjPm07O6yDSaLwJGewqWQQ=w1400-h963-s-no-gm?authuser=0"
+          alt="Пейзаж маршрута" loading="lazy"
+        >
+      </div>
+
+      <!-- Ряд 2: три вертикальных кадра -->
+      <div class="g-row-3">
+        <div class="g-cell">
+          <img
+            src="https://lh3.googleusercontent.com/pw/AP1GczNEnf-Rs1x-uEn7NHk2K_8PMRF5uSlxb_nvqJBQfqoX7iy6ySEdw1pr36PPnsh2rIDgqM_qg-G8aG0N6DpYMsTE-3h0YwY0SMePXL9YNfbfDTvBMdl8z7mkDHB9buCCnelMUoHAkQVK7Sxb-9gWv9WIqg=w722-h963-s-no-gm?authuser=0"
+            alt="Фото маршрута" loading="lazy"
+          >
+        </div>
+        <div class="g-cell">
+          <img
+            src="https://lh3.googleusercontent.com/pw/AP1GczMZ61uGc0uo8zZE2gTbmQncpsUES-IXUlqqkMObMGvsX3gJsZp82v63FGPJY5vsC3PWXlR_sfs6vEk54iIJQUx9Zt-qMGADyuZmskndET-xAYDvwIeNszbE-KRPrepzJmgJmv-VBXcc7imtQC-2ZytkPw=w722-h963-s-no-gm?authuser=0"
+            alt="Фото маршрута" loading="lazy"
+          >
+        </div>
+        <div class="g-cell">
+          <img
+            src="https://lh3.googleusercontent.com/pw/AP1GczNGPjNpP6dGoqGzABKuNjUlROdqkDEvl_Iyt78OZWQQK5VIhhTtk4Vl-upjIi3p3muhb4P_QRZfnhOhYvJ_Nv1Yodxh38zqghvyvSR_PzNuHs2KJ-CtdOZ8pxlWZP3re078Tvab8XPryy4bXMJ9IMbu5g=w722-h963-s-no-gm?authuser=0"
+            alt="Фото маршрута" loading="lazy"
+          >
+        </div>
+      </div>
+
+      <!-- Ряд 3: горизонтальный + вертикальный -->
+      <div class="g-row-2">
+        <div class="g-cell-land">
+          <img
+            src="https://lh3.googleusercontent.com/pw/AP1GczPVIxN7nnDpZnPyQIoulbFN7rGGzAsbaMxSE9hsncndk2HpCHM--H5ygORrdcdPhDYzyCmuPjA4yLxaPS6aho4dPZHMEKQ-h8zDkVlG6XaCJw2gy0jI0iMSrcwNJXRP8wwh2gEMZ-H_SVW-fpRx4nrb8w=w1284-h963-s-no-gm?authuser=0"
+            alt="Фото маршрута" loading="lazy"
+          >
+        </div>
+        <div class="g-cell">
+          <img
+            src="https://lh3.googleusercontent.com/pw/AP1GczN_tDL3_5KL5SGQTN-9kEoT3A1VTAa5fG1W7hSO6eE3oLzN9YKQDALpn8McugaUCHVKYMAXcvMA0wcA4TWOaELxooWfr57UUSp7nH8hWqquf8zp0kwZQqQxXu4KG__kI2qcpUvaJkhb-6FCs9qmI3OprQ=w722-h963-s-no-gm?authuser=0"
+            alt="Фото маршрута" loading="lazy"
+          >
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="section">
+    <div class="sec-label">Впечатления</div>
+    <h2 class="sec-title">Как это было</h2>
+    <div class="prose">
+      <p>
+        Серпухов провожает своими символическими птицами — павлинами. Их изображения
+        разбросаны по всему городу: мозаики на торцах домов, кованые ворота, вывески, флюгеры.
+        Собирать их в начале кольца — уже небольшой квест.
+      </p>
+      <p>
+        Первый крупный стоп — Протвино и Юрятино. Переправа через Протву, и сразу —
+        пятиэтажная кирпичная громада мельницы купцов Бобровых.
+      </p>
+    </div>
+    <div class="pull">
+      Мельница возникает неожиданно на берегу. Стены в шрамах от снарядов сорок первого года.
+      Стоишь, смотришь, слушаешь реку.
+    </div>
+    <div class="prose">
+      <p>
+        Дальше — самый живой участок. Тропы по оврагам долины Лохоловки: сначала Ершовский водопад
+        с белыми известняковыми выходами, потом Кислинский — четыре метра белой воды среди папоротников,
+        Калужская Ниагара. По меркам средней полосы — редкость и неожиданность.
+      </p>
+      <p>
+        Усадьба Дашковой в Троицком принимает тихо: парадные ворота, полуразрушенные флигели,
+        работающая церковь. Главная интрига — под землёй: краеведы обнаружили вход в подземный ход,
+        стены которого осыпаются.
+      </p>
+      <p>
+        После Кременок и Оболенска темп вырастает — поля, тихий асфальт. Пущино-на-Наре встречает
+        коринфскими колоннами на крутом берегу над Нарой. Потом ещё одна переправа — и Серпухов
+        снова встречает своими павлинами.
+      </p>
+    </div>
+    <div class="rain-note">
+      <div class="ico">🌧</div>
+      <p>
+        <strong>После дождей</strong> сложность ощутимо растёт. Глинистые тропы к водопадам
+        и трейлы в поймах рек становятся скользкими. Оптимально ехать после нескольких сухих дней.
+      </p>
+    </div>
+  </section>
+
+  <!-- PLACES -->
+  <section class="section">
+    <div class="sec-label">Достопримечательности</div>
+    <h2 class="sec-title">Места по пути</h2>
+    <div class="places">
+
+      <div class="place">
+        <div class="place-ico">🦚</div>
+        <div>
+          <h3>Серпухов — город павлинов</h3>
+          <p>Единственный российский город с павлином в роли официального символа. Птица
+          появилась при Высоцком монастыре в XIX веке и прижилась навсегда. Старт и финиш кольца.</p>
+        </div>
+      </div>
+
+      <div class="place">
+        <div class="place-ico">🏭</div>
+        <div>
+          <h3>Юрятинская мельница (Протвино)</h3>
+          <p>Пятиэтажная кирпичная мельница на берегу Протвы, построенная в 1885–1887 годах
+          купцами братьями Бобровыми. В 1941 году попала под артиллерийский обстрел —
+          следы от снарядов в стенах видны до сих пор. Последний раз работала в 1944 году.</p>
+        </div>
+      </div>
+
+      <div class="place">
+        <div class="place-ico">🌊</div>
+        <div>
+          <h3>Ершовский водопад</h3>
+          <p>Небольшой водопад в долине реки Лохоловки с двухметровым падением. Рядом —
+          редкие для здешних мест выходы белого известняка. Малолюдное место, ощущение случайной находки.</p>
+        </div>
+      </div>
+
+      <div class="place">
+        <div class="place-ico">💧</div>
+        <div>
+          <h3>Калужская Ниагара — Кислинский водопад</h3>
+          <p>Самый высокий водопад Калужской области — около четырёх метров падения у деревни Кислино.
+          Безымянный приток Протвы срывается с известнякового уступа в заросли папоротников.
+          Высшая точка маршрута по ощущениям.</p>
+        </div>
+      </div>
+
+      <div class="place">
+        <div class="place-ico">🏰</div>
+        <div>
+          <h3>Усадьба Троицкое — имение Дашковой</h3>
+          <p>Имение в Жуковском районе Калужской области, связанное с именем княгини Дашковой —
+          первой женщины-президента двух российских академий. Сохранились ворота, фрагменты построек
+          и церковь. Краеведы обнаружили под усадьбой частично обрушенный подземный ход.</p>
+        </div>
+      </div>
+
+      <div class="place">
+        <div class="place-ico">🏛</div>
+        <div>
+          <h3>Усадьба Пущино-на-Наре</h3>
+          <p>Родовое имение князей Вяземских на берегу Нары, предположительно спроектированное
+          Николаем Львовым в 1790-х годах. Дворец в стиле русского палладианства сохранил
+          греческий портик с коринфскими колоннами и липовую аллею, уходящую к реке.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="cta-title">Повторить маршрут</h2>
+  <p class="cta-sub">Трек на Komoot — с картой, профилем и навигацией в приложении.</p>
+  <div class="btn-row">
+    <a href="https://www.komoot.com/tour/2318851670" target="_blank" rel="noopener" class="btn btn-komoot">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 8 16 12 12 16"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+      Открыть на Komoot
+    </a>
+
+    <a href="index.html" class="btn btn-home">
+      ← На главную
+    </a>
+  </div>
+</div>
+
+<footer>
+  Велоатлас · Т. I &nbsp;·&nbsp; 12 июня 2025 &nbsp;·&nbsp; Серпухов → Серпухов · 73.9 км
+  &nbsp;·&nbsp; <a href="index.html">← На главную</a>
+</footer>
+
+</body>
+</html>
